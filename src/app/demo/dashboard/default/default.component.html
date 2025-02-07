@@ -6,29 +6,38 @@
       <span class="round round-large"></span>
 
       <div class="card-body">
-        <!-- Cabeçalho com saudação -->
-        <div class="header-content">
-          <div class="welcome-section">
-            <h2 class="greeting-title">Olá, Gabriel Maia <span class="wave-emoji">👋</span></h2>
-            <p class="greeting-subtitle">Vamos achar o melhor talento para você</p>
-          </div>
-        </div>
-        <div class="col-xl-4 col-md-6">
-          <div class="card earning-card bg-primary-dark text-white overflow-hidden">
-            <span class="round primary-round small"></span>
-            <span class="round primary-round big"></span>
-            <div class="card-body">
-              <app-chart-data-month />
+        <div class="row">
+          <!-- Conteúdo à esquerda -->
+          <div class="col-md-8">
+            <div class="header-content">
+              <div class="welcome-section">
+                <h2 class="greeting-title">
+                  Olá, Gabriel Maia <span class="wave-emoji">👋</span>
+                </h2>
+                <p class="greeting-subtitle">
+                  Vamos achar o melhor talento para você
+                </p>
+              </div>
+            </div>
+            <div class="balance-info">
+              <div class="balance-amount">
+                <span class="amount">R$500.00</span>
+                <i class="ti ti-circle-arrow-up-right balance-icon"></i>
+              </div>
+              <p class="balance-label">Saldo no app</p>
             </div>
           </div>
-        </div>
-        <!-- Informação de saldo -->
-        <div class="balance-info">
-          <div class="balance-amount">
-            <span class="amount">R$500.00</span>
-            <i class="ti ti-circle-arrow-up-right balance-icon"></i>
+
+          <!-- Gráfico à direita -->
+          <div class="col-md-4">
+            <div class="card earning-card bg-primary-dark text-white overflow-hidden">
+              <span class="round primary-round small"></span>
+              <span class="round primary-round big"></span>
+              <div class="card-body">
+                <app-chart-data-month />
+              </div>
+            </div>
           </div>
-          <p class="balance-label">Saldo no app</p>
         </div>
       </div>
     </div>
