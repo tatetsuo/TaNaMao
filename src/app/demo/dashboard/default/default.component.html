@@ -1,44 +1,73 @@
-<!-- <div class="row">
-  <div class="col-xl-4 col-md-6">
-    <div class="card earning-card bg-secondary-dark text-white overflow-hidden">
-      <span class="round secondary-round small"></span>
-      <span class="round secondary-round big"></span>
+<div class="row">
+  <div class="col-xl-12 col-md-6">
+    <div class="card balance-card bg-purple text-white">
+      <!-- Elementos decorativos -->
+      <span class="round round-small"></span>
+      <span class="round round-large"></span>
+
       <div class="card-body">
-        <div class="row">
-          <div class="col">
-            <div class="avatar avatar-lg">
-              <i class="text-white ti ti-credit-card f-24"></i>
-            </div>
+        <!-- Cabeçalho com saudação -->
+        <div class="header-content">
+          <div class="welcome-section">
+            <h2 class="greeting-title">Olá, Gabriel Maia <span class="wave-emoji">👋</span></h2>
+            <p class="greeting-subtitle">Vamos achar o melhor talento para você</p>
           </div>
-          <div class="col-auto">
-            <div class="btn-group" ngbDropdown>
-              <a type="button" class="avatar avatar-xs bg-secondary dropdown-toggle arrow-none" ngbDropdownToggle>
-                <i class="ti ti-dots"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                <li><button class="dropdown-item" type="button">Import Card</button></li>
-                <li><button class="dropdown-item" type="button">Export</button></li>
-              </ul>
+        </div>
+        <div class="col-xl-4 col-md-6">
+          <div class="card earning-card bg-primary-dark text-white overflow-hidden">
+            <span class="round primary-round small"></span>
+            <span class="round primary-round big"></span>
+            <div class="card-body">
+              <app-chart-data-month />
             </div>
           </div>
         </div>
-        <span class="text-white d-block f-34 f-w-500 my-2">
-          $500.00
-          <i class="ti ti-circle-arrow-up-right opacity-50"></i>
-        </span>
-        <p class="mb-0 opacity-50">Total Earning</p>
+        <!-- Informação de saldo -->
+        <div class="balance-info">
+          <div class="balance-amount">
+            <span class="amount">R$500.00</span>
+            <i class="ti ti-circle-arrow-up-right balance-icon"></i>
+          </div>
+          <p class="balance-label">Saldo no app</p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-4 col-md-6">
-    <div class="card earning-card bg-primary-dark text-white overflow-hidden">
-      <span class="round primary-round small"></span>
-      <span class="round primary-round big"></span>
-      <div class="card-body">
-        <app-chart-data-month />
+</div>
+
+
+<div class="home-container">
+  <header class="app-header">
+
+  </header>
+
+  <section class="service-categories">
+    <div class="section-header">
+      <h3>Categorias de serviço</h3>
+      <a routerLink="/categories" class="see-all">ver tudo</a>
+    </div>
+    <div class="categories-grid">
+      <div *ngFor="let category of serviceCategories" class="category-item" [routerLink]="['/catalogo', category.name]">
+        <div class="category-icon">
+          <i [class]="category.icon"></i>
+        </div>
+        <span>{{ category.name }}</span>
       </div>
     </div>
-  </div>
+
+  </section>
+
+  <section class="popular-services">
+    <div class="section-header">
+      <h3>Serviços populares</h3>
+      <a href="#" class="see-all">ver tudo</a>
+    </div>
+    <div class="services-carousel">
+    </div>
+  </section>
+</div>
+
+<!--
   <div class="col-xl-4 col-md-12">
     <div class="card total-income-card overflow-hidden bg-primary-dark text-white">
       <div class="card-body">
@@ -122,39 +151,4 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
- -->
-
-<div class="home-container">
-  <header class="app-header">
-    <div class="welcome-text">
-      <h2>Olá, Maia 👋</h2>
-      <p>Vamos achar o melhor talento para você</p>
-    </div>
-  </header>
-
-  <section class="service-categories">
-    <div class="section-header">
-      <h3>Categorias de serviço</h3>
-      <a routerLink="/categories" class="see-all">ver tudo</a>
-    </div>
-    <div class="categories-grid">
-      <div *ngFor="let category of serviceCategories" class="category-item">
-        <div class="category-icon">
-          <i [class]="category.icon"></i>
-        </div>
-        <span>{{ category.name }}</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="popular-services">
-    <div class="section-header">
-      <h3>Serviços populares</h3>
-      <a href="#" class="see-all">ver tudo</a>
-    </div>
-    <div class="services-carousel">
-    </div>
-  </section>
-</div>
+  </div> -->

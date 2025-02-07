@@ -1,72 +1,74 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
-interface Service {
-  id: number;
-  title: string;
-  category: string;
-  price: number;
-  rating: number;
-  totalReviews: number;
-  freelancerName: string;
-  profileImage: string;
-  tags: string[];
-  deliveryTime: number;
-}
+import { BajajChartComponent } from 'src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component';
+import { BarChartComponent } from 'src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component';
+import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component';
 
 @Component({
-  selector: 'app-services',
+  selector: 'app-default',
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    BajajChartComponent,
+    BarChartComponent,
+    ChartDataMonthComponent
   ],
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
 })
 export class DefaultComponent {
-  selectedCategory = 'Graphic Design';
+  public ListGroup: any[] = [];
   serviceCategories = [
-    { name: 'Pintor', icon: 'fas fa-paint-roller' },
-    { name: 'Digital Marketing', icon: 'fas fa-bullhorn' },
-    { name: 'Video & Animation', icon: 'fas fa-video' },
-    { name: 'Programador', icon: 'fas fa-laptop-code' },
-    { name: 'Musico', icon: 'fas fa-music' },
-    { name: 'Fotógrafo', icon: 'fas fa-camera' },
-    { name: 'UX/UI Design', icon: 'fas fa-palette' },
-    { name: 'Build AI Services', icon: 'fas fa-robot' }
-  ];
-  services: Service[] = [
     {
-      id: 1,
-      title: 'Professional Logo Design with Unique Branding',
-      category: 'Graphic Design',
-      price: 150.00,
-      rating: 4.8,
-      totalReviews: 45,
-      freelancerName: 'Maria Silva',
-      profileImage: 'https://randomuser.me/api/portraits/women/1.jpg',
-      tags: ['Logo', 'Branding', 'Business'],
-      deliveryTime: 3
+      name: 'Pintor',
+      icon: 'fas fa-paint-roller',
+      routeParam: 'painting'
     },
     {
-      id: 2,
-      title: 'Creative Illustration and Character Design',
-      category: 'Graphic Design',
-      price: 250.00,
-      rating: 4.9,
-      totalReviews: 62,
-      freelancerName: 'João Santos',
-      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
-      tags: ['Illustration', 'Character', 'Digital Art'],
-      deliveryTime: 5
+      name: 'Digital Marketing',
+      icon: 'fas fa-bullhorn',
+      routeParam: 'digital-marketing'
+    },
+    {
+      name: 'Video & Animation',
+      icon: 'fas fa-video',
+      routeParam: 'video-animation'
+    },
+    {
+      name: 'Programador',
+      icon: 'fas fa-laptop-code',
+      routeParam: 'programming'
+    },
+    {
+      name: 'Musico',
+      icon: 'fas fa-music',
+      routeParam: 'music'
+    },
+    {
+      name: 'Fotógrafo',
+      icon: 'fas fa-camera',
+      routeParam: 'photography'
+    },
+    {
+      name: 'UX/UI Design',
+      icon: 'fas fa-palette',
+      routeParam: 'ux-ui-design'
+    },
+    {
+      name: 'Build AI Services',
+      icon: 'fas fa-robot',
+      routeParam: 'ai-services'
     }
   ];
 }

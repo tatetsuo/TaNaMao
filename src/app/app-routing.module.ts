@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
+import { ServicesComponent } from './demo/catalogo-servicos/catalogo-servicos.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/other/sample-page/sample-page.component')
+      },
+      {
+        path: 'catalogo/:category',
+        component: ServicesComponent
       }
     ]
   },
@@ -47,4 +52,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

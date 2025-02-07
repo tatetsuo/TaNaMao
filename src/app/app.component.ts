@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   template: '<router-outlet></router-outlet>',
   standalone: true,
-  imports: [CommonModule,RouterOutlet]
+  imports: [CommonModule, RouterOutlet]
 })
 export class AppComponent {
   title = 'TopaTudo';

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input';
 
 interface Service {
   id: number;
@@ -22,16 +25,18 @@ interface Service {
   selector: 'app-services',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatCardModule, 
-    MatChipsModule, 
-    MatIconModule, 
-    MatButtonModule
+    CommonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule
   ],
-  template: './catalogo-servicos.component.html',
-  stylesUrl: ['./catalogo-servicos.component.scss']
+  templateUrl: './catalogo-servicos.component.html',
+  styleUrls: ['./catalogo-servicos.component.scss']
 })
-export class ServicesComponent {
+export class ServicesComponent implements OnInit {
   selectedCategory = 'Graphic Design';
 
   services: Service[] = [
@@ -60,4 +65,16 @@ export class ServicesComponent {
       deliveryTime: 5
     }
   ];
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    // Extrai o parâmetro 'category' da rota e atualiza a propriedade
+    this.route.paramMap.subscribe(params => {
+      const category = params.get('category');
+      if (category) {
+        this.selectedCategory = category;
+      }
+    });
+  }
 }
