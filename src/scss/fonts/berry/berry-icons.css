@@ -41,3 +41,7 @@
 .pct-arrow1:before {
   content: '\61';
 }
+
+.pct-handshake:before {
+  content: '\e900'; 
+}
