@@ -8,6 +8,7 @@ import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-bar-chart',
+  standalone: true,
   imports: [NgApexchartsModule],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss'

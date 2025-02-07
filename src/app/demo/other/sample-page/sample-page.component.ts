@@ -3,11 +3,15 @@ import { Component } from '@angular/core';
 
 // project import
 
-import { CardComponent } from '../../../theme/shared/components/card/card.component';
+import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
 @Component({
   selector: 'app-sample-page',
-  imports: [CardComponent],
+  standalone: true,
+  imports: [CommonModule, CardComponent,
+    SharedModule],
   templateUrl: './sample-page.component.html',
   styleUrls: ['./sample-page.component.scss']
 })

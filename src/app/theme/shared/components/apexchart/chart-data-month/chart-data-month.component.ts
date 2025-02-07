@@ -9,6 +9,7 @@ import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-chart-data-month',
+  standalone: true,
   imports: [CommonModule, NgApexchartsModule],
   templateUrl: './chart-data-month.component.html',
   styleUrl: './chart-data-month.component.scss'

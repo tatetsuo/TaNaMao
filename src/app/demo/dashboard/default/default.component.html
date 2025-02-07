@@ -23,6 +23,10 @@
               <div class="balance-amount">
                 <span class="amount">R$500.00</span>
                 <i class="ti ti-circle-arrow-up-right balance-icon"></i>
+                <div class="position-relative mt-2">
+                  <span class="round round-small-left"></span>
+                  <span class="round round-large-left"></span>
+                </div>
               </div>
               <p class="balance-label">Saldo no app</p>
             </div>
@@ -44,40 +48,19 @@
   </div>
 </div>
 
-
-<div class="home-container">
-  <header class="app-header">
-
-  </header>
-
-  <section class="service-categories">
-    <div class="section-header">
-      <h3>Categorias de serviço</h3>
-      <a routerLink="/categories" class="see-all">ver tudo</a>
-    </div>
-    <div class="categories-grid">
-      <div *ngFor="let category of serviceCategories" class="category-item" [routerLink]="['/catalogo', category.name]">
-        <div class="category-icon">
-          <i [class]="category.icon"></i>
-        </div>
-        <span>{{ category.name }}</span>
+<app-card cardTitle="Categorias de Serviços" class="f-s-20">
+  <div class="categories-grid">
+    <div *ngFor="let category of serviceCategories" class="category-item" [routerLink]="['/catalogo', category.name]">
+      <div class="category-icon">
+        <i [class]="category.icon"></i>
       </div>
+      <span>{{ category.name }}</span>
     </div>
+  </div>
+</app-card>
 
-  </section>
 
-  <section class="popular-services">
-    <div class="section-header">
-      <h3>Serviços populares</h3>
-      <a href="#" class="see-all">ver tudo</a>
-    </div>
-    <div class="services-carousel">
-    </div>
-  </section>
-</div>
-
-<!--
-  <div class="col-xl-4 col-md-12">
+ <!-- <div class="col-xl-4 col-md-12">
     <div class="card total-income-card overflow-hidden bg-primary-dark text-white">
       <div class="card-body">
         <div class="d-flex align-items-center">

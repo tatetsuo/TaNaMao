@@ -8,6 +8,7 @@ import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-bajaj-chart',
+  standalone: true,
   imports: [NgApexchartsModule],
   templateUrl: './bajaj-chart.component.html',
   styleUrl: './bajaj-chart.component.scss'

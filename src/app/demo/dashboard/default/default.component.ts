@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BajajChartComponent } from 'src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component';
 import { BarChartComponent } from 'src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component';
 import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component';
+import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
 @Component({
   selector: 'app-default',
@@ -22,7 +23,8 @@ import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexcha
     MatButtonModule,
     BajajChartComponent,
     BarChartComponent,
-    ChartDataMonthComponent
+    ChartDataMonthComponent,
+    CardComponent
   ],
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
@@ -33,17 +35,12 @@ export class DefaultComponent {
     {
       name: 'Pintor',
       icon: 'fas fa-paint-roller',
-      routeParam: 'painting'
+      routeParam: 'pintor'
     },
     {
-      name: 'Digital Marketing',
-      icon: 'fas fa-bullhorn',
-      routeParam: 'digital-marketing'
-    },
-    {
-      name: 'Video & Animation',
-      icon: 'fas fa-video',
-      routeParam: 'video-animation'
+      name: 'Jardinagem',
+      icon: 'fa-solid fa-leaf',
+      routeParam: 'jardinagem'
     },
     {
       name: 'Programador',
@@ -61,14 +58,39 @@ export class DefaultComponent {
       routeParam: 'photography'
     },
     {
-      name: 'UX/UI Design',
-      icon: 'fas fa-palette',
-      routeParam: 'ux-ui-design'
+      name: 'Construção',
+      icon: 'fa-solid fa-house-chimney-crack',
+      routeParam: 'construcao'
     },
     {
-      name: 'Build AI Services',
-      icon: 'fas fa-robot',
-      routeParam: 'ai-services'
-    }
+      name: 'Vigilância',
+      icon: 'fa-solid fa-user', 
+      routeParam: 'vigia'
+    },
+    {
+      name: 'Eletricista',
+      icon: 'fa-solid fa-bolt', 
+      routeParam: 'eletricista'
+    },
+    {
+      name: 'Encanador',
+      icon: 'fa-solid fa-droplet',
+      routeParam: 'encanador'
+    },
+    {
+      name: 'Carpinteiro',
+      icon: 'fa-solid fa-chair', 
+      routeParam: 'carpinteiro'
+    },
+    {
+      name: 'Prortaria',
+      icon: 'fa-solid fa-building', 
+      routeParam: 'portaria'
+    },
+    {
+      name: 'Limpeza',
+      icon: 'ti ti-broom', 
+      routeParam: 'limpeza'
+    }, 
   ];
 }

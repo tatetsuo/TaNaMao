@@ -1,7 +1,7 @@
 <!-- Vertical layout -->
 <ng-scrollbar style="height: calc(100vh - 70px)" visibility="hover">
   <div class="navbar-content">
-    <ul class="nav coded-inner-navbar" (click)="fireOutClick()" (keydown.space)="fireOutClick()" (keydown.enter)="fireOutClick()">
+    <ul class="nav coded-inner-navbar" tabindex="0" (click)="fireOutClick()" (keydown.space)="fireOutClick()" (keydown.enter)="fireOutClick()">
       @for (item of navigations; track item) {
         @if (item.type === 'group') {
           <app-nav-group [item]="item" />
@@ -13,14 +13,14 @@
       }
     </ul>
     <div class="pc-navbar-card bg-primary rounded">
-      <h4 class="text-white">Berry Pro</h4>
-      <p class="text-white">Checkout Berry Premium Features</p>
+      <h4 class="text-white">Projeto Tcc</h4>
+      <p class="text-white">Gabriel Maia, Thiago Sampaio, Lucca Limoeiro</p>
       <a
-        href="https://codedthemes.com/item/berry-angular-admin-dashboard-template/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium"
+        href="https://loldle.net/"
         target="_blank"
         class="btn btn-light text-primary"
       >
-        Download Premium
+        Certamente um link!
       </a>
     </div>
     <div class="version">

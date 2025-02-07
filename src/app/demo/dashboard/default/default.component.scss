@@ -82,6 +82,7 @@ body.berry-dark .tab-content {
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 /* Services Section */
@@ -213,6 +214,20 @@ body.berry-dark .tab-content {
   height: 100px;
   top: -20px;
   right: -20px;
+}
+
+.round-small-left {
+  width: 100px;
+  height: 100px;
+  top: -20px;
+  right: -20px;
+}
+
+.round-large-left {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
 }
 
 .round-large {
