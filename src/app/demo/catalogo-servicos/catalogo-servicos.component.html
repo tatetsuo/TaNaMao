@@ -1,0 +1,102 @@
+<div class="services-container">
+  <header class="services-header bg-primary-dark">
+    <div class="header-content">
+      <button mat-icon-button>
+        <mat-icon class="text-white">arrow_back</mat-icon>
+      </button>
+      <h2 class="text-white">{{ selectedCategory }} Services</h2>
+      <div class="header-actions">
+        <button mat-icon-button>
+          <mat-icon class="text-white">filter_list</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon class="text-white">sort</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <div class="search-wrapper">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input type="text" placeholder="Search services in {{ selectedCategory }}" class="search-input">
+        <mat-icon class="filter-icon">tune</mat-icon>
+      </div>
+    </div>
+  </header>
+
+  <div class="services-list">
+    <mat-card *ngFor="let service of services" class="service-card">
+      <div class="service-header">
+        <div class="freelancer-profile">
+          <img [src]="service.profileImage" alt="{{ service.freelancerName }}">
+          <div class="profile-details">
+            <span class="freelancer-name">{{ service.freelancerName }}</span>
+            <div class="rating">
+              <mat-icon class="star-icon">star</mat-icon>
+              <span>{{ service.rating }} ({{ service.totalReviews }} reviews)</span>
+            </div>
+          </div>
+        </div>
+        <button mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+
+      <div class="service-content">
+        <h3>{{ service.title }}</h3>
+        <div class="service-tags">
+          <mat-chip-set>
+            <mat-chip *ngFor="let tag of service.tags">{{ tag }}</mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <div class="service-details">
+          <div class="delivery-info">
+            <mat-icon>timer</mat-icon>
+            <span>{{ service.deliveryTime }} days delivery</span>
+          </div>
+          <div class="price-section">
+            <span class="service-price">R$ {{ service.price.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-actions">
+        <button mat-raised-button color="primary" class="hire-button">
+          <mat-icon>work</mat-icon>
+          Hire Freelancer
+        </button>
+        <button mat-stroked-button class="view-details-button">
+          View Details
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="earnings-cards">
+    <mat-card class="earning-card bg-primary-dark text-white">
+      <div class="card-content">
+        <div class="card-icon">
+          <mat-icon>credit_card</mat-icon>
+        </div>
+        <div class="card-details">
+          <span class="card-value">$500.00</span>
+          <p class="card-description">Total Earning</p>
+        </div>
+        <mat-icon class="trend-icon">trending_up</mat-icon>
+      </div>
+    </mat-card>
+
+    <mat-card class="earning-card bg-warning">
+      <div class="card-content">
+        <div class="card-icon">
+          <mat-icon>analytics</mat-icon>
+        </div>
+        <div class="card-details">
+          <span class="card-value">$203K</span>
+          <p class="card-description">Total Income</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

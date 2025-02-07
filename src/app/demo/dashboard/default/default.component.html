@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-xl-4 col-md-6">
     <div class="card earning-card bg-secondary-dark text-white overflow-hidden">
       <span class="round secondary-round small"></span>
@@ -123,4 +123,38 @@
       </div>
     </div>
   </div>
+</div>
+ -->
+
+<div class="home-container">
+  <header class="app-header">
+    <div class="welcome-text">
+      <h2>Olá, Maia 👋</h2>
+      <p>Vamos achar o melhor talento para você</p>
+    </div>
+  </header>
+
+  <section class="service-categories">
+    <div class="section-header">
+      <h3>Categorias de serviço</h3>
+      <a routerLink="/categories" class="see-all">ver tudo</a>
+    </div>
+    <div class="categories-grid">
+      <div *ngFor="let category of serviceCategories" class="category-item">
+        <div class="category-icon">
+          <i [class]="category.icon"></i>
+        </div>
+        <span>{{ category.name }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="popular-services">
+    <div class="section-header">
+      <h3>Serviços populares</h3>
+      <a href="#" class="see-all">ver tudo</a>
+    </div>
+    <div class="services-carousel">
+    </div>
+  </section>
 </div>

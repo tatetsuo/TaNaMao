@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { SpinnerComponent } from './theme/shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  imports: [RouterOutlet, SpinnerComponent]
+  template: '<router-outlet></router-outlet>',
+  standalone: true,
+  imports: [CommonModule,RouterOutlet]
 })
 export class AppComponent {
-  title = 'Berry Angular Free Version';
+  title = 'TopaTudo';
 }

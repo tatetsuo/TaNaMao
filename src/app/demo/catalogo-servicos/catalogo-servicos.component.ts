@@ -22,27 +22,18 @@ interface Service {
   selector: 'app-services',
   standalone: true,
   imports: [
-    CommonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
+    CommonModule, 
+    MatCardModule, 
+    MatChipsModule, 
+    MatIconModule, 
     MatButtonModule
   ],
-  templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss']
+  template: './catalogo-servicos.component.html',
+  stylesUrl: ['./catalogo-servicos.component.scss']
 })
-export class DefaultComponent {
+export class ServicesComponent {
   selectedCategory = 'Graphic Design';
-  serviceCategories = [
-    { name: 'Pintor', icon: 'fas fa-paint-roller' },
-    { name: 'Digital Marketing', icon: 'fas fa-bullhorn' },
-    { name: 'Video & Animation', icon: 'fas fa-video' },
-    { name: 'Programador', icon: 'fas fa-laptop-code' },
-    { name: 'Musico', icon: 'fas fa-music' },
-    { name: 'Fotógrafo', icon: 'fas fa-camera' },
-    { name: 'UX/UI Design', icon: 'fas fa-palette' },
-    { name: 'Build AI Services', icon: 'fas fa-robot' }
-  ];
+
   services: Service[] = [
     {
       id: 1,

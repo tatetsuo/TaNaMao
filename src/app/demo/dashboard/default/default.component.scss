@@ -1,4 +1,4 @@
-.nav-tabs {
+/* .nav-tabs {
   border-bottom: none !important;
 }
 body.berry-dark .nav-tabs .nav-link,
@@ -23,3 +23,162 @@ body.berry-dark .tab-content {
     background: #1565c0;
   }
 }
+ */
+
+  .home-container {
+      background-color: #fff;
+      height: 100%;
+    }
+    .app-header {
+      background-color: #7F3FFC;
+      color: white;
+      padding: 20px;
+    }
+    .welcome-text h2 {
+      margin-bottom: 5px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 15px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      padding: 0 15px;
+      text-align: center;
+    }
+    .category-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .category-icon {
+      background-color: #f4f4f4;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .services-container {
+      background-color: #f4f4f4;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .services-header {
+      padding: 15px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .search-container {
+      padding: 0 15px 15px;
+    }
+
+    .search-wrapper {
+      display: flex;
+      align-items: center;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 5px 10px;
+    }
+
+    .search-input {
+      flex-grow: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      margin: 0 10px;
+    }
+
+    .service-card {
+      margin: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .service-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .freelancer-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .freelancer-profile img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+
+    .service-actions {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .earnings-cards {
+      display: flex;
+      gap: 15px;
+      padding: 15px;
+    }
+
+    .earning-card {
+      flex: 1;
+      border-radius: 15px;
+    }
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .card-icon {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 10px;
+      margin-right: 15px;
+    }
+
+    .card-details {
+      flex-grow: 1;
+    }
+
+    .card-value {
+      display: block;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .service-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+    }
