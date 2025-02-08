@@ -34,94 +34,94 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'page',
-    title: 'Pages',
+    id: 'categorias',
+    title: 'Categorias',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'Authentication',
-        title: 'Authentication',
-        type: 'collapse',
-        icon: 'ti ti-key',
-        children: [
-          {
-            id: 'login',
-            title: 'Login',
-            type: 'item',
-            url: '/guest/login',
-            target: true,
-            breadcrumbs: false
-          },
-          {
-            id: 'register',
-            title: 'Register',
-            type: 'item',
-            url: '/guest/register',
-            target: true,
-            breadcrumbs: false
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'elements',
-    title: 'Elements',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'typography',
-        title: 'Typography',
+        id: 'pintor',
+        title: 'Pintor',
         type: 'item',
-        classes: 'nav-item',
-        url: '/typography',
-        icon: 'ti ti-typography'
+        url: '/catalogo/pintor',
+        icon: 'fas fa-paint-roller'
       },
       {
-        id: 'color',
-        title: 'Colors',
+        id: 'jardinagem',
+        title: 'Jardinagem',
         type: 'item',
-        classes: 'nav-item',
-        url: '/color',
-        icon: 'ti ti-brush'
+        url: '/catalogo/jardinagem',
+        icon: 'fa-solid fa-leaf'
       },
       {
-        id: 'tabler',
-        title: 'Tabler',
+        id: 'programador',
+        title: 'Programador',
         type: 'item',
-        classes: 'nav-item',
-        url: 'https://tabler-icons.io/',
-        icon: 'ti ti-plant-2',
-        target: true,
-        external: true
-      }
-    ]
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'ti ti-brand-chrome'
+        url: '/catalogo/programming',
+        icon: 'fas fa-laptop-code'
       },
       {
-        id: 'document',
-        title: 'Document',
+        id: 'musico',
+        title: 'Musico',
         type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/berry-angular/',
-        icon: 'ti ti-vocabulary',
-        target: true,
-        external: true
+        url: '/catalogo/music',
+        icon: 'fas fa-music'
+      },
+      {
+        id: 'fotografo',
+        title: 'Fotógrafo',
+        type: 'item',
+        url: '/catalogo/photography',
+        icon: 'fas fa-camera'
+      },
+      {
+        id: 'construcao',
+        title: 'Construção',
+        type: 'item',
+        url: '/catalogo/construcao',
+        icon: 'fa-solid fa-house-chimney-crack'
+      },
+      {
+        id: 'vigilancia',
+        title: 'Vigilância',
+        type: 'item',
+        url: '/catalogo/vigia',
+        icon: 'fa-solid fa-user'
+      },
+      {
+        id: 'eletricista',
+        title: 'Eletricista',
+        type: 'item',
+        url: '/catalogo/eletricista',
+        icon: 'fa-solid fa-bolt'
+      },
+      {
+        id: 'encanador',
+        title: 'Encanador',
+        type: 'item',
+        url: '/catalogo/encanador',
+        icon: 'fa-solid fa-droplet'
+      },
+      {
+        id: 'carpinteiro',
+        title: 'Carpinteiro',
+        type: 'item',
+        url: '/catalogo/carpinteiro',
+        icon: 'fa-solid fa-chair'
+      },
+      {
+        id: 'portaria',
+        title: 'Portaria',
+        type: 'item',
+        url: '/catalogo/portaria',
+        icon: 'fa-solid fa-building'
+      },
+      {
+        id: 'limpeza',
+        title: 'Limpeza',
+        type: 'item',
+        url: '/catalogo/limpeza',
+        icon: 'fa-solid fa-broom'
       }
     ]
   }

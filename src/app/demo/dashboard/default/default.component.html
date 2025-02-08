@@ -12,7 +12,7 @@
             <div class="header-content">
               <div class="welcome-section">
                 <h2 class="greeting-title">
-                  Olá, Gabriel Maia <span class="wave-emoji">👋</span>
+                  Olá, {{ username }} <span class="wave-emoji">👋</span>
                 </h2>
                 <p class="greeting-subtitle">
                   Vamos achar o melhor talento para você
@@ -50,7 +50,7 @@
 
 <app-card cardTitle="Categorias de Serviços" class="categories-card">
   <div class="categories-container card total-income-card warning overflow-hidden">
-    <div style="margin-top: 20px;"  class="categories-grid" [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'">
+    <div style="margin-top: 20px;" class="categories-grid" [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'">
       <div *ngFor="let category of serviceCategories" class="category-item"
         [routerLink]="['/catalogo', category.routeParam]">
         <div class="category-icon">
@@ -73,4 +73,3 @@
 <app-card cardTitle="Freelancers em Destaque">
   <app-freelancer-carousel></app-freelancer-carousel>
 </app-card>
-

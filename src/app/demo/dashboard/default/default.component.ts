@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -42,10 +42,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ])
   ],
 })
-export class DefaultComponent {
+export class DefaultComponent implements OnInit {
   public ListGroup: any[] = [];
   isExpanded = false;
- 
+  username = '';
+
   serviceCategories = [
     {
       name: 'Pintor',
@@ -79,12 +80,12 @@ export class DefaultComponent {
     },
     {
       name: 'Vigilância',
-      icon: 'fa-solid fa-user', 
+      icon: 'fa-solid fa-user',
       routeParam: 'vigia'
     },
     {
       name: 'Eletricista',
-      icon: 'fa-solid fa-bolt', 
+      icon: 'fa-solid fa-bolt',
       routeParam: 'eletricista'
     },
     {
@@ -94,21 +95,26 @@ export class DefaultComponent {
     },
     {
       name: 'Carpinteiro',
-      icon: 'fa-solid fa-chair', 
+      icon: 'fa-solid fa-chair',
       routeParam: 'carpinteiro'
     },
     {
       name: 'Prortaria',
-      icon: 'fa-solid fa-building', 
+      icon: 'fa-solid fa-building',
       routeParam: 'portaria'
     },
     {
       name: 'Limpeza',
-      icon: 'fa-solid fa-broom', 
+      icon: 'fa-solid fa-broom',
       routeParam: 'limpeza'
-    }, 
+    },
   ];
-   toggleExpand() {
+
+  ngOnInit() {
+    this.username = localStorage.getItem('username') || 'Guest';
+  }
+
+  toggleExpand() {
     this.isExpanded = !this.isExpanded;
   }
 }
