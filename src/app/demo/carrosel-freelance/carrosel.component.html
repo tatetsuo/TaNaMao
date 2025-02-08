@@ -1,0 +1,74 @@
+
+<div class="carousel-container">
+  <button mat-icon-button (click)="prevSlide()" [disabled]="currentIndex === 0" class="nav-button prev">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <div class="carousel-wrapper">
+    <div class="carousel-slide" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
+      <mat-card *ngFor="let profile of freelancers" class="profile-card">
+        <div class="card-content-wrapper">
+          <div class="card-header">
+            <img [src]="profile.imageUrl" [alt]="profile.name" class="profile-image">
+            <div *ngIf="profile.discount" class="discount-badge">
+              -{{profile.discount}}%
+            </div>
+            <div class="category-tag">{{profile.category}}</div>
+          </div>
+
+          <mat-card-content>
+            <div class="profile-header">
+              <h2 class="name">{{profile.name}}</h2>
+              <div class="rating">
+                <mat-icon *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= profile.rating">
+                  star
+                </mat-icon>
+              </div>
+            </div>
+
+            <h3 class="title">{{profile.title}}</h3>
+
+            <p class="description">{{profile.description}}</p>
+
+            <div class="skills">
+              <mat-chip-set>
+                <mat-chip *ngFor="let skill of profile.skills.slice(0, 3)">
+                  {{skill}}
+                </mat-chip>
+                <mat-chip *ngIf="profile.skills.length > 3" class="more-skills">
+                  +{{profile.skills.length - 3}}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <mat-icon>attach_money</mat-icon>
+                <span class="rate">
+                  <span class="current-rate">R$ {{ profile.hourlyRate }}/hora</span>
+                  <span *ngIf="profile.originalRate" class="original-rate">
+                    R$ {{ profile.originalRate }}/hora
+                  </span>
+                </span>
+              </div>
+              <div class="stat">
+                <mat-icon>work</mat-icon>
+                <span>{{profile.completedProjects}} projetos</span>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button mat-raised-button color="primary">Contratar</button>
+            <button mat-button>Ver Perfil</button>
+          </mat-card-actions>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <button mat-icon-button (click)="nextSlide()" [disabled]="currentIndex >= freelancers.length - visibleSlides"
+    class="nav-button next">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>

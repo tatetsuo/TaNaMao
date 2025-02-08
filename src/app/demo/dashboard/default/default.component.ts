@@ -6,10 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BajajChartComponent } from 'src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component';
-import { BarChartComponent } from 'src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component';
 import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
+import { FreelancerCarouselComponent } from '../../carrosel-freelance/carrosel.freelance.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-default',
@@ -21,16 +21,31 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
     MatChipsModule,
     MatIconModule,
     MatButtonModule,
-    BajajChartComponent,
-    BarChartComponent,
     ChartDataMonthComponent,
-    CardComponent
+    FreelancerCarouselComponent,
+    CardComponent,
   ],
   templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss']
+  styleUrls: ['./default.component.scss'],
+  animations: [
+    trigger('expandCollapse', [
+      state('collapsed', style({
+        height: '20dvh',
+        overflow: 'hidden'
+      })),
+      state('expanded', style({
+        maxHeight: '1000px'
+      })),
+      transition('expanded <=> collapsed', [
+        animate('300ms ease-in-out')
+      ])
+    ])
+  ],
 })
 export class DefaultComponent {
   public ListGroup: any[] = [];
+  isExpanded = false;
+ 
   serviceCategories = [
     {
       name: 'Pintor',
@@ -89,8 +104,11 @@ export class DefaultComponent {
     },
     {
       name: 'Limpeza',
-      icon: 'ti ti-broom', 
+      icon: 'fa-solid fa-broom', 
       routeParam: 'limpeza'
     }, 
   ];
+   toggleExpand() {
+    this.isExpanded = !this.isExpanded;
+  }
 }
