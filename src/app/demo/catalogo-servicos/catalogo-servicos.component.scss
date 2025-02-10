@@ -122,7 +122,8 @@ mat-chip-listbox {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  margin: 0 auto; /* Centraliza o card */
+  /* margin: 0 auto; */ /* Centraliza o card */
+  margin: 0 30px;
   align-items: center;
   gap: 16px; /* Espaçamento entre imagem e informações */
 }
