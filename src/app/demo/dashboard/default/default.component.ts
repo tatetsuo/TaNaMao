@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -61,47 +61,47 @@ export class DefaultComponent implements OnInit {
     {
       name: 'Programador',
       icon: 'fas fa-laptop-code',
-      routeParam: 'programming'
+      routeParam: 'Programador'
     },
     {
       name: 'Musico',
       icon: 'fas fa-music',
-      routeParam: 'music'
+      routeParam: 'Musico'
     },
     {
       name: 'Fotógrafo',
       icon: 'fas fa-camera',
-      routeParam: 'photography'
+      routeParam: 'Fotografo'
     },
     {
       name: 'Construção',
       icon: 'fa-solid fa-house-chimney-crack',
-      routeParam: 'construcao'
+      routeParam: 'Construcao'
     },
     {
       name: 'Vigilância',
       icon: 'fa-solid fa-user',
-      routeParam: 'vigia'
+      routeParam: 'Vigilancia'
     },
     {
       name: 'Eletricista',
       icon: 'fa-solid fa-bolt',
-      routeParam: 'eletricista'
+      routeParam: 'Eletricista'
     },
     {
       name: 'Encanador',
       icon: 'fa-solid fa-droplet',
-      routeParam: 'encanador'
+      routeParam: 'Encanador'
     },
     {
       name: 'Carpinteiro',
       icon: 'fa-solid fa-chair',
-      routeParam: 'carpinteiro'
+      routeParam: 'Carpinteiro'
     },
     {
       name: 'Prortaria',
       icon: 'fa-solid fa-building',
-      routeParam: 'portaria'
+      routeParam: 'Limpeza'
     },
     {
       name: 'Limpeza',
@@ -110,11 +110,17 @@ export class DefaultComponent implements OnInit {
     },
   ];
 
+  constructor(private router: Router) { }
+
   ngOnInit() {
     this.username = localStorage.getItem('username') || 'Guest';
   }
 
   toggleExpand() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  navigateToCategory(category: any) {
+    this.router.navigate(['/catalogo', category.routeParam]);
   }
 }

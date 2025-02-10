@@ -1,0 +1,288 @@
+/* ========== CONTAINER PRINCIPAL ========== */
+.catalog-container {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* ========== SIDEBAR DE FILTROS ========== */
+/* Sidebar fixa e estilização geral */
+.filters-sidebar {
+  position: sticky;
+  top: 20px;
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  width: 260px;
+  height: fit-content;
+  transition: width 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header do filtro com ícone alinhado ao lado do título */
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+/* Quando colapsado, esconde a largura da sidebar */
+.filters-sidebar.collapsed {
+  width: 60px; /* Largura reduzida */
+  overflow: hidden;
+  padding: 16px 8px;
+}
+
+/* Esconder o conteúdo interno ao colapsar */
+.filters-sidebar.collapsed .filter-content {
+  display: none;
+}
+
+/* Expandir os cards quando o filtro estiver fechado */
+.catalog-content {
+  display: flex;
+  transition: margin-left 0.3s ease;
+}
+
+.catalog-content.expanded {
+  margin-left: 0;
+}
+
+/* 
+.filters-sidebar.collapsed + .catalog-content .services-container {
+  width: 100%;
+}
+ */
+
+
+.filters-sidebar .search-box {
+  margin-bottom: 16px;
+}
+
+.filters-sidebar mat-form-field {
+  width: 100%;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.filter-section .price-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-range mat-form-field {
+  width: 100px;
+}
+
+mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ========== GRID DE SERVIÇOS ========== */
+/* .catalog-content {
+  display: flex;
+} */
+
+.services-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.services-container {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: row; /* Alinha os elementos lado a lado */
+  width: 100%;
+  max-width: 700px; /* Ajuste para um tamanho ideal */
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 0 auto; /* Centraliza o card */
+  align-items: center;
+  gap: 16px; /* Espaçamento entre imagem e informações */
+}
+
+.service-image {
+  width: 180px; /* Define um tamanho fixo para a imagem */
+  height: 180px; /* Mantém a proporção */
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0; /* Evita que a imagem seja redimensionada */
+}
+
+/* Informação do freelancer */
+.service-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Ocupa todo o espaço restante */
+}
+
+/* Nome + Avaliação */
+.freelancer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.horizontal-card {
+  display: flex;
+  gap: 16px;
+}
+
+.rating mat-icon {
+  color: #ffd700;
+  font-size: 20px;
+}
+
+/* Título do serviço */
+.service-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* Descrição */
+.service-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* Tags */
+mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+/* Detalhes (Ex: Tempo de entrega, nível) */
+.service-details {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #666;
+}
+
+.detail mat-icon {
+  font-size: 18px;
+}
+
+/* Rodapé do Card (Preço + Botão) */
+.service-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2196f3;
+}
+.service-footer .price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2196f3;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 1024px) {
+  .filters-sidebar {
+    width: 220px;
+  }
+
+  .service-card {
+    width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filters-sidebar {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .services-container {
+    justify-content: center;
+  }
+
+  .service-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .service-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* ========== ESTILO PARA QUANDO NÃO HÁ RESULTADOS ========== */
+.no-results {
+  text-align: center;
+  padding: 40px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  /* width: 100%; */
+  width: 750px;
+  margin-left: 20px;
+}
+
+.no-results mat-icon {
+  font-size: 42px;
+  width: 42px;
+  height: 42px;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.no-results p {
+  color: #666;
+  font-size: 16px;
+}

@@ -62,7 +62,7 @@ export class FreelancerCarouselComponent {
       hourlyRate: 120,
       description: 'Designer apaixonado por criar interfaces intuitivas e experiências de usuário memoráveis.',
       skills: ['Figma', 'Adobe XD', 'Prototyping', 'User Research'],
-      imageUrl: 'https://randomuser.me/api/portraits/men/2.jpg',
+      imageUrl: 'https://randomuser.me/api/portraits/men/30.jpg',
       completedProjects: 38,
       category: 'Design'
     },

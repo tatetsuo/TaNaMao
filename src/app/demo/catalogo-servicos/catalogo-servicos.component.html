@@ -1,102 +1,112 @@
-<div class="services-container global-styles">
-  <header class="services-header bg-primary-dark">
-    <div class="header-content">
-      <button mat-icon-button>
-        <mat-icon class="text-white">arrow_back</mat-icon>
-      </button>
-      <h2 class="text-white">{{ selectedCategory }} Services</h2>
-      <div class="header-actions">
-        <button mat-icon-button>
-          <mat-icon class="text-white">filter_list</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon class="text-white">sort</mat-icon>
-        </button>
-      </div>
-    </div>
+<app-card [cardTitle]="'Escolha o seu ' + selectedCategory + '(a)'">
+  <div class="catalog-container">
+    <div class="catalog-content">
+      <!-- Filtros Colapsáveis -->
+      <aside class="filters-sidebar" [class.collapsed]="isFilterCollapsed">
+        <div class="filter-header">
+          @if(!isFilterCollapsed){
+          <h3>Filtros</h3>
+          }
+          <!-- <button mat-icon-button (click)="toggleFilters()">
+            <mat-icon>{{ isFilterCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+          </button> -->
+        </div>
 
-    <div class="search-container">
-      <div class="search-wrapper">
-        <mat-icon class="search-icon">search</mat-icon>
-        <input type="text" placeholder="Search services in {{ selectedCategory }}" class="search-input">
-        <mat-icon class="filter-icon">tune</mat-icon>
-      </div>
-    </div>
-  </header>
+        <div class="filter-content" [class.hidden]="isFilterCollapsed">
+          <div class="search-box">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Buscar serviços</mat-label>
+              <input matInput [(ngModel)]="searchQuery" (input)="applyFilters()">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
 
-  <div class="services-list">
-    <mat-card *ngFor="let service of services" class="service-card">
-      <div class="service-header">
-        <div class="freelancer-profile">
-          <img [src]="service.profileImage" alt="{{ service.freelancerName }}">
-          <div class="profile-details">
-            <span class="freelancer-name">{{ service.freelancerName }}</span>
-            <div class="rating">
-              <mat-icon class="star-icon">star</mat-icon>
-              <span>{{ service.rating }} ({{ service.totalReviews }} reviews)</span>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Preço</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="price-range">
+                <mat-form-field appearance="outline">
+                  <mat-label>Min</mat-label>
+                  <input matInput type="number" [(ngModel)]="minPrice">
+                </mat-form-field>
+                <span>-</span>
+                <mat-form-field appearance="outline">
+                  <mat-label>Max</mat-label>
+                  <input matInput type="number" [(ngModel)]="maxPrice">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar</button>
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngFor="let filter of filters">
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{filter.name}}</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-chip-listbox multiple (change)="applyFilters()">
+                <mat-chip-option *ngFor="let option of filter.options"
+                  [selected]="selectedFilters[filter.name]?.includes(option)"
+                  (selectionChange)="toggleFilter(filter.name, option)">
+                  {{option}}
+                </mat-chip-option>
+              </mat-chip-listbox>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </aside>
+
+      <!-- Cards Horizontais -->
+      <div class="services-container">
+        <div class="services-scroll">
+          <div class="services-row">
+            <mat-card *ngFor="let service of filteredServices" class="service-card">
+              <div class="horizontal-card">
+                <img mat-card-image [src]="service.profileImage" [alt]="service.title" class="service-image">
+                <mat-card-content>
+                  <div class="freelancer-info">
+                    <span class="freelancer-name">{{service.freelancerName}}</span>
+                    <div class="rating">
+                      <mat-icon>star</mat-icon>
+                      <span>{{service.rating}} ({{service.totalReviews}})</span>
+                    </div>
+                  </div>
+
+                  <h2 class="service-title">{{service.title}}</h2>
+                  <p class="service-description">{{service.description}}</p>
+
+                  <mat-chip-listbox>
+                    <mat-chip-option *ngFor="let tag of service.tags.slice(0, 3)" disabled>
+                      {{tag}}
+                    </mat-chip-option>
+                  </mat-chip-listbox>
+
+                  <div class="service-details">
+                    <div class="detail">
+                      <mat-icon>schedule</mat-icon>
+                      <span>{{service.deliveryTime}} dias</span>
+                    </div>
+                    <div class="detail">
+                      <mat-icon>workspace_premium</mat-icon>
+                      <span>{{service.level}}</span>
+                    </div>
+                  </div>
+
+                  <div class="service-footer">
+                    <span class="price">R$ {{service.price}}</span>
+                    <button mat-raised-button color="primary">Ver Detalhes</button>
+                  </div>
+                </mat-card-content>
+              </div>
+            </mat-card>
+
+            <div *ngIf="filteredServices.length === 0" class="no-results">
+              <mat-icon>search_off</mat-icon>
+              <p>Nenhum serviço encontrado com os filtros selecionados</p>
             </div>
           </div>
         </div>
-        <button mat-icon-button>
-          <mat-icon>more_vert</mat-icon>
-        </button>
       </div>
-
-      <div class="service-content">
-        <h3>{{ service.title }}</h3>
-        <div class="service-tags">
-          <mat-chip-set>
-            <mat-chip *ngFor="let tag of service.tags">{{ tag }}</mat-chip>
-          </mat-chip-set>
-        </div>
-
-        <div class="service-details">
-          <div class="delivery-info">
-            <mat-icon>timer</mat-icon>
-            <span>{{ service.deliveryTime }} days delivery</span>
-          </div>
-          <div class="price-section">
-            <span class="service-price">R$ {{ service.price.toFixed(2) }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-actions">
-        <button mat-raised-button color="primary" class="hire-button">
-          <mat-icon>work</mat-icon>
-          Hire Freelancer
-        </button>
-        <button mat-stroked-button class="view-details-button">
-          View Details
-        </button>
-      </div>
-    </mat-card>
+    </div>
   </div>
-
-  <div class="earnings-cards">
-    <mat-card class="earning-card bg-primary-dark text-white">
-      <div class="card-content">
-        <div class="card-icon">
-          <mat-icon>credit_card</mat-icon>
-        </div>
-        <div class="card-details">
-          <span class="card-value">$500.00</span>
-          <p class="card-description">Total Earning</p>
-        </div>
-        <mat-icon class="trend-icon">trending_up</mat-icon>
-      </div>
-    </mat-card>
-
-    <mat-card class="earning-card bg-warning">
-      <div class="card-content">
-        <div class="card-icon">
-          <mat-icon>analytics</mat-icon>
-        </div>
-        <div class="card-details">
-          <span class="card-value">$203K</span>
-          <p class="card-description">Total Income</p>
-        </div>
-      </div>
-    </mat-card>
-  </div>
-</div>
+</app-card>
