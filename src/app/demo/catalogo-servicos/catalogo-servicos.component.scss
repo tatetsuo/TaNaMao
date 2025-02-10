@@ -10,7 +10,7 @@
 /* Sidebar fixa e estilização geral */
 .filters-sidebar {
   position: sticky;
-  top: 20px;
+  top: 16%;
   background: white;
   border-radius: 8px;
   padding: 16px;
@@ -105,29 +105,31 @@ mat-chip-listbox {
 }
 
 .services-container {
-  flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
-  transition: width 0.3s ease;
+  align-items: stretch; /* 🔹 Faz com que os cards tenham o mesmo tamanho */
 }
+
 
 .service-card {
   display: flex;
-  flex-direction: row; /* Alinha os elementos lado a lado */
+  flex-direction: row;
   width: 100%;
-  max-width: 700px; /* Ajuste para um tamanho ideal */
+  max-width: 700px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 16px;
-  /* margin: 0 auto; */ /* Centraliza o card */
   margin: 0 30px;
   align-items: center;
-  gap: 16px; /* Espaçamento entre imagem e informações */
+  gap: 16px;
+  
+  /* 🔹 Define uma altura mínima para padronizar */
+  min-height: 250px; 
+  height: 100%; /* Garante que todos tenham altura uniforme */
 }
-
 .service-image {
   width: 180px; /* Define um tamanho fixo para a imagem */
   height: 180px; /* Mantém a proporção */

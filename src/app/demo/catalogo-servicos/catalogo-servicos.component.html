@@ -1,9 +1,9 @@
 <app-card [cardTitle]="'Escolha o seu ' + selectedCategory + '(a)'">
-  <div class="catalog-container">
+  <div class="catalog-container ">
     <div class="catalog-content">
       <!-- Filtros Colapsáveis -->
-      <aside class="filters-sidebar" [class.collapsed]="isFilterCollapsed">
-        <div class="filter-header">
+      <aside class="filters-sidebar " [class.collapsed]="isFilterCollapsed">
+        <div class="filter-header" >
           @if(!isFilterCollapsed){
           <h3>Filtros</h3>
           }
@@ -57,7 +57,7 @@
       </aside>
 
       <!-- Cards Horizontais -->
-      <div class="services-container">
+      <div class="services-container ">
         <div class="services-scroll">
           <div class="services-row">
             <mat-card *ngFor="let service of filteredServices" class="service-card">
