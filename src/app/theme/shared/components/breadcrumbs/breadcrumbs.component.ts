@@ -48,7 +48,7 @@ export class BreadcrumbComponent {
         const breadcrumbList = this.filterNavigation(this.navigations, activeLink);
         this.navigationList = breadcrumbList.splice(-2);
         const title = breadcrumbList[breadcrumbList.length - 1]?.title || 'Bem Vindo';
-        this.titleService.setTitle(title + ' | Topa Tudo');
+        this.titleService.setTitle(title + ' | Tá Na Mão');
       }
     });
   }

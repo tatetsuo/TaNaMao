@@ -21,6 +21,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   fontFamily(font: string) {
+    font = 'Poppins'
     this.setFontFamily = font;
     this.renderer.removeClass(document.body, 'Roboto');
     this.renderer.removeClass(document.body, 'Poppins');

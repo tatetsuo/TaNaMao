@@ -382,6 +382,136 @@ export class ServicesComponent implements OnInit {
       deliveryTime: 1,
       description: 'Serviços de limpeza completa para residências e escritórios.',
       level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
+    }, {
+      id: 12,
+      title: 'Limpeza Residencial',
+      category: 'Limpeza',
+      price: 120,
+      rating: 4.7,
+      totalReviews: 168,
+      freelancerName: 'Marina Costa',
+      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      tags: ['Limpeza', 'Higienização', 'Residencial'],
+      deliveryTime: 1,
+      description: 'Serviços de limpeza completa para residências e escritórios.',
+      level: 'Intermediário'
     }
   ];
 
@@ -403,19 +533,7 @@ export class ServicesComponent implements OnInit {
 
   isFilterCollapsed = false;
 
-  toggleFilters(): void {
-    this.isFilterCollapsed = !this.isFilterCollapsed;
-
-    // Adiciona ou remove a classe 'expanded' na lista de serviços
-    const catalogContent = document.querySelector('.catalog-content');
-    if (catalogContent) {
-      if (this.isFilterCollapsed) {
-        catalogContent.classList.add('expanded');
-      } else {
-        catalogContent.classList.remove('expanded');
-      }
-    }
-  }
+  
   private formatCategoryName(category: string): string {
     return category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ');
   }

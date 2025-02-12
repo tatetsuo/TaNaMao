@@ -16,7 +16,9 @@
   padding: 16px;
   width: 260px;
   height: fit-content;
-  transition: width 0.3s ease, transform 0.3s ease;
+  transition:
+    width 0.3s ease,
+    transform 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,13 +51,6 @@
 .catalog-content.expanded {
   margin-left: 0;
 }
-
-/* 
-.filters-sidebar.collapsed + .catalog-content .services-container {
-  width: 100%;
-}
- */
-
 
 .filters-sidebar .search-box {
   margin-bottom: 16px;
@@ -93,10 +88,6 @@ mat-chip-listbox {
 }
 
 /* ========== GRID DE SERVIÇOS ========== */
-/* .catalog-content {
-  display: flex;
-} */
-
 .services-row {
   display: flex;
   flex-wrap: wrap;
@@ -108,10 +99,9 @@ mat-chip-listbox {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-between;
-  align-items: stretch; /* 🔹 Faz com que os cards tenham o mesmo tamanho */
+  justify-content: center; /* Centraliza os cards */
+  align-items: stretch; /* Faz com que os cards tenham o mesmo tamanho */
 }
-
 
 .service-card {
   display: flex;
@@ -125,11 +115,13 @@ mat-chip-listbox {
   margin: 0 30px;
   align-items: center;
   gap: 16px;
-  
-  /* 🔹 Define uma altura mínima para padronizar */
-  min-height: 250px; 
+  position: relative; /* Necessário para os elementos decorativos */
+
+  /* Define uma altura mínima para padronizar */
+  min-height: 250px;
   height: 100%; /* Garante que todos tenham altura uniforme */
 }
+
 .service-image {
   width: 180px; /* Define um tamanho fixo para a imagem */
   height: 180px; /* Mantém a proporção */
@@ -223,10 +215,66 @@ mat-chip-listbox {
   font-weight: 500;
   color: #2196f3;
 }
+
 .service-footer .price {
   font-size: 1.2rem;
   font-weight: 500;
   color: #2196f3;
+}
+
+/* Elementos decorativos */
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.round {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.103);
+  animation: move 5s infinite ease-in-out;
+}
+
+.round-small {
+  width: 100px;
+  height: 100px;
+  top: -20px;
+  right: -20px;
+}
+
+.round-large {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
+}
+
+.round-medium {
+  width: 150px;
+  height: 150px;
+  top: 50px;
+  left: 50px;
+}
+
+.round-extra-small {
+  width: 50px;
+  height: 50px;
+  bottom: 20px;
+  left: 20px;
+}
+
+.round-extra-large {
+  width: 250px;
+  height: 250px;
+  top: -100px;
+  left: -100px;
 }
 
 /* ========== RESPONSIVIDADE ========== */
@@ -272,9 +320,8 @@ mat-chip-listbox {
   padding: 40px;
   background: #f5f5f5;
   border-radius: 8px;
-  /* width: 100%; */
-  width: 750px;
-  margin-left: 20px;
+  width: 100%;
+  margin: 0 auto; /* Centraliza a mensagem */
 }
 
 .no-results mat-icon {

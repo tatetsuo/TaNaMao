@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   imports: [CommonModule, RouterOutlet]
 })
 export class AppComponent {
-  title = 'TopaTudo';
+  title = 'TaNaMao';
 }

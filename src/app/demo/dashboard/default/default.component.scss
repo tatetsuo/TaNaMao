@@ -33,7 +33,7 @@ body.berry-dark .tab-content {
 
 /* Header Styles */
 .app-header {
-  background-color: #7F3FFC;
+  background-color: #7f3ffc;
   color: white;
   padding: 20px;
 }
@@ -203,10 +203,23 @@ body.berry-dark .tab-content {
 }
 
 /* Elementos decorativos */
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
 .round {
   position: absolute;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
+  animation: move 5s infinite ease-in-out;
 }
 
 .round-small {
@@ -214,6 +227,34 @@ body.berry-dark .tab-content {
   height: 100px;
   top: -20px;
   right: -20px;
+}
+
+.round-large {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
+}
+
+.round-medium {
+  width: 150px;
+  height: 150px;
+  top: 50px;
+  left: 50px;
+}
+
+.round-extra-small {
+  width: 50px;
+  height: 50px;
+  bottom: 20px;
+  left: 20px;
+}
+
+.round-extra-large {
+  width: 250px;
+  height: 250px;
+  top: -100px;
+  left: -100px;
 }
 
 .round-small-left {
@@ -224,13 +265,6 @@ body.berry-dark .tab-content {
 }
 
 .round-large-left {
-  width: 200px;
-  height: 200px;
-  bottom: -50px;
-  right: -50px;
-}
-
-.round-large {
   width: 200px;
   height: 200px;
   bottom: -50px;
@@ -250,7 +284,7 @@ body.berry-dark .tab-content {
 }
 
 .greeting-title {
-  font-size: 24px;
+  font-size: 27px;
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -274,7 +308,7 @@ body.berry-dark .tab-content {
 }
 
 .amount {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 500;
 }
 
@@ -294,122 +328,122 @@ body.berry-dark .tab-content {
   .greeting-title {
     font-size: 20px;
   }
-  
+
   .amount {
     font-size: 28px;
   }
 }
-  .categories-card {
-      font-size: 20px;
+.categories-card {
+  font-size: 20px;
+}
+
+.categories-container {
+  position: relative;
+  padding: 0 15px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); // Increased to 6 columns
+  gap: 12px;
+  padding-bottom: 48px; // Space for expand button
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.category-icon {
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 8px;
+  width: 50px; // Slightly smaller icons
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 20px;
+    color: #7f3ffc;
+  }
+}
+
+.category-name {
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+  margin-top: 4px;
+  // Ensure text doesn't wrap awkwardly
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expand-button-container {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white 25%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &.expanded {
+    background: none;
+  }
+}
+
+.expand-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7f3ffc;
+  font-weight: 500;
+  z-index: 2;
+
+  mat-icon {
+    transition: transform 0.3s ease;
+
+    &.rotated {
+      transform: rotate(180deg);
     }
+  }
+}
 
-    .categories-container {
-      position: relative;
-      padding: 0 15px;
-    }
+// Responsive breakpoints
+@media (max-width: 1200px) {
+  .categories-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
 
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr); // Increased to 6 columns
-      gap: 12px;
-      padding-bottom: 48px; // Space for expand button
-    }
+@media (max-width: 992px) {
+  .categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 
-    .category-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      padding: 8px 4px;
-      transition: transform 0.2s ease-in-out;
+@media (max-width: 768px) {
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
-      &:hover {
-        transform: translateY(-5px);
-      }
-    }
-
-    .category-icon {
-      background-color: #f4f4f4;
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 8px;
-      width: 50px; // Slightly smaller icons
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      i {
-        font-size: 20px;
-        color: #7F3FFC;
-      }
-    }
-
-    .category-name {
-      font-size: 14px;
-      text-align: center;
-      color: #333;
-      margin-top: 4px;
-      // Ensure text doesn't wrap awkwardly
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .expand-button-container {
-      display: flex;
-      justify-content: center;
-      padding: 8px 0;
-      background: linear-gradient(to bottom, rgba(255,255,255,0), white 25%);
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      
-      &.expanded {
-        background: none;
-      }
-    }
-
-    .expand-button {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #7F3FFC;
-      font-weight: 500;
-      z-index: 2;
-
-      mat-icon {
-        transition: transform 0.3s ease;
-        
-        &.rotated {
-          transform: rotate(180deg);
-        }
-      }
-    }
-
-    // Responsive breakpoints
-    @media (max-width: 1200px) {
-      .categories-grid {
-        grid-template-columns: repeat(5, 1fr);
-      }
-    }
-
-    @media (max-width: 992px) {
-      .categories-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .categories-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+@media (max-width: 480px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
