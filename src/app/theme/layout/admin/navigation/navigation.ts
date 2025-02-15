@@ -34,6 +34,23 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
+    id: 'mapa',
+    title: 'Mapa',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'default',
+        title: 'Mapa',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/mapa',
+        icon: 'fas fa-map',
+        breadcrumbs: false
+      }
+    ]
+  },
+  {
     id: 'categorias',
     title: 'Categorias',
     type: 'group',

@@ -1,0 +1,23 @@
+:host {
+      display: block;
+      width: 100%;
+    }
+    .card {
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background: white;
+      position: relative;
+    }
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 8px;
+      background: #007bff;
+      color: white;
+      text-align: center;
+      z-index: 1000;
+      border-radius: 8px 8px 0 0;
+    }

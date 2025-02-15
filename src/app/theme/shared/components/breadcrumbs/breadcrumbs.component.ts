@@ -15,6 +15,10 @@ interface titleType {
   type: string;
 }
 
+/* const routes: Routes = [
+  { path: 'mapa', component: MapaComponent }
+]; */
+
 @Component({
   selector: 'app-breadcrumb',
   standalone: true,
@@ -35,7 +39,16 @@ export class BreadcrumbComponent {
 
   // constructor
   constructor() {
-    this.navigations = NavigationItems;
+    this.navigations = [
+      ...NavigationItems,
+      {
+        id: 'mapa',
+        title: 'Mapa',
+        type: 'item',
+        url: '/mapa',
+        icon: 'fas fa-map'
+      }
+    ];
     this.type = 'icon';
     this.setBreadcrumb();
   }

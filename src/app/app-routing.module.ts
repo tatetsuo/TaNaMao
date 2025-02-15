@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'default',
         loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent),
-        canActivate: [AuthGuard] // Adicionar o guard aqui
+        canActivate: [AuthGuard] // Adicionar o guard 
       },
       {
         path: 'typography',
@@ -31,6 +31,10 @@ const routes: Routes = [
       {
         path: 'catalogo/:category',
         component: ServicesComponent
+      },
+      {
+        path: 'mapa',
+        loadComponent: () => import('./demo/mapa/mapa.component').then((c) => c.MapaComponent)
       }
     ]
   },

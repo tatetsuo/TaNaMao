@@ -16,6 +16,7 @@ import { NavigationItem } from '../../navigation';
 export class NavItemComponent {
   // public props
   @Input() item!: NavigationItem;
+  isActive = false;
 
   // public method
   closeOtherMenu(event: MouseEvent) {
@@ -30,9 +31,9 @@ export class NavItemComponent {
       } else {
         const sections = document.querySelectorAll('.coded-hasmenu');
 
-        for (let i = 0; i < sections.length; i++) {
-          sections[i].classList.remove('active');
-          sections[i].classList.remove('coded-trigger');
+        for (const section of Array.from(sections)) {
+          section.classList.remove('active');
+          section.classList.remove('coded-trigger');
         }
       }
 

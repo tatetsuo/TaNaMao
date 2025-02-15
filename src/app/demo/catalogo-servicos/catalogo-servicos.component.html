@@ -1,10 +1,12 @@
 <app-card [cardTitle]="'Escolha o seu ' + selectedCategory + '(a)'">
-  <div class="catalog-container">
+  <div class="catalog-container ">
     <div class="catalog-content">
       <!-- Filtros Colapsáveis -->
-      <aside class="filters-sidebar" [class.collapsed]="isFilterCollapsed">
-        <div class="filter-header">
-          <h3 *ngIf="!isFilterCollapsed">Filtros</h3>
+      <aside class="filters-sidebar " [class.collapsed]="isFilterCollapsed">
+        <div class="filter-header" >
+          @if(!isFilterCollapsed){
+          <h3>Filtros</h3>
+          }
           <!-- <button mat-icon-button (click)="toggleFilters()">
             <mat-icon>{{ isFilterCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
           </button> -->
@@ -55,7 +57,7 @@
       </aside>
 
       <!-- Cards Horizontais -->
-      <div class="services-container">
+      <div class="services-container ">
         <div class="services-scroll">
           <div class="services-row">
             <mat-card *ngFor="let service of filteredServices" class="service-card">
@@ -96,12 +98,6 @@
                   </div>
                 </mat-card-content>
               </div>
-              <!-- Elementos decorativos -->
-              <span class="round round-small"></span>
-              <span class="round round-large"></span>
-              <span class="round round-medium"></span>
-              <span class="round round-extra-small"></span>
-              <span class="round round-extra-large"></span>
             </mat-card>
 
             <div *ngIf="filteredServices.length === 0" class="no-results">
