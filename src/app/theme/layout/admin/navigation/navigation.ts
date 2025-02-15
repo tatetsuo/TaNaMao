@@ -33,7 +33,7 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
-  {
+   {
     id: 'mapa',
     title: 'Mapa',
     type: 'group',
@@ -41,7 +41,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: 'default',
-        title: 'Mapa',
+        title: 'Dashboard',
         type: 'item',
         classes: 'nav-item',
         url: '/mapa',

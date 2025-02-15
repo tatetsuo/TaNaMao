@@ -4,6 +4,7 @@ import * as L from 'leaflet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ProfissionalModalComponent } from '../profissional-modal/profissional-modal.component';
 import { BreadcrumbComponent } from 'src/app/theme/shared/components/breadcrumbs/breadcrumbs.component';
+import { Notyf } from 'notyf';
 
 export interface ProfissionalProximo {
   lat: number;
@@ -44,6 +45,22 @@ export class MapaComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   async ngOnInit() {
+    const notyf = new Notyf();
+    
+      notyf.open({
+        type: 'info',
+        message: 'Veja os profissionais perto de você!',
+        duration: 7000,
+        icon: {
+          className: 'material-icons',
+          tagName: 'i',
+          text: 'info',
+          color: '#fff'
+        },
+        dismissible: true,
+        background: '#007bff',
+        position: { x: 'right', y: 'top' }
+      });
     await this.carregarMapa();
   }
 

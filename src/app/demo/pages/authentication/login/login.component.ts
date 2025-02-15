@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,18 @@ export default class LoginComponent {
       localStorage.setItem('username', 'Gabriel Maia');
       this.router.navigate(['/default']);
     } else {
-      alert('Invalid credentials');
+      const notyf = new Notyf();
+      if (!this.email || !this.password) {
+        notyf.error({
+          message: 'Por favor escreva seu email e senha',
+          position: { x: 'right', y: 'top' }
+        });
+      } else {
+        notyf.error({
+          message: 'Senha ou email errados',
+          position: { x: 'right', y: 'top' }
+        });
+      }
     }
   }
 }
