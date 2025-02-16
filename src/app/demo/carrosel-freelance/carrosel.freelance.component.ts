@@ -5,6 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ServiceDetailsComponent } from '../catalogo-servicos/service-details/service-details.component';
 
 interface FreelancerProfile {
   id: number;
@@ -19,6 +22,10 @@ interface FreelancerProfile {
   completedProjects: number;
   category: string;
   discount?: number;
+  totalReviews?: number;
+  tags: string[];
+  deliveryTime?: number;
+  level?: string;
 }
 
 @Component({
@@ -30,7 +37,8 @@ interface FreelancerProfile {
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDialogModule
   ],
   templateUrl: './carrosel.component.html',
   styleUrls: ['./carrosel.component.scss']
@@ -52,7 +60,8 @@ export class FreelancerCarouselComponent {
       imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg',
       completedProjects: 47,
       category: 'Desenvolvimento',
-      discount: 20
+      discount: 20,
+      tags: ['Angular', 'React', 'Node.js', 'TypeScript']
     },
     {
       id: 2,
@@ -64,7 +73,8 @@ export class FreelancerCarouselComponent {
       skills: ['Figma', 'Adobe XD', 'Prototyping', 'User Research'],
       imageUrl: 'https://randomuser.me/api/portraits/men/30.jpg',
       completedProjects: 38,
-      category: 'Design'
+      category: 'Design',
+      tags: ['Figma', 'Adobe XD', 'Prototyping', 'User Research']
     },
     {
       id: 3,
@@ -78,7 +88,8 @@ export class FreelancerCarouselComponent {
       imageUrl: 'https://randomuser.me/api/portraits/women/3.jpg',
       completedProjects: 52,
       category: 'Marketing',
-      discount: 20
+      discount: 20,
+      tags: ['SEO', 'Social Media', 'Content Marketing', 'Analytics']
     },
     {
       id: 4,
@@ -90,7 +101,8 @@ export class FreelancerCarouselComponent {
       skills: ['Swift', 'Kotlin', 'Flutter', 'React Native'],
       imageUrl: 'https://randomuser.me/api/portraits/men/4.jpg',
       completedProjects: 31,
-      category: 'Mobile'
+      category: 'Mobile',
+      tags: ['Swift', 'Kotlin', 'Flutter', 'React Native']
     },
     {
       id: 5,
@@ -102,7 +114,8 @@ export class FreelancerCarouselComponent {
       skills: ['Copywriting', 'SEO Writing', 'Email Marketing', 'Brand Voice'],
       imageUrl: 'https://randomuser.me/api/portraits/women/5.jpg',
       completedProjects: 64,
-      category: 'Conteúdo'
+      category: 'Conteúdo',
+      tags: ['Copywriting', 'SEO Writing', 'Email Marketing', 'Brand Voice']
     },
     {
       id: 6,
@@ -114,11 +127,15 @@ export class FreelancerCarouselComponent {
       skills: ['Python', 'Machine Learning', 'SQL', 'Data Visualization'],
       imageUrl: 'https://randomuser.me/api/portraits/men/6.jpg',
       completedProjects: 28,
-      category: 'Dados'
+      category: 'Dados',
+      tags: ['Python', 'Machine Learning', 'SQL', 'Data Visualization']
     }
   ];
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private dialog: MatDialog
+  ) {
     this.updateVisibleSlides();
     window.addEventListener('resize', () => {
       this.updateVisibleSlides();
@@ -145,5 +162,48 @@ export class FreelancerCarouselComponent {
     if (this.currentIndex > 0) {
       this.currentIndex--;
     }
+  }
+
+  viewProfile(profile: FreelancerProfile) {
+    const serviceData = {
+      id: profile.id.toString(),
+      title: profile.title,
+      profileImage: profile.imageUrl,
+      freelancerName: profile.name,
+      category: profile.category,
+      price: profile.hourlyRate,
+      rating: profile.rating,
+      totalReviews: profile.completedProjects,
+      description: profile.description,
+      deliveryTime: profile.deliveryTime || 1,
+      level: profile.level || 'Intermediário',
+      tags: profile.skills
+    };
+
+    this.dialog.open(ServiceDetailsComponent, {
+      data: serviceData,
+      width: '800px'
+    });
+  }
+
+  hireFreelancer(profile: FreelancerProfile) {
+    const serviceData = {
+      id: profile.id.toString(),
+      title: profile.title,
+      profileImage: profile.imageUrl,
+      freelancerName: profile.name,
+      category: profile.category,
+      price: profile.hourlyRate,
+      rating: profile.rating,
+      totalReviews: profile.completedProjects,
+      description: profile.description,
+      deliveryTime: profile.deliveryTime || 1,
+      level: profile.level || 'Intermediário',
+      tags: profile.skills
+    };
+
+    this.router.navigate(['/contrato', profile.id], {
+      state: { serviceData }
+    });
   }
 }

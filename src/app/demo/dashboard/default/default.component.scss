@@ -332,7 +332,37 @@ body.berry-dark .tab-content {
   .amount {
     font-size: 28px;
   }
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .category-icon {
+    padding: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .balance-card .card-body {
+    flex-direction: column;
+
+    .col-md-4 {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
 }
+
+@media (max-width: 576px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+}
+
 .categories-card {
   font-size: 20px;
 }

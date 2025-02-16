@@ -186,6 +186,7 @@ export class MapaComponent implements OnInit {
 
   private abrirModal(profissional: ProfissionalProximo): void {
     const serviceData = {
+      id: '1',
       title: 'Serviço de ' + profissional.profissao,
       profileImage: 'https://randomuser.me/api/portraits/men/1.jpg', // Exemplo de imagem
       freelancerName: profissional.nome,
@@ -201,7 +202,7 @@ export class MapaComponent implements OnInit {
 
     this.dialog.open(ServiceDetailsComponent, {
       data: serviceData,
-      width: '800px' // Certificar-se de que o width está definido corretamente
+      width: '800px' 
     });
   }
 }
