@@ -1,0 +1,72 @@
+<div class="service-details-container" [class.sidebar-open]="sidebarOpen" [class.sidebar-closed]="sidebarClosed">
+  <mat-card class="service-card">
+    <mat-card-header>
+      <img mat-card-avatar [src]="data.profileImage" [alt]="data.freelancerName">
+      <mat-card-title>{{ data.freelancerName }}</mat-card-title>
+      <mat-card-subtitle>{{ data.category }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h2 class="service-title">{{ data.title }}</h2>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <mat-icon class="info-icon">attach_money</mat-icon>
+          <div>
+            <div class="label">Preço</div>
+            <div class="value">R$ {{ data.price }}</div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <mat-icon class="info-icon">star_rate</mat-icon>
+          <div>
+            <div class="label">Avaliação</div>
+            <div class="value">{{ data.rating }} ({{ data.totalReviews }})</div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <mat-icon class="info-icon">schedule</mat-icon>
+          <div>
+            <div class="label">Tempo de Entrega</div>
+            <div class="value">{{ data.deliveryTime }} dias</div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <mat-icon class="info-icon">trending_up</mat-icon>
+          <div>
+            <div class="label">Nível</div>
+            <div class="value">{{ data.level }}</div>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider class="divider"></mat-divider>
+
+      <div class="description-section">
+        <h3>Descrição</h3>
+        <p>{{ data.description }}</p>
+      </div>
+
+      <mat-divider class="divider"></mat-divider>
+
+      <div class="tags-section">
+        <h3>Especialidades</h3>
+        <div class="tags-container">
+          <span *ngFor="let tag of data.tags" class="tag-chip">
+            {{ tag }}
+          </span>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" class="compare-button">
+        <mat-icon>compare_arrows</mat-icon>
+        Comparar Serviço
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

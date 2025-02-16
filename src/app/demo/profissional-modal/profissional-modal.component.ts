@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatChip, MatChipsModule } from '@angular/material/chips';
 
 interface ProfissionalProximo {
   lat: number;
@@ -19,7 +18,7 @@ interface ProfissionalProximo {
 @Component({
   selector: 'app-profissional-modal',
   standalone: true,
-  imports: [CommonModule, MatChip, MatChipsModule],
+  imports: [CommonModule],
   templateUrl: './profissional-modal.component.html',
   styleUrls: ['./profissional-modal.component.scss']
 })

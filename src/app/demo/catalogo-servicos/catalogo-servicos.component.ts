@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ServiceDetailsComponent } from './service-details/service-details.component';
 
 interface Service {
   id: number;
@@ -49,7 +51,8 @@ interface Filter {
     MatExpansionModule,
     FormsModule,
     MatSelectModule,
-    CardComponent
+    CardComponent,
+    MatDialogModule
   ]
 })
 export class ServicesComponent implements OnInit {
@@ -499,25 +502,12 @@ export class ServicesComponent implements OnInit {
       deliveryTime: 1,
       description: 'Serviços de limpeza completa para residências e escritórios.',
       level: 'Intermediário'
-    }, {
-      id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
-      tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
     }
   ];
 
   filteredServices: Service[] = [];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -533,7 +523,7 @@ export class ServicesComponent implements OnInit {
 
   isFilterCollapsed = false;
 
-  
+
   private formatCategoryName(category: string): string {
     return category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ');
   }
@@ -606,6 +596,12 @@ export class ServicesComponent implements OnInit {
     }
 
     this.applyFilters();
+  }
+
+  openServiceDetails(service: Service): void {
+    this.dialog.open(ServiceDetailsComponent, {
+      data: service
+    });
   }
 
   // Getters para evitar funções inline no template

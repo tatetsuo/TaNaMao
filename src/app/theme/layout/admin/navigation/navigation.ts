@@ -74,21 +74,21 @@ export const NavigationItems: NavigationItem[] = [
         id: 'programador',
         title: 'Programador',
         type: 'item',
-        url: '/catalogo/programming',
+        url: '/catalogo/programador',
         icon: 'fas fa-laptop-code'
       },
       {
         id: 'musico',
         title: 'Musico',
         type: 'item',
-        url: '/catalogo/music',
+        url: '/catalogo/musico',
         icon: 'fas fa-music'
       },
       {
         id: 'fotografo',
         title: 'Fotógrafo',
         type: 'item',
-        url: '/catalogo/photography',
+        url: '/catalogo/fotografo',
         icon: 'fas fa-camera'
       },
       {

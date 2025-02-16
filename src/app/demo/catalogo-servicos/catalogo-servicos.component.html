@@ -3,7 +3,7 @@
     <div class="catalog-content">
       <!-- Filtros Colapsáveis -->
       <aside class="filters-sidebar " [class.collapsed]="isFilterCollapsed">
-        <div class="filter-header" >
+        <div class="filter-header">
           @if(!isFilterCollapsed){
           <h3>Filtros</h3>
           }
@@ -94,7 +94,8 @@
 
                   <div class="service-footer">
                     <span class="price">R$ {{service.price}}</span>
-                    <button mat-raised-button color="primary">Ver Detalhes</button>
+                    <button mat-raised-button color="primary" (click)="openServiceDetails(service)">Ver
+                      Detalhes</button>
                   </div>
                 </mat-card-content>
               </div>

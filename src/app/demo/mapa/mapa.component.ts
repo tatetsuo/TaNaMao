@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ProfissionalModalComponent } from '../profissional-modal/profissional-modal.component';
 import { BreadcrumbComponent } from 'src/app/theme/shared/components/breadcrumbs/breadcrumbs.component';
 import { Notyf } from 'notyf';
+import { ServiceDetailsComponent } from '../catalogo-servicos/service-details/service-details.component';
 
 export interface ProfissionalProximo {
   lat: number;
@@ -46,21 +46,21 @@ export class MapaComponent implements OnInit {
 
   async ngOnInit() {
     const notyf = new Notyf();
-    
-      notyf.open({
-        type: 'info',
-        message: 'Veja os profissionais perto de você!',
-        duration: 7000,
-        icon: {
-          className: 'material-icons',
-          tagName: 'i',
-          text: 'info',
-          color: '#fff'
-        },
-        dismissible: true,
-        background: '#007bff',
-        position: { x: 'right', y: 'top' }
-      });
+
+    notyf.open({
+      type: 'info',
+      message: 'Veja os profissionais perto de você!',
+      duration: 7000,
+      icon: {
+        className: 'material-icons',
+        tagName: 'i',
+        text: 'info',
+        color: '#fff'
+      },
+      dismissible: true,
+      background: '#007bff',
+      position: { x: 'right', y: 'top' }
+    });
     await this.carregarMapa();
   }
 
@@ -185,9 +185,23 @@ export class MapaComponent implements OnInit {
   }
 
   private abrirModal(profissional: ProfissionalProximo): void {
-    this.dialog.open(ProfissionalModalComponent, {
-      data: profissional,
-      width: '400px'
+    const serviceData = {
+      title: 'Serviço de ' + profissional.profissao,
+      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg', // Exemplo de imagem
+      freelancerName: profissional.nome,
+      category: profissional.profissao,
+      price: Math.floor(Math.random() * 500) + 100, // Preço aleatório
+      rating: (Math.random() * 2 + 3).toFixed(1), // Avaliação aleatória entre 3.0 e 5.0
+      totalReviews: Math.floor(Math.random() * 100) + 1, // Número aleatório de avaliações
+      description: 'Descrição do serviço de ' + profissional.profissao,
+      deliveryTime: Math.floor(Math.random() * 10) + 1, // Tempo de entrega aleatório
+      level: 'Intermediário', // Nível fixo para exemplo
+      tags: ['Tag1', 'Tag2', 'Tag3'] // Tags fixas para exemplo
+    };
+
+    this.dialog.open(ServiceDetailsComponent, {
+      data: serviceData,
+      width: '800px' // Certificar-se de que o width está definido corretamente
     });
   }
 }

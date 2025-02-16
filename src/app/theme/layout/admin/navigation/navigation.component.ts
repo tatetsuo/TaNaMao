@@ -16,6 +16,7 @@ import { NavContentComponent } from './nav-content/nav-content.component';
 })
 export class NavigationComponent {
   // public props
+  isSideBarOpen = output() ;
   NavCollapsedMob = output();
   SubmenuCollapse = output();
   navCollapsedMob = false;
@@ -24,6 +25,7 @@ export class NavigationComponent {
 
   // public method
   navCollapseMob() {
+
     if (this.windowWidth < 1025) {
       this.NavCollapsedMob.emit();
     }

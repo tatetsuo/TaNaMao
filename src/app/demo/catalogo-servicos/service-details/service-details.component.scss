@@ -1,0 +1,83 @@
+.service-details-container {
+  padding: 20px;
+  max-width: 800px;
+ /*  margin: 0 auto; */
+}
+
+.service-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Adicionar largura total */
+}
+
+.service-title {
+  font-size: 1.5rem;
+  margin: 20px 0;
+  color: #333;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.info-icon {
+  color: #666;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.value {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.divider {
+  margin: 24px 0;
+}
+
+.description-section,
+.tags-section {
+  margin: 20px 0;
+
+  h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 12px;
+  }
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-chip {
+  background-color: #f0f0f0;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.compare-button {
+  margin: 8px;
+}
+
+mat-card-avatar {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+}
