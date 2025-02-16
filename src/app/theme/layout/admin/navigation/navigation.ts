@@ -40,13 +40,13 @@ export const NavigationItems: NavigationItem[] = [
     icon: 'icon-navigation',
     children: [
       {
-        id: 'default',
-        title: 'Dashboard',
+        id: 'mapa',
+        title: 'Mapa',
         type: 'item',
         classes: 'nav-item',
         url: '/mapa',
         icon: 'fas fa-map',
-        breadcrumbs: false
+        breadcrumbs: true
       }
     ]
   },

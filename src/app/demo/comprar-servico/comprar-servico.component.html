@@ -1,0 +1,121 @@
+
+  <app-card [cardTitle]="'Contratar Serviço'">
+    <div class="content-grid contract-container" style="margin-bottom: 20px;">
+      <!-- Informações do Prestador -->
+      <section class="provider-section">
+        <div class="provider-header">
+          <img [src]="serviceData.profileImage" [alt]="serviceData.freelancerName" class="provider-image">
+          <div class="provider-info">
+            <h2>{{serviceData.freelancerName}}</h2>
+            <div class="rating">
+              <mat-icon>star</mat-icon>
+              <span>{{serviceData.rating}} ({{serviceData.totalReviews}} avaliações)</span>
+            </div>
+            <span class="level">{{serviceData.level}}</span>
+          </div>
+        </div>
+
+        <div class="service-details">
+          <h3>{{serviceData.title}}</h3>
+          <p class="description">{{serviceData.description}}</p>
+
+          <div class="details-grid">
+            <div class="detail-item">
+              <mat-icon>schedule</mat-icon>
+              <span>Tempo de Entrega: {{serviceData.deliveryTime}} dias</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>work</mat-icon>
+              <span>Experiência: {{serviceData.experience || 'Não informado'}}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>language</mat-icon>
+              <span>Idiomas: {{serviceData.languages?.join(', ') || 'Não informado'}}</span>
+            </div>
+          </div>
+
+          <div class="certifications" *ngIf="serviceData.certifications?.length">
+            <h4>Certificações</h4>
+            <ul>
+              <li *ngFor="let cert of serviceData.certifications">{{cert}}</li>
+            </ul>
+          </div>
+
+          <div class="portfolio" *ngIf="serviceData.portfolioItems?.length">
+            <h4>Portfólio</h4>
+            <div class="portfolio-grid">
+              <div class="portfolio-item" *ngFor="let item of serviceData.portfolioItems">
+                <img [src]="item" alt="Portfolio item">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Formulário de Contratação -->
+      <section class="contract-section">
+        <form [formGroup]="contractForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Local do Serviço</mat-label>
+            <input matInput formControlName="serviceLocation" placeholder="Digite o endereço completo">
+          </mat-form-field>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Data</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="scheduleDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Horário</mat-label>
+              <input matInput type="time" formControlName="scheduleTime">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Requisitos Adicionais</mat-label>
+            <textarea matInput formControlName="additionalRequirements" rows="4"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Método de Pagamento</mat-label>
+            <mat-select formControlName="paymentMethod">
+              <mat-option *ngFor="let method of paymentMethods" [value]="method">
+                {{method}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="price-summary">
+            <h4>Resumo do Valor</h4>
+            <div class="price-details">
+              <div class="price-row">
+                <span>Valor do serviço</span>
+                <span>R$ {{serviceData.price}}</span>
+              </div>
+              <div class="price-row">
+                <span>Taxa de serviço</span>
+                <span>R$ {{serviceData.price * 0.1}}</span>
+              </div>
+              <div class="price-row total">
+                <span>Total</span>
+                <span>R$ {{calculateTotal()}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="terms">
+            <mat-checkbox formControlName="agreementTerms">
+              Li e aceito os termos de serviço
+            </mat-checkbox>
+          </div>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="!contractForm.valid">
+            Confirmar Contratação
+          </button>
+        </form>
+      </section>
+    </div>
+  </app-card>

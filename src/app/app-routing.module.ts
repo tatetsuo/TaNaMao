@@ -35,7 +35,11 @@ const routes: Routes = [
       {
         path: 'mapa',
         loadComponent: () => import('./demo/mapa/mapa.component').then((c) => c.MapaComponent)
-      }
+      },
+      {
+        path: 'contrato/:userId',
+        loadComponent: () => import('./demo/comprar-servico/comprar-servico.component').then((c) => c.ComprarServicosComponent)
+      },
     ]
   },
   {
