@@ -110,6 +110,6 @@ export class ComprarServicosComponent implements OnInit {
 
   calculateTotal(): number {
 
-    return this.serviceData.price;
+    return this.serviceData.price + (this.serviceData.price * 0.1);
   }
 }
