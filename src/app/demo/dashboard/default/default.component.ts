@@ -108,6 +108,67 @@ export class DefaultComponent implements OnInit {
       icon: 'fa-solid fa-broom',
       routeParam: 'limpeza'
     },
+    // Novas categorias adicionadas
+    {
+      name: 'Mecânico',
+      icon: 'fa-solid fa-car-battery',
+      routeParam: 'mecanico'
+    },
+    {
+      name: 'Chef',
+      icon: 'fa-solid fa-utensils',
+      routeParam: 'chef'
+    },
+    {
+      name: 'Maquiador',
+      icon: 'fa-solid fa-spa',
+      routeParam: 'maquiador'
+    },
+    {
+      name: 'Cabeleireiro',
+      icon: 'fa-solid fa-scissors',
+      routeParam: 'cabeleireiro'
+    },
+    {
+      name: 'Motorista',
+      icon: 'fa-solid fa-taxi',
+      routeParam: 'motorista'
+    },
+    {
+      name: 'Libras',
+      icon: 'fa-solid fa-hands',
+      routeParam: 'libras'
+    },
+    {
+      name: 'Contador',
+      icon: 'fa-solid fa-calculator',
+      routeParam: 'contador'
+    },
+    {
+      name: 'Alfaiate',
+      icon: 'fa-solid fa-cut',
+      routeParam: 'alfaiate'
+    },
+    {
+      name: 'Tradutor',
+      icon: 'fa-solid fa-language',
+      routeParam: 'tradutor'
+    },
+    {
+      name: 'Decorador',
+      icon: 'fa-solid fa-couch',
+      routeParam: 'decorador'
+    },
+    {
+      name: 'Professor',
+      icon: 'fa-solid fa-chalkboard-teacher',
+      routeParam: 'professor'
+    },
+    {
+      name: 'Veterinário',
+      icon: 'fa-solid fa-paw',
+      routeParam: 'veterinario'
+    }
   ];
 
   constructor(private router: Router) { }

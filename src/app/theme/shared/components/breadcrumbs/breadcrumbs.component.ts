@@ -47,6 +47,91 @@ export class BreadcrumbComponent {
         type: 'item',
         url: '/mapa',
         icon: 'fas fa-map'
+      },
+      // Novas categorias adicionadas
+      {
+        id: 'mecanico',
+        title: 'Mecânico',
+        type: 'item',
+        url: '/catalogo/mecanico',
+        icon: 'fa-solid fa-car-battery'
+      },
+      {
+        id: 'chef',
+        title: 'Chef',
+        type: 'item',
+        url: '/catalogo/chef',
+        icon: 'fa-solid fa-utensils'
+      },
+      {
+        id: 'maquiador',
+        title: 'Maquiador',
+        type: 'item',
+        url: '/catalogo/maquiador',
+        icon: 'fa-solid fa-spa'
+      },
+      {
+        id: 'cabeleireiro',
+        title: 'Cabeleireiro',
+        type: 'item',
+        url: '/catalogo/cabeleireiro',
+        icon: 'fa-solid fa-scissors'
+      },
+      {
+        id: 'motorista',
+        title: 'Motorista',
+        type: 'item',
+        url: '/catalogo/motorista',
+        icon: 'fa-solid fa-taxi'
+      },
+      {
+        id: 'libras',
+        title: 'Libras',
+        type: 'item',
+        url: '/catalogo/libras',
+        icon: 'fa-solid fa-hands'
+      },
+      {
+        id: 'contador',
+        title: 'Contador',
+        type: 'item',
+        url: '/catalogo/contador',
+        icon: 'fa-solid fa-calculator'
+      },
+      {
+        id: 'alfaiate',
+        title: 'Alfaiate',
+        type: 'item',
+        url: '/catalogo/alfaiate',
+        icon: 'fa-solid fa-cut'
+      },
+      {
+        id: 'tradutor',
+        title: 'Tradutor',
+        type: 'item',
+        url: '/catalogo/tradutor',
+        icon: 'fa-solid fa-language'
+      },
+      {
+        id: 'decorador',
+        title: 'Decorador',
+        type: 'item',
+        url: '/catalogo/decorador',
+        icon: 'fa-solid fa-couch'
+      },
+      {
+        id: 'professor',
+        title: 'Professor',
+        type: 'item',
+        url: '/catalogo/professor',
+        icon: 'fa-solid fa-chalkboard-teacher'
+      },
+      {
+        id: 'veterinario',
+        title: 'Veterinário',
+        type: 'item',
+        url: '/catalogo/veterinario',
+        icon: 'fa-solid fa-paw'
       }
     ];
     this.type = 'icon';
