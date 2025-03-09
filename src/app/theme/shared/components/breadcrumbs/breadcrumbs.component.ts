@@ -5,8 +5,8 @@ import { NavigationEnd, Router, RouterModule, Event } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 // project import
-import { NavigationItem, NavigationItems } from 'src/app/theme/layout/admin/navigation/navigation';
-
+import {  NavigationItems } from 'src/app/theme/layout/admin/navigation/navigation';
+import { NavigationItem } from 'src/app/theme/layout/admin/navigation/navigation-interface';
 interface titleType {
   // eslint-disable-next-line
   url: string | boolean | any | undefined;

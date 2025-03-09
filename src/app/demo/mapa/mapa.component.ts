@@ -17,7 +17,7 @@ export interface ProfissionalProximo {
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, BreadcrumbComponent],
+  imports: [CommonModule, MatDialogModule],
   templateUrl: './mapa.component.html',
   styleUrls: ['./mapa.component.scss']
 })
