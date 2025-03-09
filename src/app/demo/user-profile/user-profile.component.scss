@@ -1,0 +1,119 @@
+// Estilos para o avatar do usuário
+.user-avatar-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 24px;
+
+  .user-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-change-photo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+}
+
+// Estilos para os inputs e formulários
+.mat-form-field {
+  margin-bottom: 16px;
+}
+
+// Estilos para as abas - removendo limitações de altura e scroll
+.custom-tabs {
+  margin-top: 16px;
+  
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    padding: 16px 0;
+    height: auto !important;
+    min-height: 500px !important;
+    overflow: hidden !important;
+  }
+  
+  ::ng-deep .mat-mdc-tab-body-content {
+    height: auto !important;
+    overflow: hidden !important;
+  }
+  
+  ::ng-deep .mat-mdc-tab {
+    font-weight: 500;
+  }
+}
+
+// Estilos para as opções de notificação
+.notification-options {
+  margin-bottom: 20px;
+  
+  .notification-option {
+    padding: 16px 0;
+    
+    p {
+      margin-top: 8px;
+      margin-bottom: 0;
+      padding-left: 34px;
+      font-size: 14px;
+    }
+  }
+  
+  mat-divider {
+    margin: 0;
+  }
+}
+
+// Aumentando espaçamento entre elementos
+.row {
+  margin-bottom: 8px;
+}
+
+// Adicionando padding inferior à última seção
+form {
+  padding-bottom: 40px;
+}
+
+// Estilos para botões e ícones
+button[mat-raised-button] {
+  padding: 8px 24px;
+  
+  .mat-icon {
+    margin-right: 8px;
+  }
+}
+
+// Removendo todas as restrições de altura e overflow
+::ng-deep .mat-tab-body.mat-tab-body-active {
+  overflow: hidden !important;
+  height: auto !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  overflow: hidden !important;
+}
+
+::ng-deep .mat-tab-body-wrapper,
+::ng-deep .mat-tab-body,
+::ng-deep .mat-tab-body-content {
+  overflow: hidden !important;
+}
+
+// Media queries para responsividade
+@media (max-width: 768px) {
+  .user-avatar-container {
+    margin-right: 16px;
+    
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+}

@@ -4,6 +4,7 @@ import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import { ServicesComponent } from './demo/catalogo-servicos/catalogo-servicos.component';
 import { AuthGuard } from './guards/auth.guard'; // Importar o guard
+import { UserProfileComponent } from './demo/user-profile/user-profile.component'; // Importar o componente de perfil do usuário
 
 const routes: Routes = [
   {
@@ -39,6 +40,11 @@ const routes: Routes = [
       {
         path: 'contrato/:userId',
         loadComponent: () => import('./demo/comprar-servico/comprar-servico.component').then((c) => c.ComprarServicosComponent)
+      },
+      {
+        path: 'perfil',
+        component: UserProfileComponent, // Adicionar a rota para o perfil do usuário
+        canActivate: [AuthGuard] // Adicionar o guard
       },
     ]
   },

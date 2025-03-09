@@ -9,5 +9,9 @@ export const routes: Routes = [
   { path: 'catalogo/:category', component: ServicesComponent },
   { path: 'mapa', component: MapaComponent },
   { path: 'contrato/:userId', component: ComprarServicosComponent },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./demo/user-profile/user-profile.component').then(c => c.UserProfileComponent),
+  },
   { path: '**', redirectTo: '' }
 ];

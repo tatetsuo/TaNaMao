@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { BreadcrumbComponent } from 'src/app/theme/shared/components/breadcrumbs/breadcrumbs.component';
 import { Notyf } from 'notyf';
 import { ServiceDetailsComponent } from '../catalogo-servicos/service-details/service-details.component';
 
