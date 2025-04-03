@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -14,6 +14,8 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input';
 import { AuthService, User } from 'src/app/core/services/auth.service';
 import { WalletService } from 'src/app/core/services/wallet.service';
 import { Notyf } from 'notyf';
@@ -50,12 +52,14 @@ interface JobSchedule {
     MatTooltipModule,
     MatBadgeModule,
     MatProgressBarModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './prestador-dashboard.component.html',
   styleUrls: ['./prestador-dashboard.component.scss']
 })
-export class PrestadorDashboardComponent implements OnInit {
+export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -186,11 +190,14 @@ export class PrestadorDashboardComponent implements OnInit {
     this.upcomingJobsDataSource.paginator = this.paginator;
     this.upcomingJobsDataSource.sort = this.sort;
     
-    // Filtro customizado para pesquisa
+    // Configuração aprimorada do filtro para pesquisa
     this.upcomingJobsDataSource.filterPredicate = (data: JobSchedule, filter: string) => {
-      return data.clientName.toLowerCase().includes(filter) || 
-             data.service.toLowerCase().includes(filter) || 
-             data.address.toLowerCase().includes(filter);
+      const filterValue = filter.toLowerCase().trim();
+      return data.clientName.toLowerCase().includes(filterValue) || 
+             data.service.toLowerCase().includes(filterValue) || 
+             data.address.toLowerCase().includes(filterValue) ||
+             this.formatDate(data.date).includes(filterValue) ||
+             data.status.toLowerCase().includes(filterValue);
     };
   }
   

@@ -147,7 +147,7 @@
     </div>
   </div>
 
-  <!-- Trabalhos Agendados com MatTable -->
+  <!-- Trabalhos Agendados com MatTable - Versão responsiva -->
   <div class="row mb-4">
     <div class="col-12">
       <mat-card>
@@ -156,13 +156,22 @@
           <mat-card-subtitle>Veja os trabalhos agendados mais próximos da sua localização</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <div class="mat-elevation-z0">
-            <table mat-table [dataSource]="upcomingJobsDataSource" matSort>
+          <!-- Barra de filtro para tabela -->
+          <div class="filter-container mb-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Buscar trabalho</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Ex. cliente, serviço, endereço">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div class="responsive-table-container mat-elevation-z0">
+            <table mat-table [dataSource]="upcomingJobsDataSource" matSort class="w-100 responsive-table">
               
               <!-- Cliente Column -->
               <ng-container matColumnDef="client">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
-                <td mat-cell *matCellDef="let job">
+                <td mat-cell *matCellDef="let job" data-label="Cliente">
                   <div class="d-flex align-items-center">
                     <div class="client-avatar">
                       <img [src]="job.clientPhoto || 'assets/images/user/avatar-default.jpg'" alt="Cliente">
@@ -178,7 +187,7 @@
               <!-- Detalhes Column -->
               <ng-container matColumnDef="details">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Detalhes </th>
-                <td mat-cell *matCellDef="let job">
+                <td mat-cell *matCellDef="let job" data-label="Detalhes">
                   <div>
                     <p class="mb-0"><strong>{{job.service}}</strong></p>
                     <p class="text-muted mb-0 small">{{job.address}}</p>
@@ -189,21 +198,22 @@
               <!-- Data/Hora Column -->
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Data/Hora </th>
-                <td mat-cell *matCellDef="let job" style="display: flex;">
-                  <div class="text-center">
+                <td mat-cell *matCellDef="let job" data-label="Data/Hora">
+                  <div class="text-center" style="display: flex; gap: 8px; align-items: center;">
                     <mat-icon class="text-muted">event</mat-icon>
                     <p class="mb-0">{{formatDate(job.date)}}</p>
                     <p class="mb-0"><small>{{job.time}}</small></p>
                   </div>
+                  
                 </td>
               </ng-container>
               
               <!-- Valor Column -->
               <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
-                <td mat-cell *matCellDef="let job" style="font-size: 16px;">
+                <td mat-cell *matCellDef="let job" data-label="Valor" style="font-size: 16px;">
                   <div >
-                    <h6 class="mb-0 text-success">R$ {{job.price}}</h6>
+                    <span>R$ {{job.price}}</span>
                   </div>
                 </td>
               </ng-container>
@@ -211,8 +221,8 @@
               <!-- Status Column -->
               <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-                <td mat-cell *matCellDef="let job">
-                  <div class="text-center">
+                <td mat-cell *matCellDef="let job" data-label="Status">
+                  <div >
                     <span class="status-chip" [ngClass]="getStatusClass(job.status)">
                       {{getStatusText(job.status)}}
                     </span>
@@ -223,22 +233,24 @@
               <!-- Ações Column -->
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Ações </th>
-                <td mat-cell *matCellDef="let job">
-                  <button mat-icon-button color="primary" *ngIf="job.status === 'pending'" 
-                          (click)="confirmJob(job.id)" matTooltip="Confirmar trabalho">
-                    <mat-icon>check_circle</mat-icon>
-                  </button>
-                  <button mat-icon-button color="accent" *ngIf="job.status === 'confirmed'" 
-                          (click)="completeJob(job.id)" matTooltip="Marcar como concluído">
-                    <mat-icon>done_all</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" *ngIf="job.status !== 'cancelled' && job.status !== 'completed'" 
-                          (click)="cancelJob(job.id)" matTooltip="Cancelar trabalho">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                  <button mat-icon-button color="primary" matTooltip="Ver detalhes">
-                    <mat-icon>visibility</mat-icon>
-                  </button>
+                <td mat-cell *matCellDef="let job" data-label="Ações" class="actions-cell">
+                  <div class="action-buttons">
+                    <button mat-icon-button color="primary" *ngIf="job.status === 'pending'" 
+                            (click)="confirmJob(job.id)" matTooltip="Confirmar trabalho">
+                      <mat-icon>check_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="job.status === 'confirmed'" 
+                            (click)="completeJob(job.id)" matTooltip="Marcar como concluído">
+                      <mat-icon>done_all</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" *ngIf="job.status !== 'cancelled' && job.status !== 'completed'" 
+                            (click)="cancelJob(job.id)" matTooltip="Cancelar trabalho">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" matTooltip="Ver detalhes">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </div>
                 </td>
               </ng-container>
               
@@ -263,7 +275,7 @@
     </div>
   </div>
 
-  <!-- Histórico de Trabalhos Concluídos com MatTable -->
+  <!-- Histórico de Trabalhos Concluídos com MatTable - Versão responsiva -->
   <div class="row mb-4">
     <div class="col-12">
       <mat-card>
@@ -272,13 +284,13 @@
           <mat-card-subtitle>Veja seus trabalhos concluídos recentemente</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <div class="mat-elevation-z0">
-            <table mat-table [dataSource]="completedJobsDataSource">
+          <div class="responsive-table-container mat-elevation-z0">
+            <table mat-table [dataSource]="completedJobsDataSource" class="w-100 responsive-table">
               
               <!-- Cliente Column -->
               <ng-container matColumnDef="client">
                 <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                <td mat-cell *matCellDef="let job">
+                <td mat-cell *matCellDef="let job" data-label="Cliente">
                   <div class="d-flex align-items-center">
                     <div class="client-avatar">
                       <img [src]="job.clientPhoto || 'assets/images/user/avatar-default.jpg'" alt="Cliente">
@@ -293,7 +305,7 @@
               <!-- Detalhes Column -->
               <ng-container matColumnDef="details">
                 <th mat-header-cell *matHeaderCellDef> Detalhes </th>
-                <td mat-cell *matCellDef="let job">
+                <td mat-cell *matCellDef="let job" data-label="Detalhes">
                   <div>
                     <p class="mb-0"><strong>{{job.service}}</strong></p>
                     <p class="text-muted mb-0 small">{{job.address}}</p>
@@ -304,8 +316,8 @@
               <!-- Data/Hora Column -->
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef> Data/Hora </th>
-                <td mat-cell *matCellDef="let job" style="display: flex;">
-                  <div class="text-center">
+                <td mat-cell *matCellDef="let job" data-label="Data/Hora">
+                  <div class="text-center" style="display: flex; gap: 8px; align-items: center;">
                     <p class="mb-0">{{formatDate(job.date)}}</p>
                     <p class="mb-0"><small>{{job.time}}</small></p>
                   </div>
@@ -315,9 +327,9 @@
               <!-- Valor Column -->
               <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef> Valor </th>
-                <td mat-cell *matCellDef="let job" style="font-size: 16px;">
+                <td mat-cell *matCellDef="let job" data-label="Valor" >
                   <div >
-                    <h6 class="mb-0 text-success">R$ {{job.price}}</h6>
+                    <span class="mb-0 text-success">R$ {{job.price}}</span>
                   </div>
                 </td>
               </ng-container>
@@ -325,7 +337,7 @@
               <!-- Avaliação Column -->
               <ng-container matColumnDef="rating">
                 <th mat-header-cell *matHeaderCellDef> Avaliação </th>
-                <td mat-cell *matCellDef="let job">
+                <td mat-cell *matCellDef="let job" data-label="Avaliação">
                   <div class="rating-small">
                     <mat-icon *ngFor="let i of [1,2,3,4,5]" 
                       [class.star-filled]="i <= 5" 
