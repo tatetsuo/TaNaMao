@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { NavigationItem, createCollapseCategory } from './navigation-interface';
 import { 
   CasaConstrucaoItems, 
@@ -9,6 +10,60 @@ import {
   EducacaoItems,
   OutrosServicosItems 
 } from './navigation-categories';
+
+@Injectable()
+export class NavigationItemService {
+  public items: NavigationItem[];
+
+  constructor() {
+    this.items = [
+      {
+        id: 'navigation',
+        title: 'Navegação',
+        type: 'group',
+        icon: 'icon-navigation',
+        children: [
+          {
+            id: 'dashboard',
+            title: 'Dashboard',
+            type: 'item',
+            url: '/',
+            icon: 'feather icon-home',
+            classes: 'nav-item',
+            breadcrumbs: false
+          },
+          {
+            id: 'catalogo',
+            title: 'Catálogo de Serviços',
+            type: 'collapse',
+            icon: 'feather icon-shopping-bag',
+            children: [
+              // Itens do catálogo
+            ]
+          },
+          {
+            id: 'wallet',
+            title: 'Minha Carteira',
+            type: 'item',
+            url: '/minha-carteira',
+            icon: 'feather icon-credit-card',
+            classes: 'nav-item',
+            breadcrumbs: false
+          },
+          {
+            id: 'my-services',
+            title: 'Meus Serviços',
+            type: 'item',
+            url: '/meus-servicos',
+            icon: 'feather icon-briefcase',
+            classes: 'nav-item',
+            breadcrumbs: false
+          }
+        ]
+      }
+    ];
+  }
+}
 
 export const NavigationItems: NavigationItem[] = [
   {

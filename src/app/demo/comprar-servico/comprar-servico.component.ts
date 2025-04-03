@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { Notyf } from 'notyf';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { WalletService } from 'src/app/core/services/wallet.service';
+import { ServiceStatusService } from 'src/app/core/services/service-status.service';
+import { PaymentConfirmationComponent } from '../payment/payment-confirmation/payment-confirmation.component';
 
 interface ServiceData {
   id: string;
@@ -47,7 +51,8 @@ interface ServiceData {
     MatNativeDateModule,
     MatSelectModule,
     MatCheckboxModule,
-    CardComponent
+    CardComponent,
+    MatDialogModule
   ],
   templateUrl: './comprar-servico.component.html',
   styleUrls: ['./comprar-servico.component.scss']
@@ -56,16 +61,21 @@ export class ComprarServicosComponent implements OnInit {
   serviceData: ServiceData;
   contractForm: FormGroup;
   paymentMethods = [
+    'Saldo TaNaMao',
     'Cartão de Crédito',
     'Cartão de Débito',
     'Pix',
     'Boleto'
   ];
+  currentBalance = 0;
+  insufficientFunds = false;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private walletService: WalletService,
+    private serviceStatusService: ServiceStatusService
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.serviceData = navigation?.extras.state?.['serviceData'];
@@ -80,8 +90,19 @@ export class ComprarServicosComponent implements OnInit {
       scheduleDate: ['', Validators.required],
       scheduleTime: ['', Validators.required],
       additionalRequirements: [''],
-      paymentMethod: ['', Validators.required],
+      paymentMethod: ['Saldo TaNaMao', Validators.required],
       agreementTerms: [false, Validators.requiredTrue]
+    });
+    
+    // Obtém o saldo atual
+    this.currentBalance = this.walletService.getCurrentBalance();
+    
+    // Verifica se o usuário tem saldo suficiente
+    this.checkBalance();
+    
+    // Observa mudanças no método de pagamento
+    this.contractForm.get('paymentMethod')?.valueChanges.subscribe(method => {
+      this.insufficientFunds = method === 'Saldo TaNaMao' && this.calculateTotal() > this.currentBalance;
     });
   }
 
@@ -98,18 +119,108 @@ export class ComprarServicosComponent implements OnInit {
 
   onSubmit() {
     if (this.contractForm.valid) {
-      const notify = new Notyf();
-      notify.success({
-        message: 'Contrato enviado com sucesso!',
-        position: { x: 'right', y: 'top' }
+      const formData = this.contractForm.value;
+      
+      // Verificar o método de pagamento
+      if (formData.paymentMethod === 'Saldo TaNaMao' && this.calculateTotal() > this.currentBalance) {
+        const notify = new Notyf();
+        notify.error({
+          message: 'Saldo insuficiente para completar esta transação',
+          position: { x: 'right', y: 'top' }
+        });
+        return;
+      }
+      
+      // Abrir diálogo de confirmação de pagamento
+      const dialogRef = this.dialog.open(PaymentConfirmationComponent, {
+        width: '500px',
+        data: {
+          service: this.serviceData,
+          formData: formData,
+          total: this.calculateTotal(),
+          serviceFee: this.serviceData.price * 0.1
+        }
       });
-      this.router.navigate(['/']);
-      console.log(this.contractForm.value);
+
+      dialogRef.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          this.processPayment(formData);
+        }
+      });
     }
   }
 
-  calculateTotal(): number {
+  private processPayment(formData: {
+    paymentMethod: string;
+    scheduleDate: string;
+    scheduleTime: string;
+    serviceLocation: string;
+    additionalRequirements?: string;
+  }) {
+    const totalAmount = this.calculateTotal();
+    const serviceDate = new Date(formData.scheduleDate);
+    
+    // Processar o pagamento de acordo com o método escolhido
+    if (formData.paymentMethod === 'Saldo TaNaMao') {
+      // Deduz do saldo do usuário
+      const paymentSuccess = this.walletService.payForService(
+        totalAmount,
+        this.serviceData
+      );
+      
+      if (!paymentSuccess) {
+        const notify = new Notyf();
+        notify.error({
+          message: 'Erro ao processar o pagamento',
+          position: { x: 'right', y: 'top' }
+        });
+        return;
+      }
+    }
+    
+    // Registra o contrato de serviço
+    const contract = this.serviceStatusService.addContract({
+      serviceId: this.serviceData.id,
+      title: this.serviceData.title,
+      freelancerId: this.serviceData.id, // Normalmente viria de um backend
+      freelancerName: this.serviceData.freelancerName,
+      freelancerImage: this.serviceData.profileImage,
+      price: this.serviceData.price,
+      scheduledDate: serviceDate,
+      scheduledTime: formData.scheduleTime,
+      location: formData.serviceLocation,
+      additionalRequirements: formData.additionalRequirements,
+      paymentMethod: formData.paymentMethod,
+      totalPaid: totalAmount,
+      status: 'agendado'
+    });
 
+    const notify = new Notyf();
+    notify.success({
+      message: 'Contrato enviado com sucesso!',
+      position: { x: 'right', y: 'top' }
+    });
+    this.router.navigate(['/meus-servicos'], { queryParams: { contractId: contract.id } });
+  }
+
+  calculateTotal(): number {
     return this.serviceData.price + (this.serviceData.price * 0.1);
+  }
+  
+  private checkBalance(): void {
+    this.insufficientFunds = this.calculateTotal() > this.currentBalance;
+    
+    if (this.insufficientFunds) {
+      // Se não houver saldo suficiente, selecione outro método de pagamento por padrão
+      this.contractForm.get('paymentMethod')?.setValue('Cartão de Crédito');
+    }
+  }
+  
+  get paymentMethodControl() {
+    return this.contractForm.get('paymentMethod');
+  }
+  
+  get isBalancePayment() {
+    return this.paymentMethodControl?.value === 'Saldo TaNaMao';
   }
 }

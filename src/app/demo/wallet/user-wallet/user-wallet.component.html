@@ -1,0 +1,322 @@
+<app-card [cardTitle]="'Minha Carteira'">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="wallet-balance-card mb-4">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h3>Saldo Disponível</h3>
+            <h1 class="balance">R$ {{ balance.toFixed(2) }}</h1>
+          </div>
+          <div class="col-md-6 text-end">
+            <button mat-raised-button color="primary" class="me-2" (click)="goToTab(1)">
+              <mat-icon>add</mat-icon> Adicionar Fundos
+            </button>
+            <button mat-raised-button color="accent">
+              <mat-icon>payments</mat-icon> Transferir
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <mat-tab-group animationDuration="300ms" class="wallet-tabs" #tabGroup>
+        <!-- Aba de Transações -->
+        <mat-tab label="Transações">
+          <div class="mt-4">
+            <h4>Histórico de Transações</h4>
+            <div class="transaction-list">
+              <mat-card *ngFor="let transaction of transactions" class="transaction-item mb-3">
+                <mat-card-content>
+                  <div class="row align-items-center">
+                    <div class="col-md-1">
+                      <div class="transaction-icon" [ngStyle]="{'color': getTransactionColor(transaction)}">
+                        <mat-icon>{{ getTransactionIcon(transaction) }}</mat-icon>
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="transaction-details">
+                        <h5>{{ transaction.description }}</h5>
+                        <p class="text-muted">{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</p>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <span class="transaction-status" [ngClass]="transaction.status">
+                        {{ transaction.status }}
+                      </span>
+                    </div>
+                    <div class="col-md-3 text-end">
+                      <span class="transaction-amount" [ngStyle]="{'color': getTransactionColor(transaction)}">
+                        {{ transaction.amount > 0 ? '+' : '' }}R$ {{ transaction.amount.toFixed(2) }}
+                      </span>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Aba de Depósito e Saque -->
+        <mat-tab label="Depósito/Saque">
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Depósito</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <form [formGroup]="depositForm" (ngSubmit)="deposit()">
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Valor</mat-label>
+                      <input matInput type="number" formControlName="amount" min="10">
+                      <span matSuffix>R$</span>
+                      <mat-error *ngIf="depositForm.get('amount')?.hasError('required')">Valor é obrigatório</mat-error>
+                      <mat-error *ngIf="depositForm.get('amount')?.hasError('min')">Valor mínimo de R$ 10,00</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Descrição</mat-label>
+                      <input matInput formControlName="description" placeholder="Ex.: Depósito mensal">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100 mb-3" *ngIf="cards.length > 0">
+                      <mat-label>Selecione um cartão (opcional)</mat-label>
+                      <mat-select formControlName="cardId">
+                        <mat-option [value]="">Nenhum cartão</mat-option>
+                        <mat-option *ngFor="let card of cards" [value]="card.id">
+                          {{ card.brand }} **** {{ card.lastFourDigits }} {{ card.isDefault ? '(Padrão)' : '' }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" type="submit" [disabled]="depositForm.invalid">
+                      Depositar
+                    </button>
+                  </form>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-6">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Saque</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <form [formGroup]="withdrawForm" (ngSubmit)="withdraw()">
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Valor</mat-label>
+                      <input matInput type="number" formControlName="amount" min="10">
+                      <span matSuffix>R$</span>
+                      <mat-error *ngIf="withdrawForm.get('amount')?.hasError('required')">Valor é obrigatório</mat-error>
+                      <mat-error *ngIf="withdrawForm.get('amount')?.hasError('min')">Valor mínimo de R$ 10,00</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Descrição</mat-label>
+                      <input matInput formControlName="description" placeholder="Ex.: Saque para despesas">
+                    </mat-form-field>
+
+                    <button mat-raised-button color="warn" type="submit" [disabled]="withdrawForm.invalid">
+                      Realizar Saque
+                    </button>
+                  </form>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Nova aba para cartões -->
+        <mat-tab label="Meus Cartões">
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Adicionar Novo Cartão</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <form [formGroup]="cardForm" (ngSubmit)="addCard()">
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Número do Cartão</mat-label>
+                      <input matInput formControlName="cardNumber" placeholder="0000000000000000" 
+                             (input)="formatCardNumber($event)" maxlength="16">
+                      <mat-error *ngIf="cardForm.get('cardNumber')?.hasError('required')">Número é obrigatório</mat-error>
+                      <mat-error *ngIf="cardForm.get('cardNumber')?.hasError('pattern')">
+                        Número deve ter 16 dígitos
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Nome no Cartão</mat-label>
+                      <input matInput formControlName="holderName" placeholder="NOME SOBRENOME">
+                      <mat-error *ngIf="cardForm.get('holderName')?.hasError('required')">Nome é obrigatório</mat-error>
+                    </mat-form-field>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field class="w-100 mb-3">
+                          <mat-label>Data de Validade</mat-label>
+                          <input matInput formControlName="expiryDate" placeholder="MM/AA" 
+                                 (input)="formatExpiryDate($event)" maxlength="5">
+                          <mat-error *ngIf="cardForm.get('expiryDate')?.hasError('required')">Data é obrigatória</mat-error>
+                          <mat-error *ngIf="cardForm.get('expiryDate')?.hasError('pattern')">Formato inválido (MM/AA)</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="w-100 mb-3">
+                          <mat-label>CVV</mat-label>
+                          <input matInput formControlName="cvv" placeholder="123">
+                          <mat-error *ngIf="cardForm.get('cvv')?.hasError('required')">CVV é obrigatório</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <mat-form-field class="w-100 mb-3">
+                      <mat-label>Bandeira</mat-label>
+                      <mat-select formControlName="brand">
+                        <mat-option *ngFor="let brand of cardBrands" [value]="brand">
+                          {{ brand }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="cardForm.get('brand')?.hasError('required')">Bandeira é obrigatória</mat-error>
+                    </mat-form-field>
+
+                    <div class="mb-3">
+                      <mat-label>Tipo de Cartão</mat-label>
+                      <mat-radio-group formControlName="type" class="d-flex mt-2 gap-4">
+                        <mat-radio-button value="credit">Crédito</mat-radio-button>
+                        <mat-radio-button value="debit">Débito</mat-radio-button>
+                        <mat-radio-button value="both">Ambos</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+
+                    <button mat-raised-button color="primary" type="submit" [disabled]="cardForm.invalid">
+                      Adicionar Cartão
+                    </button>
+                  </form>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <div class="col-md-6">
+              <h4>Cartões Cadastrados</h4>
+              <div *ngIf="cards.length === 0" class="text-center mt-4 p-4 bg-light">
+                <p>Você ainda não possui cartões cadastrados.</p>
+              </div>
+
+              <div class="card-list">
+                <mat-card *ngFor="let card of cards" class="mb-3 credit-card" 
+                         [ngClass]="{'default-card': card.isDefault, 'favorite-card': card.isFavorite}">
+                  <mat-card-content>
+                    <div class="row align-items-center">
+                      <div class="col-2 card-brand-img">
+                        <img [src]="getCardBrandImage(card.brand)" [alt]="card.brand" class="img-fluid">
+                      </div>
+                      <div class="col-7">
+                        <h5>{{ card.brand }}</h5>
+                        <p class="card-number">{{ getFormattedCardNumber(card.cardNumber) }}</p>
+                        <p class="text-muted">{{ card.holderName }} | {{ card.expiryDate }}</p>
+                        <div class="card-type-chip" [ngClass]="card.type">
+                          {{ card.type === 'credit' ? 'Crédito' : card.type === 'debit' ? 'Débito' : 'Crédito/Débito' }}
+                        </div>
+                      </div>
+                      <div class="col-3 text-end">
+                        <button mat-icon-button color="warn" (click)="toggleFavoriteCard(card.id)" 
+                                matTooltip="Marcar como favorito">
+                          <mat-icon>{{ card.isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+                        </button>
+                        
+                        <button mat-icon-button color="warn" (click)="removeCard(card.id)" matTooltip="Remover cartão">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Nova aba para configurações -->
+        <mat-tab label="Configurações">
+          <div class="row mt-4">
+            <div class="col-md-12">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Preferências da Carteira</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="settings-section">
+                    <h5>Notificações</h5>
+                    <div class="d-flex align-items-center mt-3 mb-3">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.lowBalanceAlert">
+                        Notificações de saldo baixo
+                      </mat-slide-toggle>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.transactionConfirmation">
+                        Confirmações de transação
+                      </mat-slide-toggle>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.suspiciousActivityAlert">
+                        Notificações de atividade suspeita
+                      </mat-slide-toggle>
+                    </div>
+                  </div>
+
+                  <mat-divider class="my-4"></mat-divider>
+
+                  <div class="settings-section">
+                    <h5>Segurança</h5>
+                    <button mat-flat-button color="primary" class="mt-3 mb-3" (click)="openPinDialog()">
+                      Alterar PIN de segurança
+                    </button>
+                    <p class="text-muted">O PIN será solicitado para transações sensíveis como saques e transferências.</p>
+                    
+                    <div class="d-flex align-items-center mb-3 mt-3">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.requirePinForWithdrawals">
+                        Solicitar PIN para saques
+                      </mat-slide-toggle>
+                    </div>
+                  </div>
+
+                  <mat-divider class="my-4"></mat-divider>
+
+                  <div class="settings-section">
+                    <h5>Limites de transação</h5>
+                    <p>Configure os limites diários para suas transações</p>
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field class="w-100 mb-3">
+                          <mat-label>Limite de saque</mat-label>
+                          <input matInput type="number" [(ngModel)]="walletSettings.withdrawLimit" min="100">
+                          <span matSuffix>R$</span>
+                        </mat-form-field>
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <mat-form-field class="w-100 mb-3">
+                          <mat-label>Limite de transferência</mat-label>
+                          <input matInput type="number" [(ngModel)]="walletSettings.transferLimit" min="100">
+                          <span matSuffix>R$</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    
+                    <div class="text-end mt-3">
+                      <button mat-raised-button color="primary" (click)="saveSettings()">
+                        Salvar Configurações
+                      </button>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</app-card>

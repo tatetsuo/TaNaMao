@@ -8,10 +8,12 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterModule, CommonModule, MatFormFieldModule, FormsModule, FormsModule, MatIconModule, MatInputModule],
+  standalone: true,
+  imports: [RouterModule, CommonModule, MatFormFieldModule, FormsModule, MatIconModule, MatInputModule, MatSelectModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -22,7 +24,48 @@ export default class LoginComponent {
   showColaboradorForm = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   colaboradorCaracteristicas: string[] = ['Paisagismo', 'Manutenção'];
-  caracteristicaInput: string
+  caracteristicaInput: string;
+  selectedProfissao: string;
+  
+  profissoes: string[] = [
+    'Pintor',
+    'Jardinagem',
+    'Eletricista',
+    'Encanador',
+    'Carpinteiro',
+    'Limpeza',
+    'Decorador',
+    'Pedreiro',
+    'Marceneiro',
+    'Programador',
+    'Contador',
+    'Tradutor',
+    'Professor',
+    'Libras',
+    'Músico',
+    'Fotógrafo',
+    'Designer',
+    'Videomaker',
+    'Ilustrador',
+    'Cabeleireiro',
+    'Maquiador',
+    'Manicure',
+    'Personal Trainer',
+    'Massagista',
+    'Chef',
+    'Garçom',
+    'DJ',
+    'Organizador',
+    'Decorador de Festas',
+    'Construção',
+    'Vigilância',
+    'Portaria',
+    'Mecânico',
+    'Alfaiate',
+    'Motorista',
+    'Veterinário'
+  ];
+  
   constructor(private router: Router) { }
 
   login() {

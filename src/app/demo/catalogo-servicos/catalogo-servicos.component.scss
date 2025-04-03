@@ -4,6 +4,7 @@
   display: flex;
   gap: 20px;
   padding: 20px;
+  margin: 0 auto;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -19,12 +20,17 @@
   background: white;
   border-radius: 8px;
   padding: 16px;
-  width: 260px;
+  width: 280px;
   height: fit-content;
   transition:
     width 0.3s ease,
     transform 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  &.collapsed {
+    width: 60px;
+    overflow: hidden;
+  }
 
   @media (max-width: 768px) {
     position: fixed;
@@ -33,7 +39,7 @@
     height: 100vh;
     z-index: 1000;
     transition: left 0.3s ease;
-    width: 80%;
+    width: 100%;
     max-width: 300px;
 
     &.active {
@@ -46,8 +52,15 @@
 .filter-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 8px;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
 }
 
 /* Quando colapsado, esconde a largura da sidebar */
@@ -62,10 +75,20 @@
   display: none;
 }
 
+.filter-content.hidden {
+  display: none;
+}
+
 /* Expandir os cards quando o filtro estiver fechado */
 .catalog-content {
   display: flex;
+  gap: 20px;
+  width: 100%;
   transition: margin-left 0.3s ease;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .catalog-content.expanded {
@@ -114,9 +137,137 @@ mat-chip-listbox {
 }
 
 /* ========== GRID DE SERVIÇOS ========== */
-/* .catalog-content {
+.services-container {
+  flex: 1;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.services-grid {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  
+  /* Múltiplas colunas em telas grandes para layout compacto */
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Uma coluna em telas médias */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Layout para telas pequenas */
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service-card {
   display: flex;
-} */
+  flex-direction: column;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Layout horizontal para telas médias e grandes */
+  @media (min-width: 768px) {
+    .card-content-wrapper {
+      flex-direction: row;
+    }
+    
+    .img-container {
+      width: 180px;
+      min-width: 180px;
+      height: 100%;
+    }
+  }
+  
+  /* Layout vertical para telas pequenas */
+  @media (max-width: 767px) {
+    .card-content-wrapper {
+      flex-direction: column;
+    }
+    
+    .img-container {
+      width: 100%;
+      height: 180px;
+    }
+  }
+}
+
+.card-content-wrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.img-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px !important;
+}
+
+/* Conteúdo principal e detalhes - ajustes para layout compacto em telas grandes */
+.content-main {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .service-description {
+    -webkit-line-clamp: 2; /* Limita a 2 linhas em layout horizontal */
+    line-clamp: 2;
+  }
+  
+  .service-title {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  
+  .tags-container {
+    margin-bottom: 10px;
+  }
+  
+  .service-details {
+    margin-bottom: 10px;
+  }
+  
+  .service-footer {
+    padding-top: 8px;
+  }
+}
+
+/* Remove margem excessiva nas telas pequenas */
+@media (max-width: 576px) {
+  .no-results {
+    width: 100%;
+    margin: 0;
+  }
+}
 
 .services-row {
   display: flex;
@@ -125,52 +276,26 @@ mat-chip-listbox {
   justify-content: center;
 }
 
-.services-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-  align-items: stretch; /* 🔹 Faz com que os cards tenham o mesmo tamanho */
-
-  @media (max-width: 992px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.service-card {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 700px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin: 0 30px;
-  align-items: center;
-  gap: 16px;
-
-  /* 🔹 Define uma altura mínima para padronizar */
-  min-height: 250px;
-  height: 100%; /* Garante que todos tenham altura uniforme */
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    margin: 0;
-    padding: 12px;
-
-    .service-image {
-      width: 100%;
-      height: 160px;
-    }
-  }
-}
 .service-image {
-  width: 180px; /* Define um tamanho fixo para a imagem */
-  height: 180px; /* Mantém a proporção */
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 8px;
   flex-shrink: 0; /* Evita que a imagem seja redimensionada */
+  transition: transform 0.3s ease;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px !important;
+  
+  /* Layout horizontal para telas grandes - conteúdo ajustado */
+  @media (min-width: 992px) {
+    justify-content: space-between;
+    min-height: 220px;
+  }
 }
 
 /* Informação do freelancer */
@@ -180,17 +305,36 @@ mat-chip-listbox {
   flex-grow: 1; /* Ocupa todo o espaço restante */
 }
 
-/* Nome + Avaliação */
 .freelancer-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
+  
+  @media (min-width: 992px) {
+    margin-bottom: 8px;
+  }
+}
+
+.freelancer-name {
+  font-weight: 500;
+  color: #555;
+  font-size: 0.9rem;
 }
 
 .rating {
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 0.9rem;
+  color: #666;
+
+  .star-icon {
+    color: #ffc107;
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+  }
 }
 
 .horizontal-card {
@@ -208,6 +352,15 @@ mat-chip-listbox {
   font-size: 1.2rem;
   font-weight: 500;
   margin-top: 4px;
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+  
+  @media (min-width: 992px) {
+    font-size: 1.3rem;
+  }
 }
 
 /* Descrição */
@@ -215,6 +368,20 @@ mat-chip-listbox {
   color: #666;
   font-size: 0.9rem;
   margin-bottom: 8px;
+  margin: 0 0 16px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  
+  @media (min-width: 992px) {
+    -webkit-line-clamp: 4;
+    margin-bottom: 12px;
+  }
 }
 
 /* Tags */
@@ -225,11 +392,27 @@ mat-chip-listbox {
   margin-bottom: 12px;
 }
 
+.tags-container {
+  margin-bottom: 16px;
+  
+  ::ng-deep .mat-mdc-chip {
+    min-height: 26px;
+    font-size: 0.8rem;
+  }
+}
+
 /* Detalhes (Ex: Tempo de entrega, nível) */
 .service-details {
   display: flex;
   gap: 12px;
   /* margin: 8px 0; */
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  
+  @media (min-width: 992px) {
+    margin-bottom: 12px;
+  }
 }
 
 .detail {
@@ -237,6 +420,15 @@ mat-chip-listbox {
   align-items: center;
   gap: 4px;
   color: #666;
+  font-size: 0.85rem;
+  color: #666;
+
+  .detail-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #555;
+  }
 }
 
 .detail mat-icon {
@@ -251,20 +443,48 @@ mat-chip-listbox {
   margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid #eee;
+  margin-top: auto;
+  
+  @media (min-width: 992px) {
+    padding-top: 8px;
+  }
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    
+    button {
+      width: 100%;
+    }
+  }
 }
 
 .price {
   font-size: 1.2rem;
   font-weight: 500;
   color: #2196f3;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #333;
 }
 .service-footer .price {
   font-size: 1.2rem;
   font-weight: 500;
   color: #2196f3;
+  
+  @media (min-width: 992px) {
+    font-size: 1.4rem;
+  }
 }
 
 /* ========== RESPONSIVIDADE ========== */
+@media (max-width: 1200px) {
+  .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
 @media (max-width: 1024px) {
   .filters-sidebar {
     width: 220px;
@@ -272,6 +492,12 @@ mat-chip-listbox {
 
   .service-card {
     width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
 }
 
@@ -301,6 +527,16 @@ mat-chip-listbox {
   }
 }
 
+@media (max-width: 576px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .img-container {
+    height: 160px;
+  }
+}
+
 /* ========== ESTILO PARA QUANDO NÃO HÁ RESULTADOS ========== */
 .no-results {
   text-align: center;
@@ -310,6 +546,31 @@ mat-chip-listbox {
   /* width: 100%; */
   width: 750px;
   margin-left: 20px;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #666;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: #999;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
 }
 
 .no-results mat-icon {
@@ -323,4 +584,21 @@ mat-chip-listbox {
 .no-results p {
   color: #666;
   font-size: 16px;
+}
+
+// Animações de entrada
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.service-card {
+  animation: fadeIn 0.3s ease forwards;
+  animation-delay: calc(var(--i, 0) * 0.1s);
 }

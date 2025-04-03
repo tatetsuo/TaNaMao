@@ -1,8 +1,8 @@
 <app-card [cardTitle]="'Escolha o seu ' + selectedCategory + '(a)'">
-  <div class="catalog-container ">
+  <div class="catalog-container">
     <div class="catalog-content">
       <!-- Filtros Colapsáveis -->
-      <aside class="filters-sidebar " [class.collapsed]="isFilterCollapsed">
+      <aside class="filters-sidebar" [class.collapsed]="isFilterCollapsed">
         <div class="filter-header">
           @if(!isFilterCollapsed){
           <h3>Filtros</h3>
@@ -56,56 +56,65 @@
         </div>
       </aside>
 
-      <!-- Cards Horizontais -->
-      <div class="services-container ">
-        <div class="services-scroll">
-          <div class="services-row">
+      <!-- Cards Responsivos -->
+      <div class="services-container">
+        <div class="services-grid">
+          @if(filteredServices.length > 0) {
             <mat-card *ngFor="let service of filteredServices" class="service-card">
-              <div class="horizontal-card">
-                <img mat-card-image [src]="service.profileImage" [alt]="service.title" class="service-image">
+              <div class="card-content-wrapper">
+                <div class="img-container">
+                  <img [src]="service.profileImage" [alt]="service.title" class="service-image">
+                </div>
                 <mat-card-content>
                   <div class="freelancer-info">
                     <span class="freelancer-name">{{service.freelancerName}}</span>
                     <div class="rating">
-                      <mat-icon>star</mat-icon>
+                      <mat-icon class="star-icon">star</mat-icon>
                       <span>{{service.rating}} ({{service.totalReviews}})</span>
                     </div>
                   </div>
 
-                  <h2 class="service-title">{{service.title}}</h2>
-                  <p class="service-description">{{service.description}}</p>
+                  <div class="content-main">
+                    <h2 class="service-title">{{service.title}}</h2>
+                    <p class="service-description">{{service.description | slice:0:200}}{{service.description.length > 200 ? '...' : ''}}</p>
+                  </div>
 
-                  <mat-chip-listbox>
-                    <mat-chip-option *ngFor="let tag of service.tags.slice(0, 3)" disabled>
-                      {{tag}}
-                    </mat-chip-option>
-                  </mat-chip-listbox>
-
-                  <div class="service-details">
-                    <div class="detail">
-                      <mat-icon>schedule</mat-icon>
-                      <span>{{service.deliveryTime}} dias</span>
+                  <div class="content-details">
+                    <div class="tags-container">
+                      <mat-chip-listbox>
+                        <mat-chip-option *ngFor="let tag of service.tags.slice(0, 3)" disabled>
+                          {{tag}}
+                        </mat-chip-option>
+                      </mat-chip-listbox>
                     </div>
-                    <div class="detail">
-                      <mat-icon>workspace_premium</mat-icon>
-                      <span>{{service.level}}</span>
+
+                    <div class="service-details">
+                      <div class="detail">
+                        <mat-icon class="detail-icon">schedule</mat-icon>
+                        <span>{{service.deliveryTime}} dias</span>
+                      </div>
+                      <div class="detail">
+                        <mat-icon class="detail-icon">workspace_premium</mat-icon>
+                        <span>{{service.level}}</span>
+                      </div>
                     </div>
                   </div>
 
                   <div class="service-footer">
                     <span class="price">R$ {{service.price}}</span>
-                    <button mat-raised-button color="primary" (click)="openServiceDetails(service)">Ver
-                      Detalhes</button>
+                    <button mat-raised-button color="primary" (click)="openServiceDetails(service)">
+                      Ver Detalhes
+                    </button>
                   </div>
                 </mat-card-content>
               </div>
             </mat-card>
-
-            <div *ngIf="filteredServices.length === 0" class="no-results">
+          } @else {
+            <div class="no-results">
               <mat-icon>search_off</mat-icon>
               <p>Nenhum serviço encontrado com os filtros selecionados</p>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>

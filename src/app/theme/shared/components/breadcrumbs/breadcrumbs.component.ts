@@ -48,7 +48,13 @@ export class BreadcrumbComponent {
         url: '/mapa',
         icon: 'fas fa-map'
       },
-      // Novas categorias adicionadas
+      {
+        id: 'wallet',
+        title: 'Carteira',
+        type: 'item',
+        url: '/minha-carteira',
+        icon: 'fas fa-wallet'
+      },
       {
         id: 'mecanico',
         title: 'Mecânico',

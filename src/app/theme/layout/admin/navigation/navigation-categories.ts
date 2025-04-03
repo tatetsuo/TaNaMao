@@ -95,7 +95,7 @@ export const ServicosProfissionaisItems: NavigationItem[] = [
     id: 'programador',
     title: 'Programador',
     type: 'item',
-    url: '/catalogo/Programador',
+    url: '/catalogo/programador',
     icon: 'fas fa-laptop-code'
   },
   {
@@ -155,7 +155,7 @@ export const ArteMidiaItems: NavigationItem[] = [
     id: 'musico',
     title: 'Músico',
     type: 'item',
-    url: '/catalogo/Musico',
+    url: '/catalogo/musico',
     icon: 'fas fa-music'
   },
   {

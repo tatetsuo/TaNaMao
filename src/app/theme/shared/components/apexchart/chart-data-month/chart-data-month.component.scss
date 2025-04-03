@@ -32,3 +32,45 @@
     color: inherit;
   }
 }
+
+// Estilos para ajuste de tamanho de fonte com base no valor
+.font-md {
+  font-size: 34px;
+}
+
+.font-sm {
+  font-size: 28px;
+}
+
+.font-xs {
+  font-size: 22px;
+}
+
+.font-xxs {
+  font-size: 18px;
+}
+
+// Garantir que o gráfico tenha altura mínima
+:host ::ng-deep apx-chart {
+  min-height: 90px;
+  display: block;
+}
+
+// Melhorar a responsividade do gráfico
+@media (max-width: 576px) {
+  .font-md {
+    font-size: 28px;
+  }
+  
+  .font-sm {
+    font-size: 22px;
+  }
+  
+  .font-xs {
+    font-size: 18px;
+  }
+  
+  .font-xxs {
+    font-size: 16px;
+  }
+}

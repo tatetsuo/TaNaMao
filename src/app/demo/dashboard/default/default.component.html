@@ -24,14 +24,17 @@
             </div>
             <div class="balance-info">
               <div class="balance-amount">
-                <span class="amount">R$500.00</span>
+                <span class="amount">R${{balance.toFixed(2)}}</span>
                 <i class="ti ti-circle-arrow-up-right balance-icon"></i>
                 <div class="position-relative mt-2">
                   <span class="round round-small-left"></span>
                   <span class="round round-large-left"></span>
                 </div>
               </div>
-              <p class="balance-label">Saldo no app</p>
+              <p class="balance-label m-t-20" >Saldo no app</p>
+              <button class="btn btn-light-primary m-t-20" routerLink="/minha-carteira">
+                Gerenciar Saldo
+              </button>
             </div>
           </div>
 

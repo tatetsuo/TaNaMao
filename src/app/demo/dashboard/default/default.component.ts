@@ -10,6 +10,8 @@ import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexcha
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { FreelancerCarouselComponent } from '../../carrosel-freelance/carrosel.freelance.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { WalletService } from 'src/app/core/services/wallet.service';
 
 @Component({
   selector: 'app-default',
@@ -46,6 +48,7 @@ export class DefaultComponent implements OnInit {
   public ListGroup: any[] = [];
   isExpanded = false;
   username = '';
+  balance = 0;
 
   serviceCategories = [
     // Casa & Construção
@@ -277,10 +280,22 @@ export class DefaultComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private walletService: WalletService
+  ) { }
 
   ngOnInit() {
     this.username = localStorage.getItem('username') || 'Guest';
+    if (this.authService.currentUserValue) {
+      this.username = this.authService.currentUserValue.name.split(' ')[0];
+    }
+    
+    this.balance = this.walletService.getCurrentBalance();
+    this.walletService.balance.subscribe(value => {
+      this.balance = value;
+    });
   }
 
   toggleExpand() {

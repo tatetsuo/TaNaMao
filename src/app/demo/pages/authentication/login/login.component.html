@@ -53,7 +53,10 @@
               <label for="colaboradorEndereco">Endereço</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="colaboradorProfissao" placeholder="Profissão" />
+              <select class="form-select" id="colaboradorProfissao" [(ngModel)]="selectedProfissao">
+                <option value="" disabled selected>Selecione uma profissão</option>
+                <option *ngFor="let profissao of profissoes" [value]="profissao">{{ profissao }}</option>
+              </select>
               <label for="colaboradorProfissao">Profissão</label>
             </div>
             <div class="form-floating mb-3">

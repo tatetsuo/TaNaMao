@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
-import { ServicesComponent } from './demo/catalogo-servicos/catalogo-servicos.component';
-import { AuthGuard } from './guards/auth.guard'; // Importar o guard
-import { UserProfileComponent } from './demo/user-profile/user-profile.component'; // Importar o componente de perfil do usuário
+import { AuthGuard } from './guards/auth.guard';
+import { UserProfileComponent } from './demo/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -31,20 +30,28 @@ const routes: Routes = [
       },
       {
         path: 'catalogo/:category',
-        component: ServicesComponent
+        loadComponent: () => import('./demo/catalogo-servicos/catalogo-servicos.component').then((m) => m.ServicesComponent)
       },
       {
         path: 'mapa',
         loadComponent: () => import('./demo/mapa/mapa.component').then((c) => c.MapaComponent)
       },
       {
-        path: 'contrato/:userId',
-        loadComponent: () => import('./demo/comprar-servico/comprar-servico.component').then((c) => c.ComprarServicosComponent)
+        path: 'contrato/:id',
+        loadComponent: () => import('./demo/comprar-servico/comprar-servico.component').then((m) => m.ComprarServicosComponent)
       },
       {
         path: 'perfil',
         component: UserProfileComponent, // Adicionar a rota para o perfil do usuário
         canActivate: [AuthGuard] // Adicionar o guard
+      },
+      {
+        path: 'minha-carteira',
+        loadComponent: () => import('./demo/wallet/user-wallet/user-wallet.component').then((m) => m.UserWalletComponent)
+      },
+      {
+        path: 'meus-servicos',
+        loadComponent: () => import('./demo/services/my-services/my-services.component').then((m) => m.MyServicesComponent)
       },
     ]
   },

@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, RouterModule, MatIconModule, MatChipsModule,  FormsModule, MatFormFieldModule, MatChipsModule, MatIconModule, MatInputModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatIconModule, MatChipsModule, FormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
