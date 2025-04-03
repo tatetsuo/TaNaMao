@@ -154,16 +154,16 @@
         <mat-card-header>
           <mat-card-title>Trabalhos Próximos</mat-card-title>
           <mat-card-subtitle>Veja os trabalhos agendados mais próximos da sua localização</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
           <!-- Barra de filtro para tabela -->
-          <div class="filter-container mb-3">
+          <div class="filter-container mb-3" style="margin-left: 20px;">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Buscar trabalho</mat-label>
               <input matInput (keyup)="applyFilter($event)" placeholder="Ex. cliente, serviço, endereço">
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
           </div>
+        </mat-card-header>
+        <mat-card-content>
 
           <div class="responsive-table-container mat-elevation-z0">
             <table mat-table [dataSource]="upcomingJobsDataSource" matSort class="w-100 responsive-table">
