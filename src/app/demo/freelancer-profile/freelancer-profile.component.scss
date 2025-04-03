@@ -1,0 +1,245 @@
+// Estilos gerais
+.tab-content {
+  padding: 24px 0;
+}
+
+// Estilo para Avatar
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.user-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+// Cards de estatísticas
+.stat-card {
+  height: 100%;
+  transition: transform 0.3s;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    
+    &.blue {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: #2196F3;
+    }
+    
+    &.green {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: #4CAF50;
+    }
+    
+    &.purple {
+      background-color: rgba(156, 39, 176, 0.1);
+      color: #9C27B0;
+    }
+    
+    mat-icon {
+      font-size: 24px;
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  .stat-details {
+    flex: 1;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    color: #666;
+    margin-bottom: 0;
+    font-size: 0.875rem;
+  }
+
+  .completion-rate, .response-rate {
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+      margin-right: 5px;
+    }
+  }
+
+  .rating-stars {
+    margin-top: 10px;
+    
+    mat-icon {
+      color: #FFC107;
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+      
+      &.star-half, &.star-empty {
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+// Habilidades
+.skill-list {
+  margin-top: 15px;
+}
+
+.skill-level {
+  justify-content: flex-end;
+}
+
+.skill-stars {
+  display: flex;
+  
+  mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    color: #FFC107;
+  }
+}
+
+.skill-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.slider-labels {
+  margin-top: 5px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+// Tabela de histórico
+.table-container {
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+.work-history-table {
+  width: 100%;
+}
+
+.rating-stars-small {
+  mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    
+    &.star-filled-small {
+      color: #FFC107;
+    }
+    
+    &.star-empty-small {
+      color: #E0E0E0;
+    }
+  }
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  
+  &.status-completed {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+  }
+  
+  &.status-progress {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #2196F3;
+  }
+  
+  &.status-canceled {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+  }
+}
+
+// Portfólio
+.file-upload-container {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.file-input {
+  position: absolute;
+  font-size: 100px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.portfolio-empty {
+  text-align: center;
+  padding: 40px 0;
+  
+  .empty-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #ccc;
+    margin-bottom: 16px;
+  }
+}
+
+.empty-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: #ccc;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.skill-chips {
+  min-height: 50px;
+}

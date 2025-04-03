@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -12,13 +12,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { WalletService, Transaction, Card } from 'src/app/core/services/wallet.service';
 import { AuthService, User } from 'src/app/core/services/auth.service';
 import { Notyf } from 'notyf';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 interface WalletSettings {
   lowBalanceAlert: boolean;
@@ -80,8 +79,7 @@ export class UserWalletComponent implements OnInit {
   constructor(
     private walletService: WalletService,
     private authService: AuthService,
-    private fb: FormBuilder,
-    private dialog: MatDialog
+    private fb: FormBuilder
   ) {
     this.depositForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(10)]],

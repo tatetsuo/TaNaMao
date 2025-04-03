@@ -1,0 +1,491 @@
+<div class="container-fluid py-3">
+  <div class="row mb-4">
+    <div class="col-md-12 d-flex justify-content-between align-items-center">
+      <div>
+        <h2 class="mb-1">Perfil de Prestador de Serviço</h2>
+        <p class="text-muted mb-0">
+          Gerencie seu perfil profissional e aumente suas chances de ser contratado
+        </p>
+      </div>
+      <div>
+        <button mat-raised-button color="primary" (click)="saveProfile()">
+          <mat-icon>save</mat-icon> Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Stats -->
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon blue">
+              <mat-icon>work</mat-icon>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-value">{{stats.totalJobs}}</h3>
+              <p class="stat-label">Trabalhos Totais</p>
+            </div>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="stats.completionRate"></mat-progress-bar>
+          <p class="completion-rate">Taxa de Conclusão: {{stats.completionRate}}%</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-4 mb-3">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon green">
+              <mat-icon>star</mat-icon>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-value">{{stats.averageRating | number:'1.1-1'}}</h3>
+              <p class="stat-label">Avaliação Média</p>
+            </div>
+          </div>
+          <div class="rating-stars">
+            <mat-icon *ngFor="let star of getStarArray(Math.floor(stats.averageRating))" class="star-filled">star</mat-icon>
+            <mat-icon *ngIf="stats.averageRating % 1 >= 0.5" class="star-half">star_half</mat-icon>
+            <mat-icon *ngFor="let star of getStarArray(5 - Math.ceil(stats.averageRating))" class="star-empty">star_border</mat-icon>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-4 mb-3">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon purple">
+              <mat-icon>payments</mat-icon>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-value">R$ {{stats.totalEarnings}}</h3>
+              <p class="stat-label">Ganhos Totais</p>
+            </div>
+          </div>
+          <p class="response-rate">
+            <mat-icon>schedule</mat-icon> Taxa de Resposta: {{stats.responseRate}}%
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <mat-tab-group animationDuration="300ms" dynamicHeight>
+    <!-- Aba de Dados Pessoais -->
+    <mat-tab label="Dados Pessoais">
+      <div class="tab-content">
+        <div class="row">
+          <!-- Foto e informações básicas -->
+          <div class="col-md-4 mb-4">
+            <mat-card>
+              <mat-card-content>
+                <div class="text-center mb-4">
+                  <div class="user-avatar position-relative mx-auto mb-3">
+                    <img 
+                      [src]="currentUser?.profileImage || 'assets/images/user/avatar-2.jpg'" 
+                      class="rounded-circle img-fluid" 
+                      style="width: 150px; height: 150px; object-fit: cover;"
+                      alt="Foto de perfil"
+                    />
+                    <div class="upload-btn-wrapper position-absolute bottom-0 end-0">
+                      <button mat-mini-fab color="primary" type="button">
+                        <mat-icon>photo_camera</mat-icon>
+                      </button>
+                      <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+                    </div>
+                  </div>
+                  <h4>{{ currentUser?.name }}</h4>
+                  <p class="text-muted">{{ profileForm.get('profession')?.value || 'Profissão não definida' }}</p>
+                </div>
+
+                <form [formGroup]="profileForm">
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Nome Completo</mat-label>
+                      <input matInput formControlName="name" />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>E-mail</mat-label>
+                      <input matInput formControlName="email" type="email" />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Telefone</mat-label>
+                      <input matInput formControlName="phone" />
+                      <mat-icon matSuffix>phone</mat-icon>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Endereço</mat-label>
+                      <input matInput formControlName="address" />
+                      <mat-icon matSuffix>home</mat-icon>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Cidade</mat-label>
+                      <input matInput formControlName="city" />
+                      <mat-icon matSuffix>location_city</mat-icon>
+                    </mat-form-field>
+                  </div>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- Dados profissionais -->
+          <div class="col-md-8 mb-4">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Dados Profissionais</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="profileForm">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Categoria</mat-label>
+                        <mat-select formControlName="category">
+                          <mat-option *ngFor="let category of availableCategories" [value]="category">
+                            {{ category }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix>category</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Profissão</mat-label>
+                        <mat-select formControlName="profession">
+                          <mat-option *ngFor="let profession of availableProfessions" [value]="profession">
+                            {{ profession }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix>work</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Experiência</mat-label>
+                        <mat-select formControlName="experience">
+                          <mat-option value="0-1">Menos de 1 ano</mat-option>
+                          <mat-option value="1-3">1 a 3 anos</mat-option>
+                          <mat-option value="3-5">3 a 5 anos</mat-option>
+                          <mat-option value="5-10">5 a 10 anos</mat-option>
+                          <mat-option value="10+">Mais de 10 anos</mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix>timeline</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Valor por Hora (R$)</mat-label>
+                        <input matInput type="number" formControlName="hourlyRate" />
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Disponibilidade</mat-label>
+                        <input matInput formControlName="availability" placeholder="Ex: Seg-Sex, 8h-18h" />
+                        <mat-icon matSuffix>schedule</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Preferência de Trabalho</mat-label>
+                        <mat-select formControlName="workPreference">
+                          <mat-option value="Presencial">Presencial</mat-option>
+                          <mat-option value="Remoto">Remoto</mat-option>
+                          <mat-option value="Híbrido">Híbrido</mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix>location_on</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                      <mat-form-field class="w-100">
+                        <mat-label>Biografia/Descrição</mat-label>
+                        <textarea matInput rows="5" formControlName="biography"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Aba de Habilidades -->
+    <mat-tab label="Habilidades e Competências">
+      <div class="tab-content">
+        <div class="row">
+          <div class="col-md-5 mb-4">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Adicionar Habilidade</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="skillsForm" (ngSubmit)="addSkill()">
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Nome da Habilidade</mat-label>
+                      <input matInput formControlName="skill" placeholder="Ex: Poda de árvores" />
+                      <mat-icon matSuffix>extension</mat-icon>
+                    </mat-form-field>
+                  </div>
+                  <div class="mb-3">
+                    <label for="proficiency-slider" class="form-label d-block">Nível de Proficiência</label>
+                    <mat-slider
+                      id="proficiency-slider"
+                      class="w-100"
+                      min="1"
+                      max="5"
+                      step="1"
+                      discrete
+                      [displayWith]="formatSliderLabel"
+                      aria-labelledby="proficiency-slider">
+                      <input matSliderThumb formControlName="level">
+                    </mat-slider>
+                    <div class="slider-labels d-flex justify-content-between">
+                      <span>Iniciante</span>
+                      <span>Intermediário</span>
+                      <span>Especialista</span>
+                    </div>
+                  </div>
+                  <div class="d-grid">
+                    <button mat-raised-button color="primary" type="submit">
+                      <mat-icon>add</mat-icon> Adicionar Habilidade
+                    </button>
+                  </div>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col-md-7 mb-4">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Minhas Habilidades</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="skill-list">
+                  <mat-expansion-panel *ngFor="let skill of skills" class="mb-2">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{ skill.name }}
+                      </mat-panel-title>
+                      <mat-panel-description class="skill-level">
+                        <div class="skill-stars">
+                          <mat-icon *ngFor="let star of getStarArray(skill.level)">star</mat-icon>
+                          <mat-icon *ngFor="let star of getStarArray(5 - skill.level)">star_outline</mat-icon>
+                        </div>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p class="mb-2">Nível: {{ skill.level }} - 
+                      <span *ngIf="skill.level === 1">Iniciante</span>
+                      <span *ngIf="skill.level === 2">Básico</span>
+                      <span *ngIf="skill.level === 3">Intermediário</span>
+                      <span *ngIf="skill.level === 4">Avançado</span>
+                      <span *ngIf="skill.level === 5">Especialista</span>
+                    </p>
+                    <div class="skill-actions">
+                      <button mat-mini-fab color="warn" aria-label="Remover" (click)="removeSkill(skill.name)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <div *ngIf="skills.length === 0" class="text-center p-5 text-muted">
+                    <mat-icon class="empty-icon">sentiment_dissatisfied</mat-icon>
+                    <p>Você ainda não adicionou nenhuma habilidade.</p>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Aba de Histórico de Trabalhos -->
+    <mat-tab label="Histórico de Trabalhos">
+      <div class="tab-content">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Histórico de Trabalhos</mat-card-title>
+            <mat-card-subtitle>Lista de serviços realizados e em andamento</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="table-container mat-elevation-z2">
+              <table mat-table [dataSource]="workHistoryData" class="w-100 work-history-table">
+                <!-- Cliente -->
+                <ng-container matColumnDef="clientName">
+                  <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                  <td mat-cell *matCellDef="let item"> {{item.clientName}} </td>
+                </ng-container>
+
+                <!-- Data -->
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef> Data </th>
+                  <td mat-cell *matCellDef="let item"> {{getFormattedDate(item.date)}} </td>
+                </ng-container>
+
+                <!-- Serviço -->
+                <ng-container matColumnDef="service">
+                  <th mat-header-cell *matHeaderCellDef> Serviço </th>
+                  <td mat-cell *matCellDef="let item"> {{item.service}} </td>
+                </ng-container>
+
+                <!-- Avaliação -->
+                <ng-container matColumnDef="rating">
+                  <th mat-header-cell *matHeaderCellDef> Avaliação </th>
+                  <td mat-cell *matCellDef="let item">
+                    <div *ngIf="item.status === 'completed'">
+                      <div class="rating-stars-small">
+                        <mat-icon *ngFor="let star of getStarArray(item.rating)" class="star-filled-small">star</mat-icon>
+                        <mat-icon *ngFor="let star of getStarArray(5 - item.rating)" class="star-empty-small">star_border</mat-icon>
+                      </div>
+                    </div>
+                    <span *ngIf="item.status !== 'completed'" class="text-muted">Pendente</span>
+                  </td>
+                </ng-container>
+
+                <!-- Valor -->
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef> Valor (R$) </th>
+                  <td mat-cell *matCellDef="let item"> {{item.amount}} </td>
+                </ng-container>
+
+                <!-- Status -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> Status </th>
+                  <td mat-cell *matCellDef="let item"> 
+                    <span class="status-badge" [ngClass]="getStatusClass(item.status)">
+                      {{
+                        item.status === 'completed' ? 'Concluído' :
+                        item.status === 'in-progress' ? 'Em Andamento' : 'Cancelado'
+                      }}
+                    </span>
+                  </td>
+                </ng-container>
+
+                <!-- Ações -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Ações </th>
+                  <td mat-cell *matCellDef="let item">
+                    <button mat-icon-button color="primary" matTooltip="Ver detalhes">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" matTooltip="Editar" *ngIf="item.status === 'in-progress'">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="workHistoryColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: workHistoryColumns;"></tr>
+              </table>
+
+              <div *ngIf="workHistoryData.length === 0" class="text-center p-5 text-muted">
+                <mat-icon class="empty-icon">history</mat-icon>
+                <p>Você ainda não realizou nenhum trabalho.</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Aba de Portfólio -->
+    <mat-tab label="Portfólio">
+      <div class="tab-content">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Adicionar ao Portfólio</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="portfolioForm" (ngSubmit)="addPortfolioItem()">
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Título do Trabalho</mat-label>
+                      <input matInput formControlName="title" />
+                    </mat-form-field>
+                  </div>
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Descrição</mat-label>
+                      <textarea matInput rows="3" formControlName="description"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="mb-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Data de Realização</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="date">
+                      <mat-hint>DD/MM/AAAA</mat-hint>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="mb-3">
+                    <label for="portfolio-photos" class="form-label">Fotos do Trabalho</label>
+                    <div class="file-upload-container">
+                      <button mat-raised-button color="primary" type="button" (click)="portfolioFileInput.click()">
+                        <mat-icon>cloud_upload</mat-icon> Escolher Fotos
+                      </button>
+                      <input type="file" multiple accept="image/*" class="file-input" id="portfolio-photos" #portfolioFileInput />
+                    </div>
+                    <p class="text-muted small">Selecione até 5 fotos (JPEG, PNG - máx. 5MB cada)</p>
+                  </div>
+                  <div class="d-grid">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!portfolioForm.valid">
+                      Adicionar ao Portfólio
+                    </button>
+                  </div>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col-md-8 mb-4">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Meu Portfólio</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="portfolio-empty">
+                  <mat-icon class="empty-icon">photo_library</mat-icon>
+                  <h3 class="mb-3">Sem Portfólio</h3>
+                  <p class="text-muted">
+                    Você ainda não adicionou nenhum trabalho ao seu portfólio. 
+                    Um bom portfólio aumenta suas chances de ser contratado!
+                  </p>
+                </div>
+                <!-- Aqui viria a galeria de portfólio dinâmica, que seria preenchida com projetos reais -->
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

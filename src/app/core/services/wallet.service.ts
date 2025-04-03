@@ -6,7 +6,7 @@ export interface Transaction {
   date: Date;
   amount: number;
   description: string;
-  type: 'deposit' | 'withdrawal' | 'payment' | 'refund';
+  type: 'deposit' | 'withdrawal' | 'payment' | 'refund' | 'income'; // Adicionando 'income' como tipo válido
   serviceId?: string;
   serviceName?: string;
   freelancerId?: string;
@@ -264,6 +264,28 @@ export class WalletService {
       console.error('Erro ao atualizar cartões:', error);
       return false;
     }
+  }
+
+  addTransaction(transaction: Transaction): void {
+    // Obter o saldo e transações atuais
+    const currentBalance = this.balanceSubject.value;
+    const currentTransactions = this.transactionsSubject.value;
+    
+    // Calcular novo saldo
+    const newBalance = transaction.type === 'deposit' || transaction.type === 'income' || transaction.type === 'refund'
+      ? currentBalance + transaction.amount 
+      : currentBalance - transaction.amount;
+    
+    // Atualizar o saldo
+    this.balanceSubject.next(newBalance);
+    
+    // Adicionar a nova transação na lista
+    const updatedTransactions = [transaction, ...currentTransactions];
+    this.transactionsSubject.next(updatedTransactions);
+    
+    // Salvar no localStorage
+    localStorage.setItem('userBalance', newBalance.toString());
+    localStorage.setItem('userTransactions', JSON.stringify(updatedTransactions));
   }
 
   private generateId(): string {

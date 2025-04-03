@@ -9,11 +9,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, MatFormFieldModule, FormsModule, MatIconModule, MatInputModule, MatSelectModule],
+  imports: [
+    RouterModule, 
+    CommonModule, 
+    MatFormFieldModule, 
+    FormsModule, 
+    MatIconModule, 
+    MatInputModule, 
+    MatSelectModule,
+    MatCheckboxModule
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -21,6 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
 export default class LoginComponent {
   email = '';
   password = '';
+  isFreelancer = false;
   showColaboradorForm = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   colaboradorCaracteristicas: string[] = ['Paisagismo', 'Manutenção'];
@@ -66,13 +78,44 @@ export default class LoginComponent {
     'Veterinário'
   ];
   
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   login() {
-    if (this.email === 'teste@teste.com' && this.password === '12') {
+    // Credenciais de teste para usuário normal
+    const isNormalUserValid = this.email === 'teste@teste.com' && this.password === '12';
+    // Credenciais de teste para prestador de serviço
+    const isFreelancerValid = this.email === 'prestador@teste.com' && this.password === '12';
+
+    if ((isNormalUserValid && !this.isFreelancer) || (isFreelancerValid && this.isFreelancer)) {
       localStorage.setItem('token', 'dummy-token');
-      localStorage.setItem('username', 'Gabriel Maia');
-      this.router.navigate(['/default']);
+      
+      // Login via AuthService
+      this.authService.login(this.email, this.isFreelancer).subscribe({
+        next: () => {
+          // Redireciona para a dashboard apropriada
+          if (this.isFreelancer) {
+            this.router.navigate(['/prestador-dashboard']);
+          } else {
+            this.router.navigate(['/default']);
+          }
+          
+          // Mostra mensagem de sucesso
+          const notyf = new Notyf();
+          notyf.success({
+            message: `Bem-vindo ${this.isFreelancer ? 'Prestador' : ''}!`,
+            position: { x: 'right', y: 'top' },
+            duration: 3000
+          });
+        },
+        error: (err) => {
+          console.error('Erro no login:', err);
+          const notyf = new Notyf();
+          notyf.error({
+            message: 'Erro ao fazer login. Tente novamente.',
+            position: { x: 'right', y: 'top' }
+          });
+        }
+      });
     } else {
       const notyf = new Notyf();
       if (!this.email || !this.password) {
@@ -97,7 +140,6 @@ export default class LoginComponent {
     if ((value || '').trim()) {
       this.colaboradorCaracteristicas.push(value.trim());
       console.log(this.colaboradorCaracteristicas);
-      
     }
 
     input.value = '';

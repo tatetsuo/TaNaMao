@@ -37,12 +37,12 @@
                 }
               </li>
               @for (breadcrumb of navigationList; track breadcrumb) {
-                @if (breadcrumb.url !== false) {
+                @if (breadcrumb.url) {
                   <li class="breadcrumb-item">
                     <a class="text-muted f-w-500" [routerLink]="breadcrumb.url">{{ breadcrumb.title }}</a>
                   </li>
                 }
-                @if (breadcrumb.url === false && breadcrumb.type !== 'group') {
+                @if (!breadcrumb.url && breadcrumb.type !== 'group') {
                   <li class="breadcrumb-item">
                     <a href="javascript:" class="f-w-500 text-dark">{{ breadcrumb.title }}</a>
                   </li>

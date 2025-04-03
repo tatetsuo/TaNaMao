@@ -1,3 +1,28 @@
 .me-0 {
   margin: 0 0 0 16px !important;
 }
+
+// Estilo para botão de logout com aparência de link
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  &:hover, &:focus {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: -2px;
+  }
+
+  i {
+    margin-right: 0.5rem;
+  }
+}

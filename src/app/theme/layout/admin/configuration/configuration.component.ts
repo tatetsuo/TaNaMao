@@ -4,6 +4,7 @@ import { BerryConfig } from 'src/app/app-config';
 
 @Component({
   selector: 'app-configuration',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.scss']

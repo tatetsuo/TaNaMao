@@ -133,7 +133,9 @@
               {{ greeting }},
               <span class="small text-muted">{{ userName }}</span>
             </h4>
-            <p class="text-muted">Project Admin</p>
+            <p class="text-muted">
+              {{ isFreelancer ? 'Prestador de Serviço' : 'Cliente' }}
+            </p>
             <form class="header-search">
               <div class="search-btn">
                 <i class="ti ti-search"></i>
@@ -143,14 +145,30 @@
             <hr />
             <!-- Removendo ng-scrollbar e substituindo por div normal -->
             <div class="user-profile-links">
-              <a [routerLink]="['/perfil']" class="dropdown-item">
+              <a *ngIf="!isFreelancer" [routerLink]="['/perfil']" class="dropdown-item">
                 <i class="ti ti-user"></i>
                 <span>Perfil</span>
               </a>
-              <a [routerLink]="['/guest/login']" class="dropdown-item">
+              <a *ngIf="isFreelancer" [routerLink]="['/prestador-perfil']" class="dropdown-item">
+                <i class="ti ti-user"></i>
+                <span>Perfil de Prestador</span>
+              </a>
+              <a *ngIf="isFreelancer" [routerLink]="['/prestador-dashboard']" class="dropdown-item">
+                <i class="ti ti-briefcase"></i>
+                <span>Dashboard de Prestador</span>
+              </a>
+              <button 
+                type="button" 
+                class="dropdown-item logout-btn" 
+                (click)="logout()" 
+                (keydown.enter)="logout()" 
+                (keydown.space)="logout()"
+                tabindex="0"
+                role="button"
+                aria-label="Sair">
                 <i class="ti ti-logout"></i>
                 <span>Logout</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>

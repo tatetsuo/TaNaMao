@@ -38,13 +38,20 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(email: string): Observable<User> {
+  login(email: string, isFreelancer = false): Observable<User> {
     // Simulação de login - em produção, isso seria uma chamada para o backend
-    const mockUser = {
+    const mockUser = isFreelancer ? {
+      id: '2',
+      name: 'Maria Souza',
+      email: email,
+      profileImage: 'https://randomuser.me/api/portraits/women/2.jpg',
+      isFreelancer: true
+    } : {
       id: '1',
       name: 'João Silva',
       email: email,
-      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg'
+      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
+      isFreelancer: false
     };
     
     localStorage.setItem('currentUser', JSON.stringify(mockUser));
@@ -59,6 +66,10 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.currentUserValue;
+  }
+
+  isFreelancer(): boolean {
+    return this.currentUserValue?.isFreelancer || false;
   }
 
   updateUserProfile(user: User): void {
