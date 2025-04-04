@@ -2,17 +2,40 @@
   padding: 20px;
   max-width: 800px;
  /*  margin: 0 auto; */
+  
+  @media (max-width: 992px) {
+    padding: 15px;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 10px;
+  }
 }
 
 .service-card {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%; /* Adicionar largura total */
+  
+  @media (max-width: 768px) {
+    margin: 0 auto;
+  }
 }
 
 .service-title {
   font-size: 1.5rem;
   margin: 20px 0;
   color: #333;
+  
+  @media (max-width: 992px) {
+    font-size: 1.3rem;
+    margin: 15px 0;
+  }
+  
+  @media (max-width: 576px) {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
 }
 
 .info-grid {
@@ -20,6 +43,18 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin: 20px 0;
+  
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+  }
+  
+  @media (max-width: 576px) {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin: 10px 0;
+  }
 }
 
 .info-item {
@@ -30,31 +65,71 @@
 
 .info-icon {
   color: #666;
+  
+  @media (max-width: 768px) {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .label {
   font-size: 0.9rem;
   color: #666;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 }
 
 .value {
   font-size: 1.1rem;
   font-weight: 500;
   color: #333;
+  
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
 }
 
 .divider {
   margin: 24px 0;
+  
+  @media (max-width: 992px) {
+    margin: 20px 0;
+  }
+  
+  @media (max-width: 576px) {
+    margin: 16px 0;
+  }
 }
 
 .description-section,
 .tags-section {
   margin: 20px 0;
+  
+  @media (max-width: 992px) {
+    margin: 15px 0;
+  }
+  
+  @media (max-width: 576px) {
+    margin: 10px 0;
+  }
 
   h3 {
     font-size: 1.2rem;
     color: #333;
     margin-bottom: 12px;
+    
+    @media (max-width: 992px) {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 576px) {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
   }
 }
 
@@ -62,6 +137,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  
+  @media (max-width: 768px) {
+    gap: 6px;
+  }
 }
 
 .tag-chip {
@@ -70,14 +149,60 @@
   border-radius: 16px;
   font-size: 0.9rem;
   color: #666;
+  
+  @media (max-width: 768px) {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+  }
 }
 
 .compare-button {
   margin: 8px;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+    margin: 8px 0;
+  }
 }
 
 mat-card-avatar {
   width: 48px;
   height: 48px;
   object-fit: cover;
+  
+  @media (max-width: 992px) {
+    width: 40px;
+    height: 40px;
+  }
+  
+  @media (max-width: 576px) {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Ajustes específicos para o cabeçalho do card */
+mat-card-header {
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
+}
+
+mat-card-content {
+  @media (max-width: 768px) {
+    padding: 0 15px 15px;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 0 10px 10px;
+  }
+}
+
+mat-card-actions {
+  @media (max-width: 576px) {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+  }
 }
