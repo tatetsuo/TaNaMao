@@ -89,8 +89,9 @@ export default class LoginComponent {
     if ((isNormalUserValid && !this.isFreelancer) || (isFreelancerValid && this.isFreelancer)) {
       localStorage.setItem('token', 'dummy-token');
       
-      // Login via AuthService
-      this.authService.login(this.email, this.isFreelancer).subscribe({
+      // Login via AuthService - passando a senha e adicionando 'freelancer' se necessário
+      const passwordWithRole = this.isFreelancer ? this.password + 'freelancer' : this.password;
+      this.authService.login(this.email, passwordWithRole).subscribe({
         next: () => {
           // Redireciona para a dashboard apropriada
           if (this.isFreelancer) {
