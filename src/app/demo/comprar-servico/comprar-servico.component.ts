@@ -158,7 +158,7 @@ export class ComprarServicosComponent implements OnInit {
     additionalRequirements?: string;
   }) {
     const totalAmount = this.calculateTotal();
-    const serviceDate = new Date(formData.scheduleDate);
+    //const serviceDate = new Date(formData.scheduleDate);
     
     // Processar o pagamento de acordo com o método escolhido
     if (formData.paymentMethod === 'Saldo TaNaMao') {
@@ -179,7 +179,7 @@ export class ComprarServicosComponent implements OnInit {
     }
     
     // Registra o contrato de serviço
-    const contract = this.serviceStatusService.addContract({
+    /* const contract = this.serviceStatusService.addContract({
       serviceId: this.serviceData.id,
       title: this.serviceData.title,
       freelancerId: this.serviceData.id, // Normalmente viria de um backend
@@ -193,14 +193,14 @@ export class ComprarServicosComponent implements OnInit {
       paymentMethod: formData.paymentMethod,
       totalPaid: totalAmount,
       status: 'agendado'
-    });
+    }); */
 
     const notify = new Notyf();
     notify.success({
       message: 'Contrato enviado com sucesso!',
       position: { x: 'right', y: 'top' }
     });
-    this.router.navigate(['/meus-servicos'], { queryParams: { contractId: contract.id } });
+    this.router.navigate(['/default']);
   }
 
   calculateTotal(): number {
