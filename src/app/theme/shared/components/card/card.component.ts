@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ConfiguracaoCard } from 'src/app/core/interfaces/padroes';
 
 @Component({
   selector: 'app-card',
@@ -20,6 +21,9 @@ export class CardComponent implements OnInit {
   @Input() captionClass: string;
   @Input() isCardFooter: boolean;
   @Input() footerClass: string;
+
+  // Alternativa usando a interface ConfiguracaoCard
+  @Input() config?: ConfiguracaoCard;
 
   public animation: string;
   public fullCard: string;
@@ -51,9 +55,22 @@ export class CardComponent implements OnInit {
     this.footerClass = '';
   }
 
-  // Implementando o método ngOnInit
   ngOnInit(): void {
-    // Inicializar componente - verificar se há configurações adicionais necessárias
+    // Aplicar configurações se fornecidas
+    if (this.config) {
+      this.cardTitle = this.config.tituloCard || this.cardTitle;
+      this.cardClass = this.config.classeCard || this.cardClass;
+      this.blockClass = this.config.classeBloco || this.blockClass;
+      this.headerClass = this.config.classeHeader || this.headerClass;
+      this.options = this.config.temOpcoes || this.options;
+      this.hidHeader = this.config.ocultarHeader || this.hidHeader;
+      this.customHeader = this.config.headerPersonalizado || this.customHeader;
+      this.cardCaption = this.config.legendaCard || this.cardCaption;
+      this.captionClass = this.config.classeLegenda || this.captionClass;
+      this.isCardFooter = this.config.temRodape || this.isCardFooter;
+      this.footerClass = this.config.classeRodape || this.footerClass;
+    }
+    
     this.loadCardOptions();
   }
 

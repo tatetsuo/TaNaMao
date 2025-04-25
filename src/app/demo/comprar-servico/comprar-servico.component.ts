@@ -16,26 +16,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { WalletService } from 'src/app/core/services/wallet.service';
 import { ServiceStatusService } from 'src/app/core/services/service-status.service';
 import { PaymentConfirmationComponent } from '../payment/payment-confirmation/payment-confirmation.component';
-
-interface ServiceData {
-  id: string;
-  title: string;
-  profileImage: string;
-  freelancerName: string;
-  category: string;
-  price: number;
-  rating: number;
-  totalReviews: number;
-  description: string;
-  deliveryTime: number;
-  level: string;
-  tags: string[];
-  portfolioItems?: string[];
-  experience?: string;
-  certifications?: string[];
-  languages?: string[];
-  availability?: string[];
-}
+import { Servico } from 'src/app/core/interfaces/padroes';
 
 @Component({
   selector: 'app-comprar-servico',
@@ -58,7 +39,7 @@ interface ServiceData {
   styleUrls: ['./comprar-servico.component.scss']
 })
 export class ComprarServicosComponent implements OnInit {
-  serviceData: ServiceData;
+  serviceData: Servico;
   contractForm: FormGroup;
   paymentMethods = [
     'Saldo TaNaMao',
@@ -138,7 +119,7 @@ export class ComprarServicosComponent implements OnInit {
           service: this.serviceData,
           formData: formData,
           total: this.calculateTotal(),
-          serviceFee: this.serviceData.price * 0.1
+          serviceFee: this.serviceData.preco * 0.1
         }
       });
 
@@ -158,14 +139,17 @@ export class ComprarServicosComponent implements OnInit {
     additionalRequirements?: string;
   }) {
     const totalAmount = this.calculateTotal();
-    //const serviceDate = new Date(formData.scheduleDate);
     
     // Processar o pagamento de acordo com o método escolhido
     if (formData.paymentMethod === 'Saldo TaNaMao') {
-      // Deduz do saldo do usuário
+      // Adaptando para o formato esperado pelo walletService.payForService
       const paymentSuccess = this.walletService.payForService(
         totalAmount,
-        this.serviceData
+        {
+          id: this.serviceData.id.toString(),
+          title: this.serviceData.titulo,
+          freelancerName: this.serviceData.nomeColaborador
+        }
       );
       
       if (!paymentSuccess) {
@@ -204,7 +188,7 @@ export class ComprarServicosComponent implements OnInit {
   }
 
   calculateTotal(): number {
-    return this.serviceData.price + (this.serviceData.price * 0.1);
+    return this.serviceData.preco + (this.serviceData.preco * 0.1);
   }
   
   private checkBalance(): void {

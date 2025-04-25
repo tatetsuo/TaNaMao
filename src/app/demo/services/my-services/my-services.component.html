@@ -5,9 +5,9 @@
         <div class="services-list" *ngIf="activeContracts.length > 0">
           <mat-card *ngFor="let contract of activeContracts" class="service-card" [id]="'contract-' + contract.id">
             <mat-card-header>
-              <img mat-card-avatar [src]="contract.freelancerImage" [alt]="contract.freelancerName">
-              <mat-card-title>{{contract.title}}</mat-card-title>
-              <mat-card-subtitle>{{contract.freelancerName}}</mat-card-subtitle>
+              <img mat-card-avatar [src]="contract.fotoColaborador" [alt]="contract.nomeColaborador">
+              <mat-card-title>{{contract.titulo}}</mat-card-title>
+              <mat-card-subtitle>{{contract.nomeColaborador}}</mat-card-subtitle>
               <div class="service-status">
                 <mat-chip [color]="getStatusColor(contract.status)" selected>
                   <mat-icon>{{getStatusIcon(contract.status)}}</mat-icon>
@@ -20,22 +20,22 @@
               <div class="service-details">
                 <div class="detail-item">
                   <mat-icon>schedule</mat-icon>
-                  <span>{{contract.scheduledDate | date:'dd/MM/yyyy'}} às {{contract.scheduledTime}}</span>
+                  <span>{{contract.dataAgendada | date:'dd/MM/yyyy'}} às {{contract.horaAgendada}}</span>
                 </div>
                 
                 <div class="detail-item">
                   <mat-icon>location_on</mat-icon>
-                  <span>{{contract.location}}</span>
+                  <span>{{contract.local}}</span>
                 </div>
                 
                 <div class="detail-item">
                   <mat-icon>payments</mat-icon>
-                  <span>{{contract.paymentMethod}} - R$ {{contract.totalPaid.toFixed(2)}}</span>
+                  <span>{{contract.metodoPagamento}} - R$ {{contract.totalPago.toFixed(2)}}</span>
                 </div>
                 
-                <div class="detail-item" *ngIf="contract.additionalRequirements">
-                  <mat-icon>description</mat-icon>
-                  <span>{{contract.additionalRequirements}}</span>
+                <div class="detail-item" *ngIf="contract.requisitosAdicionais">
+                  <mat-icon>notes</mat-icon>
+                  <span>{{contract.requisitosAdicionais}}</span>
                 </div>
               </div>
             </mat-card-content>
@@ -68,9 +68,9 @@
         <div class="services-list" *ngIf="completedContracts.length > 0">
           <mat-card *ngFor="let contract of completedContracts" class="service-card">
             <mat-card-header>
-              <img mat-card-avatar [src]="contract.freelancerImage" [alt]="contract.freelancerName">
-              <mat-card-title>{{contract.title}}</mat-card-title>
-              <mat-card-subtitle>{{contract.freelancerName}}</mat-card-subtitle>
+              <img mat-card-avatar [src]="contract.fotoColaborador" [alt]="contract.nomeColaborador">
+              <mat-card-title>{{contract.titulo}}</mat-card-title>
+              <mat-card-subtitle>{{contract.nomeColaborador}}</mat-card-subtitle>
               <div class="service-status">
                 <mat-chip [color]="getStatusColor(contract.status)" selected>
                   <mat-icon>{{getStatusIcon(contract.status)}}</mat-icon>
@@ -83,17 +83,17 @@
               <div class="service-details">
                 <div class="detail-item">
                   <mat-icon>schedule</mat-icon>
-                  <span>{{contract.scheduledDate | date:'dd/MM/yyyy'}} às {{contract.scheduledTime}}</span>
+                  <span>{{contract.dataAgendada | date:'dd/MM/yyyy'}} às {{contract.horaAgendada}}</span>
                 </div>
                 
                 <div class="detail-item">
                   <mat-icon>location_on</mat-icon>
-                  <span>{{contract.location}}</span>
+                  <span>{{contract.local}}</span>
                 </div>
                 
                 <div class="detail-item">
                   <mat-icon>payments</mat-icon>
-                  <span>{{contract.paymentMethod}} - R$ {{contract.totalPaid.toFixed(2)}}</span>
+                  <span>{{contract.metodoPagamento}} - R$ {{contract.totalPago.toFixed(2)}}</span>
                 </div>
               </div>
             </mat-card-content>

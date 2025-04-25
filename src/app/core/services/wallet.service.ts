@@ -1,43 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface Transaction {
-  id: string;
-  date: Date;
-  amount: number;
-  description: string;
-  type: 'deposit' | 'withdrawal' | 'payment' | 'refund' | 'income'; // Adicionando 'income' como tipo válido
-  serviceId?: string;
-  serviceName?: string;
-  freelancerId?: string;
-  freelancerName?: string;
-  status: 'pending' | 'completed' | 'failed' | 'canceled';
-}
-
-export interface Card {
-  id: string;
-  cardNumber: string;
-  holderName: string;
-  expiryDate: string;
-  cvv: string;
-  type: 'credit' | 'debit' | 'both';
-  brand: string;
-  isDefault: boolean;
-  lastFourDigits: string;
-  isFavorite?: boolean;
-}
+import { Cartao, Transacao } from '../interfaces/usuario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService {
   private balanceSubject: BehaviorSubject<number>;
-  private transactionsSubject: BehaviorSubject<Transaction[]>;
-  private cardsSubject: BehaviorSubject<Card[]>;
+  private transactionsSubject: BehaviorSubject<Transacao[]>;
+  private cardsSubject: BehaviorSubject<Cartao[]>;
   
   public balance: Observable<number>;
-  public transactions: Observable<Transaction[]>;
-  public cards: Observable<Card[]>;
+  public transactions: Observable<Transacao[]>;
+  public cards: Observable<Cartao[]>;
 
   constructor() {
     // Inicializa o saldo e transações do armazenamento local ou use valores padrão
@@ -46,8 +21,8 @@ export class WalletService {
     const savedCards = localStorage.getItem('userCards');
     
     this.balanceSubject = new BehaviorSubject<number>(savedBalance ? parseFloat(savedBalance) : 500);
-    this.transactionsSubject = new BehaviorSubject<Transaction[]>(savedTransactions ? JSON.parse(savedTransactions) : this.getMockTransactions());
-    this.cardsSubject = new BehaviorSubject<Card[]>(savedCards ? JSON.parse(savedCards) : []);
+    this.transactionsSubject = new BehaviorSubject<Transacao[]>(savedTransactions ? JSON.parse(savedTransactions) : this.getMockTransactions());
+    this.cardsSubject = new BehaviorSubject<Cartao[]>(savedCards ? JSON.parse(savedCards) : []);
     
     this.balance = this.balanceSubject.asObservable();
     this.transactions = this.transactionsSubject.asObservable();
@@ -69,20 +44,20 @@ export class WalletService {
     return this.balanceSubject.value;
   }
 
-  public getTransactions(): Transaction[] {
+  public getTransactions(): Transacao[] {
     return this.transactionsSubject.value;
   }
 
   public deposit(amount: number, description = 'Depósito'): boolean {
     if (amount <= 0) return false;
     
-    const newTransaction: Transaction = {
+    const newTransaction: Transacao = {
       id: this.generateId(),
-      date: new Date(),
-      amount: amount,
-      description: description,
-      type: 'deposit',
-      status: 'completed'
+      data: new Date(),
+      valor: amount,
+      descricao: description,
+      tipo: 'deposito',
+      status: 'concluido'
     };
     
     const newBalance = this.balanceSubject.value + amount;
@@ -102,13 +77,13 @@ export class WalletService {
   public withdraw(amount: number, description = 'Saque'): boolean {
     if (amount <= 0 || amount > this.balanceSubject.value) return false;
     
-    const newTransaction: Transaction = {
+    const newTransaction: Transacao = {
       id: this.generateId(),
-      date: new Date(),
-      amount: -amount, // Valor negativo para saques
-      description: description,
-      type: 'withdrawal',
-      status: 'completed'
+      data: new Date(),
+      valor: -amount, // Valor negativo para saques
+      descricao: description,
+      tipo: 'saque',
+      status: 'concluido'
     };
     
     const newBalance = this.balanceSubject.value - amount;
@@ -132,17 +107,17 @@ export class WalletService {
   }): boolean {
     if (amount <= 0 || amount > this.balanceSubject.value) return false;
     
-    const newTransaction: Transaction = {
+    const newTransaction: Transacao = {
       id: this.generateId(),
-      date: new Date(),
-      amount: -amount, // Valor negativo para pagamentos
-      description: `Pagamento por ${serviceData.title}`,
-      type: 'payment',
-      serviceId: serviceData.id,
-      serviceName: serviceData.title,
-      freelancerId: serviceData.id,
-      freelancerName: serviceData.freelancerName,
-      status: 'completed'
+      data: new Date(),
+      valor: -amount, // Valor negativo para pagamentos
+      descricao: `Pagamento por ${serviceData.title}`,
+      tipo: 'pagamento',
+      servicoId: serviceData.id,
+      nomeServico: serviceData.title,
+      colaboradorId: serviceData.id,
+      nomeColaborador: serviceData.freelancerName,
+      status: 'concluido'
     };
     
     const newBalance = this.balanceSubject.value - amount;
@@ -160,18 +135,18 @@ export class WalletService {
   }
 
   // Métodos para gerenciar cartões
-  public getCards(): Card[] {
+  public getCards(): Cartao[] {
     return this.cardsSubject.value;
   }
 
-  public addCard(card: Omit<Card, 'id' | 'lastFourDigits'>): boolean {
+  public addCard(card: Omit<Cartao, 'id' | 'ultimosQuatroDigitos'>): boolean {
     try {
-      const lastFourDigits = card.cardNumber.slice(-4);
-      const newCard: Card = {
+      const lastFourDigits = card.numero.slice(-4);
+      const newCard: Cartao = {
         ...card,
         id: this.generateId(),
-        lastFourDigits: lastFourDigits,
-        isDefault: this.cardsSubject.value.length === 0 // Primeiro cartão é o padrão
+        ultimosQuatroDigitos: lastFourDigits,
+        padrao: this.cardsSubject.value.length === 0 // Primeiro cartão é o padrão
       };
       
       const currentCards = this.cardsSubject.value;
@@ -197,7 +172,7 @@ export class WalletService {
       this.cardsSubject.next(updatedCards);
       
       // Se o cartão removido era o padrão, definir o primeiro como padrão se houver
-      if (cardToRemove.isDefault && updatedCards.length > 0) {
+      if (cardToRemove.padrao && updatedCards.length > 0) {
         this.setDefaultCard(updatedCards[0].id);
       } else {
         localStorage.setItem('userCards', JSON.stringify(updatedCards));
@@ -215,7 +190,7 @@ export class WalletService {
       const currentCards = this.cardsSubject.value;
       const updatedCards = currentCards.map(card => ({
         ...card,
-        isDefault: card.id === cardId
+        padrao: card.id === cardId
       }));
       
       this.cardsSubject.next(updatedCards);
@@ -233,13 +208,13 @@ export class WalletService {
     const card = this.cardsSubject.value.find(c => c.id === cardId);
     if (!card) return false;
     
-    const newTransaction: Transaction = {
+    const newTransaction: Transacao = {
       id: this.generateId(),
-      date: new Date(),
-      amount: amount,
-      description: `${description} (${card.brand} final ${card.lastFourDigits})`,
-      type: 'deposit',
-      status: 'completed'
+      data: new Date(),
+      valor: amount,
+      descricao: `${description} (${card.bandeira} final ${card.ultimosQuatroDigitos})`,
+      tipo: 'deposito',
+      status: 'concluido'
     };
     
     const newBalance = this.balanceSubject.value + amount;
@@ -255,7 +230,7 @@ export class WalletService {
     return true;
   }
 
-  public updateCards(cards: Card[]): boolean {
+  public updateCards(cards: Cartao[]): boolean {
     try {
       this.cardsSubject.next(cards);
       localStorage.setItem('userCards', JSON.stringify(cards));
@@ -266,21 +241,49 @@ export class WalletService {
     }
   }
 
-  addTransaction(transaction: Transaction): void {
+  addTransaction(transaction: { 
+    id: string; 
+    amount: number; 
+    date: Date; 
+    description: string; 
+    type: string; 
+    status: string;
+    serviceId?: string;
+    serviceName?: string;
+    freelancerId?: string;
+    freelancerName?: string; 
+  }): void {
+    // Converter para formato da interface Transacao
+    const transacao: Transacao = {
+      id: transaction.id,
+      data: transaction.date,
+      valor: transaction.amount,
+      descricao: transaction.description,
+      tipo: this.mapTransactionType(transaction.type),
+      servicoId: transaction.serviceId,
+      nomeServico: transaction.serviceName,
+      colaboradorId: transaction.freelancerId,
+      nomeColaborador: transaction.freelancerName,
+      status: this.mapTransactionStatus(transaction.status)
+    };
+    
     // Obter o saldo e transações atuais
     const currentBalance = this.balanceSubject.value;
     const currentTransactions = this.transactionsSubject.value;
     
     // Calcular novo saldo
-    const newBalance = transaction.type === 'deposit' || transaction.type === 'income' || transaction.type === 'refund'
-      ? currentBalance + transaction.amount 
-      : currentBalance - transaction.amount;
+    let newBalance = currentBalance;
+    if (transacao.tipo === 'deposito' || transacao.tipo === 'receita' || transacao.tipo === 'reembolso') {
+      newBalance += transacao.valor;
+    } else {
+      newBalance -= Math.abs(transacao.valor);
+    }
     
     // Atualizar o saldo
     this.balanceSubject.next(newBalance);
     
     // Adicionar a nova transação na lista
-    const updatedTransactions = [transaction, ...currentTransactions];
+    const updatedTransactions = [transacao, ...currentTransactions];
     this.transactionsSubject.next(updatedTransactions);
     
     // Salvar no localStorage
@@ -288,44 +291,65 @@ export class WalletService {
     localStorage.setItem('userTransactions', JSON.stringify(updatedTransactions));
   }
 
+  private mapTransactionType(type: string): 'deposito' | 'saque' | 'pagamento' | 'reembolso' | 'receita' {
+    switch(type) {
+      case 'deposit': return 'deposito';
+      case 'withdrawal': return 'saque';
+      case 'payment': return 'pagamento';
+      case 'refund': return 'reembolso';
+      case 'income': return 'receita';
+      default: return 'deposito';
+    }
+  }
+  
+  private mapTransactionStatus(status: string): 'pendente' | 'concluido' | 'falhou' | 'cancelado' {
+    switch(status) {
+      case 'pending': return 'pendente';
+      case 'completed': return 'concluido';
+      case 'failed': return 'falhou';
+      case 'canceled': return 'cancelado';
+      default: return 'pendente';
+    }
+  }
+
   private generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
 
-  private getMockTransactions(): Transaction[] {
+  private getMockTransactions(): Transacao[] {
     const now = new Date();
     return [
       {
         id: this.generateId(),
-        date: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
-        amount: -150,
-        description: 'Pintura Residencial',
-        type: 'payment',
-        serviceId: '1',
-        serviceName: 'Pintura Residencial Profissional',
-        freelancerId: '101',
-        freelancerName: 'João Silva',
-        status: 'completed'
+        data: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
+        valor: -150,
+        descricao: 'Pintura Residencial',
+        tipo: 'pagamento',
+        servicoId: '1',
+        nomeServico: 'Pintura Residencial Profissional',
+        colaboradorId: '101',
+        nomeColaborador: 'João Silva',
+        status: 'concluido'
       },
       {
         id: this.generateId(),
-        date: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
-        amount: 300,
-        description: 'Depósito via PIX',
-        type: 'deposit',
-        status: 'completed'
+        data: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
+        valor: 300,
+        descricao: 'Depósito via PIX',
+        tipo: 'deposito',
+        status: 'concluido'
       },
       {
         id: this.generateId(),
-        date: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000),
-        amount: -200,
-        description: 'Limpeza Residencial',
-        type: 'payment',
-        serviceId: '12',
-        serviceName: 'Limpeza Residencial',
-        freelancerId: '112',
-        freelancerName: 'Marina Costa',
-        status: 'completed'
+        data: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000),
+        valor: -200,
+        descricao: 'Limpeza Residencial',
+        tipo: 'pagamento',
+        servicoId: '12',
+        nomeServico: 'Limpeza Residencial',
+        colaboradorId: '112',
+        nomeColaborador: 'Marina Costa',
+        status: 'concluido'
       }
     ];
   }

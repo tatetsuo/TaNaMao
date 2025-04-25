@@ -4,14 +4,10 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { Servico } from 'src/app/core/interfaces/padroes';
 
 interface PaymentConfirmationData {
-  service: {
-    title: string;
-    profileImage: string;
-    freelancerName: string;
-    price: number;
-  };
+  service: Servico;
   formData: {
     paymentMethod: string;
     scheduleDate: Date;
@@ -37,10 +33,10 @@ interface PaymentConfirmationData {
     <mat-dialog-content>
       <div class="confirmation-details">
         <div class="service-info">
-          <img [src]="data.service.profileImage" [alt]="data.service.freelancerName" class="provider-image">
+          <img [src]="data.service.fotoColaborador" [alt]="data.service.nomeColaborador" class="provider-image">
           <div class="service-title">
-            <h3>{{data.service.title}}</h3>
-            <p class="freelancer">por {{data.service.freelancerName}}</p>
+            <h3>{{data.service.titulo}}</h3>
+            <p class="freelancer">por {{data.service.nomeColaborador}}</p>
           </div>
         </div>
 
@@ -66,7 +62,7 @@ interface PaymentConfirmationData {
         <div class="cost-details">
           <div class="cost-row">
             <span>Valor do serviço</span>
-            <span>R$ {{data.service.price.toFixed(2)}}</span>
+            <span>R$ {{data.service.preco.toFixed(2)}}</span>
           </div>
           <div class="cost-row">
             <span>Taxa de serviço</span>

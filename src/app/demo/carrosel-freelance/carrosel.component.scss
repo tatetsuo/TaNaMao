@@ -1,221 +1,415 @@
-   .carousel-container {
-      position: relative;
-      width: 100%;
-      padding: 0 48px;
-      box-sizing: border-box;
-    }
+.freelancer-carousel {
+  margin: 2rem 0;
+  position: relative;
+  
+  .carousel-title {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
 
-    .carousel-wrapper {
-      overflow: hidden;
-      margin: 0 -8px;
-    }
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    padding: 0 48px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
 
-    .carousel-slide {
-      display: flex;
-      transition: transform 0.5s ease;
-      gap: 16px;
-      padding: 8px;
-    }
+  .carousel-track {
+    overflow: hidden;
+    margin: 0 -8px;
+    position: relative;
+  }
 
-    .profile-card {
-      flex: 0 0 calc(32.333% - 16px);
-      margin: 8px;
-      position: relative;
-      display: flex;
-      
-      @media (max-width: 1200px) {
-        flex: 0 0 calc(50% - 16px);
-      }
-      
-      @media (max-width: 768px) {
-        flex: 0 0 calc(100% - 16px);
-      }
-    }
+  .carousel-slides {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+  }
 
-    .card-content-wrapper {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-    }
+  .carousel-slide {
+    flex: 0 0 calc(100% / var(--visible-slides, 3));
+    max-width: calc(100% / var(--visible-slides, 3));
+    padding: 8px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 
-    mat-card-content {
-      flex: 1 1 auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    mat-card-actions {
-      padding: 16px;
-      display: flex;
-      gap: 8px;
-      margin-top: auto;
-      
-      button {
-        flex: 1;
-        font-size: 0.875rem;
-      }
+  .freelancer-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
     
-
-    .card-header {
-      position: relative;
+    &.highlight {
+      border: 2px solid #FFC107;
+      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
     }
+  }
 
-    .profile-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 4px 4px 0 0;
+  .card-header {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+  }
+
+  .freelancer-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    
+    &:hover {
+      transform: scale(1.05);
     }
+  }
 
-    .discount-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background-color: #4CAF50;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
-    .category-tag {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-    }
-
-    .profile-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 12px 0 8px;
-    }
-
-    .name {
-      font-size: 1.125rem;
-      margin: 0;
-      font-weight: 500;
-    }
-
-    .rating {
-      display: flex;
-      gap: 2px;
-    }
-
-    .rating mat-icon {
-      color: #ccc;
+  .discount-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: #E53935;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s infinite;
+  }
+  
+  .featured-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: #FFC107;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    
+    mat-icon {
       font-size: 16px;
       width: 16px;
       height: 16px;
-
-      &.filled {
-        color: #ffd700;
-      }
     }
+  }
 
-    .title {
-      color: #666;
-      margin: 0 0 12px;
-      font-size: 0.875rem;
+  mat-card-content {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .category-chip {
+    display: inline-block;
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    padding: 2px 8px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    align-self: flex-start;
+  }
+
+  .freelancer-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 0;
+  }
+
+  .freelancer-name {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    .star-icon {
+      color: #FFC107;
+      font-size: 18px;
+      height: 18px;
+      width: 18px;
     }
-
-    .description {
-      margin-bottom: 12px;
-      color: #444;
-      font-size: 0.875rem;
-      line-height: 1.4;
-      height: 2.8em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
+    
+    .rating-value {
+      font-weight: 500;
+      color: #555;
     }
+  }
 
-    .skills {
-      margin-bottom: 12px;
-      
-      mat-chip {
-        font-size: 0.75rem;
-        height: 24px;
-      }
+  .service-title {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.3;
+  }
 
-      .more-skills {
-        background-color: #f0f0f0;
-      }
+  .service-description {
+    margin: 0;
+    color: #666;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .skills-section {
+    h4 {
+      font-size: 0.9rem;
+      margin: 0 0 8px;
+      color: #555;
     }
-
-    .stats {
+    
+    .skills-list {
       display: flex;
-      gap: 16px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 8px;
     }
+    
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .skill-name {
+      font-size: 0.8rem;
+      color: #555;
+    }
+    
+    .skill-bar {
+      height: 4px;
+      background-color: #ECEFF1;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .skill-progress {
+      height: 100%;
+      border-radius: 2px;
+      background-color: #2196F3;
+      
+      &.nivel-5 { background-color: #4CAF50; }
+      &.nivel-4 { background-color: #8BC34A; }
+      &.nivel-3 { background-color: #FFC107; }
+      &.nivel-2 { background-color: #FF9800; }
+      &.nivel-1 { background-color: #FF5722; }
+    }
+  }
 
-    .stat {
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .price-section {
+    display: flex;
+    flex-direction: column;
+    
+    .price {
       display: flex;
       align-items: center;
-      gap: 4px;
-      color: #666;
+      gap: 8px;
+    }
+    
+    .current-price {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1E88E5;
+    }
+    
+    .original-price {
       font-size: 0.875rem;
+      text-decoration: line-through;
+      color: #999;
+    }
+    
+    .rate-text {
+      font-size: 0.75rem;
+      color: #666;
+    }
+  }
 
+  .completed-projects {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #666;
+    font-size: 0.8rem;
+    
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: #4CAF50;
+    }
+  }
+
+  .card-actions {
+    padding: 16px;
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid #ECEFF1;
+    
+    button {
+      flex: 1;
+      font-size: 0.875rem;
+      
       mat-icon {
         font-size: 18px;
         width: 18px;
         height: 18px;
+        margin-right: 4px;
       }
     }
-
-    .rate {
-      display: flex;
-      flex-direction: column;
+    
+    .hire-button {
+      background-color: #1976D2;
       
-      .original-rate {
-        font-size: 0.75rem;
-        text-decoration: line-through;
-        color: #999;
+      &:hover {
+        background-color: #1565C0;
       }
     }
+    
+    .view-button {
+      border-color: #1976D2;
+      
+      &:hover {
+        background-color: rgba(25, 118, 210, 0.04);
+      }
+    }
+  }
 
+  .nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background-color: #f5f5f5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &.prev {
+      left: 8px;
+    }
+
+    &.next {
+      right: 8px;
+    }
+    
+    mat-icon {
+      color: #333;
+    }
+  }
+
+  .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    
+    .indicator-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #BDBDBD;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &.active {
+        background-color: #1976D2;
+        transform: scale(1.2);
+      }
+      
+      &:hover:not(.active) {
+        background-color: #9E9E9E;
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .carousel-slide {
+      flex: 0 0 calc(100% / 2);
+      max-width: calc(100% / 2);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .carousel-container {
+      padding: 0 32px;
+    }
+    
+    .carousel-slide {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    
     .nav-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 2;
-      background-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-      &.prev {
-        left: 8px;
-      }
-
-      &.next {
-        right: 8px;
-      }
-
-      &:disabled {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
+      width: 32px;
+      height: 32px;
     }
-
-    mat-card-actions {
-      padding: 8px;
-      display: flex;
-      gap: 8px;
-      
-      button {
-        flex: 1;
-        font-size: 0.875rem;
-      }
-    }
+  }
+}

@@ -9,7 +9,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { ActivatedRoute } from '@angular/router';
-import { ServiceStatusService, ServiceContract } from 'src/app/core/services/service-status.service';
+import { ServiceStatusService } from 'src/app/core/services/service-status.service';
+import { ContratoServico } from 'src/app/core/interfaces/padroes';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
@@ -31,9 +32,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   styleUrls: ['./my-services.component.scss']
 })
 export class MyServicesComponent implements OnInit {
-  contracts: ServiceContract[] = [];
-  activeContracts: ServiceContract[] = [];
-  completedContracts: ServiceContract[] = [];
+  contracts: ContratoServico[] = [];
+  activeContracts: ContratoServico[] = [];
+  completedContracts: ContratoServico[] = [];
   
   constructor(
     private serviceStatusService: ServiceStatusService,

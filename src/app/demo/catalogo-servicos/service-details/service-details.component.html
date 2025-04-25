@@ -1,20 +1,20 @@
 <div class="service-details-container" [class.sidebar-open]="sidebarOpen" [class.sidebar-closed]="sidebarClosed">
   <mat-card class="service-card">
     <mat-card-header>
-      <img mat-card-avatar [src]="data.profileImage" [alt]="data.freelancerName">
-      <mat-card-title>{{ data.freelancerName }}</mat-card-title>
-      <mat-card-subtitle>{{ data.category }}</mat-card-subtitle>
+      <img mat-card-avatar [src]="data.fotoColaborador" [alt]="data.nomeColaborador">
+      <mat-card-title>{{ data.nomeColaborador }}</mat-card-title>
+      <mat-card-subtitle>{{ data.categoria }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <h2 class="service-title">{{ data.title }}</h2>
+      <h2 class="service-title">{{ data.titulo }}</h2>
 
       <div class="info-grid">
         <div class="info-item">
           <mat-icon class="info-icon">attach_money</mat-icon>
           <div>
             <div class="label">Preço</div>
-            <div class="value">R$ {{ data.price }}</div>
+            <div class="value">R$ {{ data.preco }}</div>
           </div>
         </div>
 
@@ -22,7 +22,7 @@
           <mat-icon class="info-icon">star_rate</mat-icon>
           <div>
             <div class="label">Avaliação</div>
-            <div class="value">{{ data.rating }} ({{ data.totalReviews }})</div>
+            <div class="value">{{ data.avaliacao }} ({{ data.totalAvaliacoes }})</div>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
           <mat-icon class="info-icon">schedule</mat-icon>
           <div>
             <div class="label">Tempo de Entrega</div>
-            <div class="value">{{ data.deliveryTime }} dias</div>
+            <div class="value">{{ data.tempoEntrega }} dias</div>
           </div>
         </div>
 
@@ -38,7 +38,7 @@
           <mat-icon class="info-icon">trending_up</mat-icon>
           <div>
             <div class="label">Nível</div>
-            <div class="value">{{ data.level }}</div>
+            <div class="value">{{ data.nivel }}</div>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
 
       <div class="description-section">
         <h3>Descrição</h3>
-        <p>{{ data.description }}</p>
+        <p>{{ data.descricao }}</p>
       </div>
 
       <mat-divider class="divider"></mat-divider>

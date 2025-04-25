@@ -15,19 +15,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
-import { WalletService, Transaction, Card } from 'src/app/core/services/wallet.service';
+import { WalletService } from 'src/app/core/services/wallet.service';
 import { AuthService, User } from 'src/app/core/services/auth.service';
 import { Notyf } from 'notyf';
+import { ConfiguracoesCarteira, Cartao, Transacao } from 'src/app/core/interfaces/usuario';
 
-interface WalletSettings {
-  lowBalanceAlert: boolean;
-  transactionConfirmation: boolean;
-  suspiciousActivityAlert: boolean;
-  requirePinForWithdrawals: boolean;
-  withdrawLimit: number;
-  transferLimit: number;
-  securityPin?: string;
-}
+
 
 @Component({
   selector: 'app-user-wallet',
@@ -58,8 +51,8 @@ export class UserWalletComponent implements OnInit {
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
   
   balance = 0;
-  transactions: Transaction[] = [];
-  cards: Card[] = [];
+  transactions: Transacao[] = [];
+  cards: Cartao[] = [];
   depositForm: FormGroup;
   withdrawForm: FormGroup;
   cardForm: FormGroup;
@@ -67,13 +60,14 @@ export class UserWalletComponent implements OnInit {
   selectedCardForDeposit = '';
   cardBrands = ['Visa', 'Mastercard', 'American Express', 'Elo', 'Hipercard'];
 
-  walletSettings: WalletSettings = {
-    lowBalanceAlert: true,
-    transactionConfirmation: true,
-    suspiciousActivityAlert: false,
-    requirePinForWithdrawals: true,
-    withdrawLimit: 1000,
-    transferLimit: 5000
+  walletSettings: ConfiguracoesCarteira = {
+    alertaSaldoBaixo: true,
+    confirmacaoTransacao: true,
+    alertaAtividadeSuspeita: false,
+    requererPinParaSaques: true,
+    limiteSaque: 1000,
+    limiteTransferencia: 5000,
+    pinSeguranca: ''
   };
 
   constructor(
@@ -111,11 +105,38 @@ export class UserWalletComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.currentUserValue;
     this.balance = this.walletService.getCurrentBalance();
-    this.transactions = this.walletService.getTransactions();
-    this.cards = this.walletService.getCards().map(card => ({
-      ...card,
-      isFavorite: card.isFavorite || false
-    }));
+    
+    // Mapeamento das transações do serviço para o formato da interface Transacao
+    this.transactions = this.walletService.getTransactions().map(transaction => {
+      return {
+        id: transaction.id,
+        data: transaction.data,
+        valor: transaction.valor,
+        descricao: transaction.descricao,
+        tipo: this.mapTransactionType(transaction.tipo),
+        servicoId: transaction.servicoId,
+        nomeServico: transaction.nomeServico,
+        colaboradorId: transaction.colaboradorId,
+        nomeColaborador: transaction.nomeColaborador,
+        status: this.mapTransactionStatus(transaction.status)
+      };
+    });
+    
+    // Mapeamento dos cartões do serviço para o formato da interface Cartao
+    this.cards = this.walletService.getCards().map(card => {
+      return {
+        id: card.id,
+        numero: card.numero,
+        titular: card.titular,
+        dataValidade: card.dataValidade,
+        cvv: card.cvv,
+        tipo: this.mapCardType(card.tipo),
+        bandeira: card.bandeira,
+        padrao: card.padrao,
+        ultimosQuatroDigitos: card.ultimosQuatroDigitos,
+        favorito: card.favorito || false
+      };
+    });
     
     this.walletService.balance.subscribe(newBalance => {
       this.balance = newBalance;
@@ -127,12 +148,20 @@ export class UserWalletComponent implements OnInit {
 
     this.walletService.cards.subscribe(newCards => {
       this.cards = newCards.map(card => ({
-        ...card,
-        isFavorite: card.isFavorite || false
+        id: card.id,
+        numero: card.numero,
+        titular: card.titular,
+        dataValidade: card.dataValidade,
+        cvv: card.cvv,
+        tipo: this.mapCardType(card.tipo),
+        bandeira: card.bandeira,
+        padrao: card.padrao,
+        ultimosQuatroDigitos: card.ultimosQuatroDigitos,
+        favorito: card.favorito || false
       }));
       
       if (newCards.length > 0) {
-        const defaultCard = newCards.find(card => card.isDefault);
+        const defaultCard = newCards.find(card => card.padrao);
         if (defaultCard) {
           this.selectedCardForDeposit = defaultCard.id;
           this.depositForm.patchValue({
@@ -194,7 +223,7 @@ export class UserWalletComponent implements OnInit {
       }
       
       // Verificar configurações
-      if (this.walletSettings.requirePinForWithdrawals) {
+      if (this.walletSettings.requererPinParaSaques) {
         this.verifyPinBeforeWithdraw(amount, description);
         return;
       }
@@ -214,10 +243,9 @@ export class UserWalletComponent implements OnInit {
 
   verifyPinBeforeWithdraw(amount: number, description: string): void {
     // Em um aplicativo real, isso seria implementado com um componente de diálogo
-    // que solicita o PIN ao usuário
     const pin = prompt('Digite seu PIN de segurança para confirmar o saque:');
     
-    if (pin === this.walletSettings.securityPin) {
+    if (pin === this.walletSettings.pinSeguranca) {
       const success = this.walletService.withdraw(amount, description);
       
       if (success) {
@@ -239,15 +267,16 @@ export class UserWalletComponent implements OnInit {
 
   addCard(): void {
     if (this.cardForm.valid) {
-      const cardData = {
-        cardNumber: this.cardForm.value.cardNumber,
-        holderName: this.cardForm.value.holderName,
-        expiryDate: this.cardForm.value.expiryDate,
+      // Convertendo para o formato da interface Cartao
+      const cardData: Omit<Cartao, 'id' | 'ultimosQuatroDigitos'> = {
+        numero: this.cardForm.value.cardNumber,
+        titular: this.cardForm.value.holderName,
+        dataValidade: this.cardForm.value.expiryDate,
         cvv: this.cardForm.value.cvv,
-        type: this.cardForm.value.type,
-        brand: this.cardForm.value.brand,
-        isDefault: this.cards.length === 0,
-        isFavorite: false
+        tipo: this.mapCardType(this.cardForm.value.type),
+        bandeira: this.cardForm.value.brand,
+        padrao: this.cards.length === 0,
+        favorito: false
       };
       
       const success = this.walletService.addCard(cardData);
@@ -303,15 +332,16 @@ export class UserWalletComponent implements OnInit {
       const updatedCards = [...currentCards];
       updatedCards[cardIndex] = {
         ...updatedCards[cardIndex],
-        isFavorite: !updatedCards[cardIndex].isFavorite
+        favorito: !updatedCards[cardIndex].favorito
       };
       
+      // Não precisa mais converter para outro formato, pois já estão no formato Cartao
       const success = this.walletService.updateCards(updatedCards);
       
       if (success) {
         const notify = new Notyf();
         notify.success({
-          message: updatedCards[cardIndex].isFavorite 
+          message: updatedCards[cardIndex].favorito 
             ? 'Cartão marcado como favorito' 
             : 'Cartão removido dos favoritos',
           position: { x: 'right', y: 'top' }
@@ -322,7 +352,7 @@ export class UserWalletComponent implements OnInit {
 
   openPinDialog(): void {
     // Em um aplicativo real, isso usaria um MatDialog
-    const currentPin = this.walletSettings.securityPin || '';
+    const currentPin = this.walletSettings.pinSeguranca || '';
     
     if (currentPin) {
       const oldPin = prompt('Digite seu PIN atual:');
@@ -334,7 +364,7 @@ export class UserWalletComponent implements OnInit {
     
     const newPin = prompt('Digite seu novo PIN de segurança (4-6 dígitos):');
     if (newPin && /^\d{4,6}$/.test(newPin)) {
-      this.walletSettings.securityPin = newPin;
+      this.walletSettings.pinSeguranca = newPin;
       this.saveSettings();
       
       const notify = new Notyf();
@@ -357,30 +387,30 @@ export class UserWalletComponent implements OnInit {
     });
   }
 
-  getTransactionColor(transaction: Transaction): string {
-    switch (transaction.type) {
-      case 'deposit':
+  getTransactionColor(transaction: Transacao): string {
+    switch (transaction.tipo) {
+      case 'deposito':
         return 'green';
-      case 'withdrawal':
+      case 'saque':
         return 'red';
-      case 'payment':
+      case 'pagamento':
         return 'red';
-      case 'refund':
+      case 'reembolso':
         return 'green';
       default:
         return 'black';
     }
   }
 
-  getTransactionIcon(transaction: Transaction): string {
-    switch (transaction.type) {
-      case 'deposit':
+  getTransactionIcon(transaction: Transacao): string {
+    switch (transaction.tipo) {
+      case 'deposito':
         return 'arrow_downward';
-      case 'withdrawal':
+      case 'saque':
         return 'arrow_upward';
-      case 'payment':
+      case 'pagamento':
         return 'shopping_cart';
-      case 'refund':
+      case 'reembolso':
         return 'replay';
       default:
         return 'help';
@@ -472,5 +502,45 @@ export class UserWalletComponent implements OnInit {
     
     // Atualizar o valor no formulário
     this.cardForm.get('expiryDate')?.setValue(input, { emitEvent: false });
+  }
+
+  private mapTransactionType(type: string): 'deposito' | 'saque' | 'pagamento' | 'reembolso' | 'receita' {
+    switch(type) {
+      case 'deposit': return 'deposito';
+      case 'withdrawal': return 'saque';
+      case 'payment': return 'pagamento';
+      case 'refund': return 'reembolso';
+      case 'income': return 'receita';
+      default: return 'deposito';
+    }
+  }
+  
+  private mapTransactionStatus(status: string): 'pendente' | 'concluido' | 'falhou' | 'cancelado' {
+    switch(status) {
+      case 'pending': return 'pendente';
+      case 'completed': return 'concluido';
+      case 'failed': return 'falhou';
+      case 'canceled': return 'cancelado';
+      default: return 'pendente';
+    }
+  }
+  
+  private mapCardType(type: string): 'credito' | 'debito' | 'ambos' {
+    switch(type) {
+      case 'credit': return 'credito';
+      case 'debit': return 'debito';
+      case 'both': return 'ambos';
+      default: return 'credito';
+    }
+  }
+
+  // Método auxiliar para converter de volta ao tipo esperado pelo serviço
+  private reverseMapCardType(tipo: string): 'credit' | 'debit' | 'both' {
+    switch(tipo) {
+      case 'credito': return 'credit';
+      case 'debito': return 'debit';
+      case 'ambos': return 'both';
+      default: return 'credit';
+    }
   }
 }

@@ -34,8 +34,8 @@
                     </div>
                     <div class="col-md-5">
                       <div class="transaction-details">
-                        <h5>{{ transaction.description }}</h5>
-                        <p class="text-muted">{{ transaction.date | date:'dd/MM/yyyy HH:mm' }}</p>
+                        <h5>{{ transaction.descricao }}</h5>
+                        <p class="text-muted">{{ transaction.data | date:'dd/MM/yyyy HH:mm' }}</p>
                       </div>
                     </div>
                     <div class="col-md-3">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-md-3 text-end">
                       <span class="transaction-amount" [ngStyle]="{'color': getTransactionColor(transaction)}">
-                        {{ transaction.amount > 0 ? '+' : '' }}R$ {{ transaction.amount.toFixed(2) }}
+                        {{ transaction.valor > 0 ? '+' : '' }}R$ {{ transaction.valor.toFixed(2) }}
                       </span>
                     </div>
                   </div>
@@ -83,7 +83,7 @@
                       <mat-select formControlName="cardId">
                         <mat-option [value]="">Nenhum cartão</mat-option>
                         <mat-option *ngFor="let card of cards" [value]="card.id">
-                          {{ card.brand }} **** {{ card.lastFourDigits }} {{ card.isDefault ? '(Padrão)' : '' }}
+                          {{ card.bandeira }} **** {{ card.ultimosQuatroDigitos }} {{ card.padrao ? '(Padrão)' : '' }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -205,24 +205,24 @@
 
               <div class="card-list">
                 <mat-card *ngFor="let card of cards" class="mb-3 credit-card" 
-                         [ngClass]="{'default-card': card.isDefault, 'favorite-card': card.isFavorite}">
+                         [ngClass]="{'default-card': card.padrao, 'favorite-card': card.favorito}">
                   <mat-card-content>
                     <div class="row align-items-center">
                       <div class="col-2 card-brand-img">
-                        <img [src]="getCardBrandImage(card.brand)" [alt]="card.brand" class="img-fluid">
+                        <img [src]="getCardBrandImage(card.bandeira)" [alt]="card.bandeira" class="img-fluid">
                       </div>
                       <div class="col-7">
-                        <h5>{{ card.brand }}</h5>
-                        <p class="card-number">{{ getFormattedCardNumber(card.cardNumber) }}</p>
-                        <p class="text-muted">{{ card.holderName }} | {{ card.expiryDate }}</p>
-                        <div class="card-type-chip" [ngClass]="card.type">
-                          {{ card.type === 'credit' ? 'Crédito' : card.type === 'debit' ? 'Débito' : 'Crédito/Débito' }}
+                        <h5>{{ card.bandeira }}</h5>
+                        <p class="card-number">{{ getFormattedCardNumber(card.numero) }}</p>
+                        <p class="text-muted">{{ card.titular }} | {{ card.dataValidade }}</p>
+                        <div class="card-type-chip" [ngClass]="card.tipo">
+                          {{ card.tipo === 'credito' ? 'Crédito' : card.tipo === 'debito' ? 'Débito' : 'Crédito/Débito' }}
                         </div>
                       </div>
                       <div class="col-3 text-end">
                         <button mat-icon-button color="warn" (click)="toggleFavoriteCard(card.id)" 
                                 matTooltip="Marcar como favorito">
-                          <mat-icon>{{ card.isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+                          <mat-icon>{{ card.favorito ? 'favorite' : 'favorite_border' }}</mat-icon>
                         </button>
                         
                         <button mat-icon-button color="warn" (click)="removeCard(card.id)" matTooltip="Remover cartão">
@@ -249,17 +249,17 @@
                   <div class="settings-section">
                     <h5>Notificações</h5>
                     <div class="d-flex align-items-center mt-3 mb-3">
-                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.lowBalanceAlert">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.alertaSaldoBaixo">
                         Notificações de saldo baixo
                       </mat-slide-toggle>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.transactionConfirmation">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.confirmacaoTransacao">
                         Confirmações de transação
                       </mat-slide-toggle>
                     </div>
                     <div class="d-flex align-items-center mb-3">
-                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.suspiciousActivityAlert">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.alertaAtividadeSuspeita">
                         Notificações de atividade suspeita
                       </mat-slide-toggle>
                     </div>
@@ -275,7 +275,7 @@
                     <p class="text-muted">O PIN será solicitado para transações sensíveis como saques e transferências.</p>
                     
                     <div class="d-flex align-items-center mb-3 mt-3">
-                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.requirePinForWithdrawals">
+                      <mat-slide-toggle color="primary" [(ngModel)]="walletSettings.requererPinParaSaques">
                         Solicitar PIN para saques
                       </mat-slide-toggle>
                     </div>
@@ -291,7 +291,7 @@
                       <div class="col-md-6">
                         <mat-form-field class="w-100 mb-3">
                           <mat-label>Limite de saque</mat-label>
-                          <input matInput type="number" [(ngModel)]="walletSettings.withdrawLimit" min="100">
+                          <input matInput type="number" [(ngModel)]="walletSettings.limiteSaque" min="100">
                           <span matSuffix>R$</span>
                         </mat-form-field>
                       </div>
@@ -299,7 +299,7 @@
                       <div class="col-md-6">
                         <mat-form-field class="w-100 mb-3">
                           <mat-label>Limite de transferência</mat-label>
-                          <input matInput type="number" [(ngModel)]="walletSettings.transferLimit" min="100">
+                          <input matInput type="number" [(ngModel)]="walletSettings.limiteTransferencia" min="100">
                           <span matSuffix>R$</span>
                         </mat-form-field>
                       </div>

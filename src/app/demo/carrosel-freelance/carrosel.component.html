@@ -1,73 +1,100 @@
-<div class="carousel-container">
-  <button mat-icon-button (click)="prevSlide()" [disabled]="currentIndex === 0" class="nav-button prev">
-    <mat-icon>chevron_left</mat-icon>
-  </button>
-
-  <div class="carousel-wrapper">
-    <div class="carousel-slide" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
-      <mat-card *ngFor="let profile of freelancers" class="profile-card">
-        <div class="card-content-wrapper">
-          <div class="card-header">
-            <img [src]="profile.imageUrl" [alt]="profile.name" class="profile-image">
-            <div *ngIf="profile.discount" class="discount-badge">
-              -{{profile.discount}}%
-            </div>
-            <div class="category-tag">{{profile.category}}</div>
-          </div>
-
-          <mat-card-content>
-            <div class="profile-header">
-              <h2 class="name">{{profile.name}}</h2>
-              <div class="rating">
-                <mat-icon *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= profile.rating">
-                  star
-                </mat-icon>
+<div class="freelancer-carousel">
+  <h2 class="carousel-title" *ngIf="title">{{ title }}</h2>
+  
+  <div class="carousel-container">
+    <button class="nav-button prev" (click)="prevSlide()" [disabled]="currentIndex === 0" 
+            [@fadeInOut]="isButtonVisible('prev')">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    
+    <div class="carousel-track" #carouselTrack>
+      <div class="carousel-slides" 
+           [style.transform]="'translateX(' + (currentIndex * -100 / visibleSlides) + '%)'"
+           [style.transition]="isAnimating ? 'transform 0.5s ease' : 'none'">
+        <div *ngFor="let freelancer of freelancers" class="carousel-slide" 
+             [@slideAnimation]="animationState" (@slideAnimation.done)="onAnimationDone()">
+          <mat-card class="freelancer-card" [class.highlight]="freelancer.destaque">
+            <div class="card-header">
+              <img [src]="freelancer.fotoPerfil" [alt]="freelancer.nome" class="freelancer-image">
+              <div *ngIf="freelancer.desconto" class="discount-badge">
+                -{{ freelancer.desconto }}%
+              </div>
+              <div *ngIf="freelancer.destaque" class="featured-badge">
+                <mat-icon>star</mat-icon>
+                Destaque
               </div>
             </div>
-
-            <h3 class="title">{{profile.title}}</h3>
-
-            <p class="description">{{profile.description}}</p>
-
-            <div class="skills">
-              <mat-chip-set>
-                <mat-chip *ngFor="let skill of profile.skills.slice(0, 3)">
-                  {{skill}}
-                </mat-chip>
-                <mat-chip *ngIf="profile.skills.length > 3" class="more-skills">
-                  +{{profile.skills.length - 3}}
-                </mat-chip>
-              </mat-chip-set>
-            </div>
-
-            <div class="stats">
-              <div class="stat">
-                <mat-icon>attach_money</mat-icon>
-                <span class="rate">
-                  <span class="current-rate">R$ {{ profile.hourlyRate }}/hora</span>
-                  <span *ngIf="profile.originalRate" class="original-rate">
-                    R$ {{ profile.originalRate }}/hora
-                  </span>
-                </span>
+            
+            <mat-card-content>
+              <div class="category-chip">{{ freelancer.categoria }}</div>
+              
+              <div class="freelancer-info">
+                <h3 class="freelancer-name">{{ freelancer.nome }}</h3>
+                <div class="rating">
+                  <mat-icon class="star-icon">star</mat-icon>
+                  <span class="rating-value">{{ freelancer.avaliacao }}</span>
+                </div>
               </div>
-              <div class="stat">
-                <mat-icon>work</mat-icon>
-                <span>{{profile.completedProjects}} projetos</span>
+              
+              <h2 class="service-title">{{ freelancer.titulo }}</h2>
+              
+              <p class="service-description">{{ freelancer.descricao | truncate:120 }}</p>
+              
+              <div class="skills-section">
+                <h4>Habilidades</h4>
+                <div class="skills-list">
+                  <div *ngFor="let skill of freelancer.habilidades.slice(0,3)" class="skill-item">
+                    <span class="skill-name">{{ skill.nome }}</span>
+                    <div class="skill-bar">
+                      <div class="skill-progress" [style.width.%]="skill.nivel * 20" 
+                           [ngClass]="'nivel-' + skill.nivel"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
+              
+              <div class="card-footer">
+                <div class="price-section">
+                  <div class="price">
+                    <span class="current-price">R$ {{ freelancer.valorHora }}</span>
+                    <span *ngIf="freelancer.valorOriginal" class="original-price">R$ {{ freelancer.valorOriginal }}</span>
+                  </div>
+                  <span class="rate-text">/hora</span>
+                </div>
+                
+                <div class="completed-projects">
+                  <mat-icon>assignment_turned_in</mat-icon>
+                  <span>{{ freelancer.projetosCompletos }} Projetos</span>
+                </div>
+              </div>
+            </mat-card-content>
+            
+            <div class="card-actions">
+              <button mat-stroked-button color="primary" (click)="viewProfile(freelancer)" class="view-button">
+                <mat-icon>visibility</mat-icon>
+                Ver Perfil
+              </button>
+              <button mat-raised-button color="primary" (click)="hireFreelancer(freelancer)" class="hire-button">
+                <mat-icon>handshake</mat-icon>
+                Contratar
+              </button>
             </div>
-          </mat-card-content>
-
-          <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="hireFreelancer(profile)">Contratar</button>
-            <button mat-button (click)="viewProfile(profile)">Ver Perfil</button>
-          </mat-card-actions>
+          </mat-card>
         </div>
-      </mat-card>
+      </div>
     </div>
+    
+    <button class="nav-button next" (click)="nextSlide()" [disabled]="currentIndex >= freelancers.length - visibleSlides"
+            [@fadeInOut]="isButtonVisible('next')">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
-
-  <button mat-icon-button (click)="nextSlide()" [disabled]="currentIndex >= freelancers.length - visibleSlides"
-    class="nav-button next">
-    <mat-icon>chevron_right</mat-icon>
-  </button>
+  
+  <div class="carousel-indicators">
+    <button *ngFor="let _ of getPages(); let i = index" 
+            class="indicator-dot" 
+            [class.active]="i === currentPage"
+            (click)="goToPage(i)">
+    </button>
+  </div>
 </div>

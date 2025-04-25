@@ -9,31 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox'; // Adicionado
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ServiceDetailsComponent } from './service-details/service-details.component';
-
-interface Service {
-  id: number;
-  title: string;
-  category: string;
-  subCategory?: string;
-  price: number;
-  rating: number;
-  totalReviews: number;
-  freelancerName: string;
-  profileImage: string;
-  tags: string[];
-  deliveryTime: number;
-  description: string;
-  level: 'Iniciante' | 'Intermediário' | 'Expert';
-}
-
-interface Filter {
-  name: string;
-  options: string[];
-}
+import { Servico, Filtro } from 'src/app/core/interfaces/padroes';
 
 @Component({
   selector: 'app-freelancer-catalog',
@@ -52,7 +33,8 @@ interface Filter {
     FormsModule,
     MatSelectModule,
     CardComponent,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule // Adicionado
   ]
 })
 export class ServicesComponent implements OnInit {
@@ -62,518 +44,518 @@ export class ServicesComponent implements OnInit {
   maxPrice?: number;
   selectedFilters: Record<string, string[]> = {};
 
-  filters: Filter[] = [
+  filters: Filtro[] = [
     {
-      name: 'Nível',
-      options: ['Iniciante', 'Intermediário', 'Expert']
+      nome: 'Nível',
+      opcoes: ['Iniciante', 'Intermediário', 'Expert']
     },
     {
-      name: 'Tempo de Entrega',
-      options: ['Até 24h', '1-3 dias', '3-7 dias', '7+ dias']
+      nome: 'Tempo de Entrega',
+      opcoes: ['Até 24h', '1-3 dias', '3-7 dias', '7+ dias']
     },
     {
-      name: 'Avaliação',
-      options: ['4.5+', '4.0+', '3.5+']
+      nome: 'Avaliação',
+      opcoes: ['4.5+', '4.0+', '3.5+']
     }
   ];
 
-  services: Service[] = [
+  services: Servico[] = [
     {
       id: 1,
-      title: 'Pintura Residencial Profissional',
-      category: 'Pintor',
-      price: 200,
-      rating: 4.8,
-      totalReviews: 127,
-      freelancerName: 'João Silva',
-      profileImage: 'https://randomuser.me/api/portraits/women/10.jpg',
+      titulo: 'Pintura Residencial Profissional',
+      categoria: 'Pintor',
+      preco: 200,
+      avaliacao: 4.8,
+      totalAvaliacoes: 127,
+      nomeColaborador: 'João Silva',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/10.jpg',
       tags: ['Pintura', 'Acabamento', 'Residencial'],
-      deliveryTime: 3,
-      description: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
-      level: 'Expert'
+      tempoEntrega: 3,
+      descricao: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
+      nivel: 'Expert'
     },
     {
       id: 1,
-      title: 'Pintura Residencial Profissional',
-      category: 'Pintor',
-      price: 200,
-      rating: 4.8,
-      totalReviews: 127,
-      freelancerName: 'João Silva',
-      profileImage: 'https://randomuser.me/api/portraits/women/10.jpg',
+      titulo: 'Pintura Residencial Profissional',
+      categoria: 'Pintor',
+      preco: 200,
+      avaliacao: 4.8,
+      totalAvaliacoes: 127,
+      nomeColaborador: 'João Silva',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/10.jpg',
       tags: ['Pintura', 'Acabamento', 'Residencial'],
-      deliveryTime: 3,
-      description: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
-      level: 'Expert'
+      tempoEntrega: 3,
+      descricao: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
+      nivel: 'Expert'
     },{
       id: 1,
-      title: 'Pintura Residencial Profissional',
-      category: 'Pintor',
-      price: 200,
-      rating: 4.8,
-      totalReviews: 127,
-      freelancerName: 'João Silva',
-      profileImage: 'https://randomuser.me/api/portraits/women/10.jpg',
+      titulo: 'Pintura Residencial Profissional',
+      categoria: 'Pintor',
+      preco: 200,
+      avaliacao: 4.8,
+      totalAvaliacoes: 127,
+      nomeColaborador: 'João Silva',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/10.jpg',
       tags: ['Pintura', 'Acabamento', 'Residencial'],
-      deliveryTime: 3,
-      description: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
-      level: 'Expert'
+      tempoEntrega: 3,
+      descricao: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
+      nivel: 'Expert'
     },{
       id: 1,
-      title: 'Pintura Residencial Profissional',
-      category: 'Pintor',
-      price: 200,
-      rating: 4.8,
-      totalReviews: 127,
-      freelancerName: 'João Silva',
-      profileImage: 'https://randomuser.me/api/portraits/women/10.jpg',
+      titulo: 'Pintura Residencial Profissional',
+      categoria: 'Pintor',
+      preco: 200,
+      avaliacao: 4.8,
+      totalAvaliacoes: 127,
+      nomeColaborador: 'João Silva',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/10.jpg',
       tags: ['Pintura', 'Acabamento', 'Residencial'],
-      deliveryTime: 3,
-      description: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
-      level: 'Expert'
+      tempoEntrega: 3,
+      descricao: 'Serviço de pintura residencial com acabamento premium e materiais de qualidade.',
+      nivel: 'Expert'
     },
     {
       id: 2,
-      title: 'Manutenção de Jardins',
-      category: 'Jardinagem',
-      price: 150,
-      rating: 4.7,
-      totalReviews: 89,
-      freelancerName: 'Maria Oliveira',
-      profileImage: 'https://randomuser.me/api/portraits/women/71.jpg',
+      titulo: 'Manutenção de Jardins',
+      categoria: 'Jardinagem',
+      preco: 150,
+      avaliacao: 4.7,
+      totalAvaliacoes: 89,
+      nomeColaborador: 'Maria Oliveira',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/71.jpg',
       tags: ['Jardim', 'Paisagismo', 'Manutenção'],
-      deliveryTime: 1,
-      description: 'Cuidados completos com seu jardim, incluindo poda, plantio e manutenção.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Cuidados completos com seu jardim, incluindo poda, plantio e manutenção.',
+      nivel: 'Expert'
     },
     {
       id: 3,
-      title: 'Desenvolvimento Web Full Stack',
-      category: 'Programador',
-      price: 300,
-      rating: 4.9,
-      totalReviews: 156,
-      freelancerName: 'Pedro Santos',
-      profileImage: 'https://randomuser.me/api/portraits/women/41.jpg',
+      titulo: 'Desenvolvimento Web Full Stack',
+      categoria: 'Programador',
+      preco: 300,
+      avaliacao: 4.9,
+      totalAvaliacoes: 156,
+      nomeColaborador: 'Pedro Santos',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/41.jpg',
       tags: ['React', 'Node.js', 'Full Stack'],
-      deliveryTime: 5,
-      description: 'Desenvolvimento de aplicações web completas com as tecnologias mais modernas.',
-      level: 'Expert'
+      tempoEntrega: 5,
+      descricao: 'Desenvolvimento de aplicações web completas com as tecnologias mais modernas.',
+      nivel: 'Expert'
     },
     {
       id: 4,
-      title: 'Shows e Eventos',
-      category: 'Musico',
-      price: 500,
-      rating: 4.8,
-      totalReviews: 92,
-      freelancerName: 'Ana Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/31.jpg',
+      titulo: 'Shows e Eventos',
+      categoria: 'Musico',
+      preco: 500,
+      avaliacao: 4.8,
+      totalAvaliacoes: 92,
+      nomeColaborador: 'Ana Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/31.jpg',
       tags: ['Música ao Vivo', 'Eventos', 'Casamentos'],
-      deliveryTime: 1,
-      description: 'Apresentações musicais para eventos, festas e casamentos.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Apresentações musicais para eventos, festas e casamentos.',
+      nivel: 'Expert'
     },
     {
       id: 5,
-      title: 'Fotografia de Eventos',
-      category: 'Fotografo',
-      price: 400,
-      rating: 4.6,
-      totalReviews: 113,
-      freelancerName: 'Lucas Mendes',
-      profileImage: 'https://randomuser.me/api/portraits/women/21.jpg',
+      titulo: 'Fotografia de Eventos',
+      categoria: 'Fotografo',
+      preco: 400,
+      avaliacao: 4.6,
+      totalAvaliacoes: 113,
+      nomeColaborador: 'Lucas Mendes',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/21.jpg',
       tags: ['Eventos', 'Fotografia', 'Edição'],
-      deliveryTime: 2,
-      description: 'Cobertura fotográfica profissional para eventos e ocasiões especiais.',
-      level: 'Expert'
+      tempoEntrega: 2,
+      descricao: 'Cobertura fotográfica profissional para eventos e ocasiões especiais.',
+      nivel: 'Expert'
     },
     {
       id: 6,
-      title: 'Reformas e Construções',
-      category: 'Construcao',
-      price: 1000,
-      rating: 4.7,
-      totalReviews: 78,
-      freelancerName: 'Antonio Pereira',
-      profileImage: 'https://randomuser.me/api/portraits/women/51.jpg',
+      titulo: 'Reformas e Construções',
+      categoria: 'Construcao',
+      preco: 1000,
+      avaliacao: 4.7,
+      totalAvaliacoes: 78,
+      nomeColaborador: 'Antonio Pereira',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/51.jpg',
       tags: ['Reforma', 'Construção', 'Acabamento'],
-      deliveryTime: 7,
-      description: 'Serviços completos de reforma e construção residencial.',
-      level: 'Expert'
+      tempoEntrega: 7,
+      descricao: 'Serviços completos de reforma e construção residencial.',
+      nivel: 'Expert'
     },
     {
       id: 7,
-      title: 'Segurança Patrimonial',
-      category: 'Vigilancia',
-      price: 180,
-      rating: 4.5,
-      totalReviews: 64,
-      freelancerName: 'Carlos Souza',
-      profileImage: 'https://randomuser.me/api/portraits/women/81.jpg',
+      titulo: 'Segurança Patrimonial',
+      categoria: 'Vigilancia',
+      preco: 180,
+      avaliacao: 4.5,
+      totalAvaliacoes: 64,
+      nomeColaborador: 'Carlos Souza',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/81.jpg',
       tags: ['Segurança', 'Vigilância', 'Patrimonial'],
-      deliveryTime: 1,
-      description: 'Serviços de vigilância e segurança para residências e empresas.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de vigilância e segurança para residências e empresas.',
+      nivel: 'Intermediário'
     },
     {
       id: 8,
-      title: 'Instalações Elétricas',
-      category: 'Eletricista',
-      price: 250,
-      rating: 4.8,
-      totalReviews: 142,
-      freelancerName: 'Roberto Alves',
-      profileImage: 'https://randomuser.me/api/portraits/women/91.jpg',
+      titulo: 'Instalações Elétricas',
+      categoria: 'Eletricista',
+      preco: 250,
+      avaliacao: 4.8,
+      totalAvaliacoes: 142,
+      nomeColaborador: 'Roberto Alves',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/91.jpg',
       tags: ['Elétrica', 'Instalação', 'Manutenção'],
-      deliveryTime: 2,
-      description: 'Serviços elétricos residenciais e comerciais com garantia.',
-      level: 'Expert'
+      tempoEntrega: 2,
+      descricao: 'Serviços elétricos residenciais e comerciais com garantia.',
+      nivel: 'Expert'
     },
     {
       id: 9,
-      title: 'Serviços Hidráulicos',
-      category: 'Encanador',
-      price: 200,
-      rating: 4.6,
-      totalReviews: 95,
-      freelancerName: 'José Lima',
-      profileImage: 'https://randomuser.me/api/portraits/women/11.jpg',
+      titulo: 'Serviços Hidráulicos',
+      categoria: 'Encanador',
+      preco: 200,
+      avaliacao: 4.6,
+      totalAvaliacoes: 95,
+      nomeColaborador: 'José Lima',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/11.jpg',
       tags: ['Hidráulica', 'Encanamento', 'Manutenção'],
-      deliveryTime: 1,
-      description: 'Reparos e instalações hidráulicas com atendimento rápido.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Reparos e instalações hidráulicas com atendimento rápido.',
+      nivel: 'Expert'
     },
     {
       id: 10,
-      title: 'Móveis sob Medida',
-      category: 'Carpinteiro',
-      price: 800,
-      rating: 4.9,
-      totalReviews: 87,
-      freelancerName: 'Paulo Rodrigues',
-      profileImage: 'https://randomuser.me/api/portraits/women/14.jpg',
+      titulo: 'Móveis sob Medida',
+      categoria: 'Carpinteiro',
+      preco: 800,
+      avaliacao: 4.9,
+      totalAvaliacoes: 87,
+      nomeColaborador: 'Paulo Rodrigues',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/14.jpg',
       tags: ['Móveis', 'Marcenaria', 'Personalizado'],
-      deliveryTime: 5,
-      description: 'Fabricação de móveis personalizados com acabamento premium.',
-      level: 'Expert'
+      tempoEntrega: 5,
+      descricao: 'Fabricação de móveis personalizados com acabamento premium.',
+      nivel: 'Expert'
     },
     {
       id: 11,
-      title: 'Portaria 24h',
-      category: 'Portaria',
-      price: 150,
-      rating: 4.5,
-      totalReviews: 73,
-      freelancerName: 'Fernando Santos',
-      profileImage: 'https://randomuser.me/api/portraits/women/18.jpg',
+      titulo: 'Portaria 24h',
+      categoria: 'Portaria',
+      preco: 150,
+      avaliacao: 4.5,
+      totalAvaliacoes: 73,
+      nomeColaborador: 'Fernando Santos',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/18.jpg',
       tags: ['Portaria', 'Segurança', '24h'],
-      deliveryTime: 1,
-      description: 'Serviços de portaria profissional para condomínios e empresas.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de portaria profissional para condomínios e empresas.',
+      nivel: 'Intermediário'
     },
     {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     }, {
       id: 12,
-      title: 'Limpeza Residencial',
-      category: 'Limpeza',
-      price: 120,
-      rating: 4.7,
-      totalReviews: 168,
-      freelancerName: 'Marina Costa',
-      profileImage: 'https://randomuser.me/api/portraits/women/19.jpg',
+      titulo: 'Limpeza Residencial',
+      categoria: 'Limpeza',
+      preco: 120,
+      avaliacao: 4.7,
+      totalAvaliacoes: 168,
+      nomeColaborador: 'Marina Costa',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/19.jpg',
       tags: ['Limpeza', 'Higienização', 'Residencial'],
-      deliveryTime: 1,
-      description: 'Serviços de limpeza completa para residências e escritórios.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviços de limpeza completa para residências e escritórios.',
+      nivel: 'Intermediário'
     },
     {
       id: 13,
-      title: 'Reparo de Carro',
-      category: 'Mecânico',
-      price: 300,
-      rating: 4.7,
-      totalReviews: 98,
-      freelancerName: 'Carlos Mecânico',
-      profileImage: 'https://randomuser.me/api/portraits/men/10.jpg',
+      titulo: 'Reparo de Carro',
+      categoria: 'Mecânico',
+      preco: 300,
+      avaliacao: 4.7,
+      totalAvaliacoes: 98,
+      nomeColaborador: 'Carlos Mecânico',
+      fotoColaborador: 'https://randomuser.me/api/portraits/men/10.jpg',
       tags: ['Reparo', 'Carro', 'Mecânico'],
-      deliveryTime: 2,
-      description: 'Serviço completo de reparo e manutenção de carros.',
-      level: 'Expert'
+      tempoEntrega: 2,
+      descricao: 'Serviço completo de reparo e manutenção de carros.',
+      nivel: 'Expert'
     },
     {
       id: 14,
-      title: 'Cozinheiro Profissional',
-      category: 'Chef',
-      price: 500,
-      rating: 4.9,
-      totalReviews: 120,
-      freelancerName: 'Ana Chef',
-      profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
+      titulo: 'Cozinheiro Profissional',
+      categoria: 'Chef',
+      preco: 500,
+      avaliacao: 4.9,
+      totalAvaliacoes: 120,
+      nomeColaborador: 'Ana Chef',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/20.jpg',
       tags: ['Cozinha', 'Gourmet', 'Chef'],
-      deliveryTime: 1,
-      description: 'Serviço de chef profissional para eventos e refeições gourmet.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Serviço de chef profissional para eventos e refeições gourmet.',
+      nivel: 'Expert'
     },
     {
       id: 15,
-      title: 'Maquiagem para Eventos',
-      category: 'Maquiador',
-      price: 200,
-      rating: 4.8,
-      totalReviews: 110,
-      freelancerName: 'Maria Maquiadora',
-      profileImage: 'https://randomuser.me/api/portraits/women/30.jpg',
+      titulo: 'Maquiagem para Eventos',
+      categoria: 'Maquiador',
+      preco: 200,
+      avaliacao: 4.8,
+      totalAvaliacoes: 110,
+      nomeColaborador: 'Maria Maquiadora',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/30.jpg',
       tags: ['Maquiagem', 'Eventos', 'Beleza'],
-      deliveryTime: 1,
-      description: 'Serviço de maquiagem profissional para eventos e ocasiões especiais.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Serviço de maquiagem profissional para eventos e ocasiões especiais.',
+      nivel: 'Expert'
     },
     {
       id: 16,
-      title: 'Corte de Cabelo',
-      category: 'Cabeleireiro',
-      price: 150,
-      rating: 4.7,
-      totalReviews: 95,
-      freelancerName: 'João Cabeleireiro',
-      profileImage: 'https://randomuser.me/api/portraits/men/40.jpg',
+      titulo: 'Corte de Cabelo',
+      categoria: 'Cabeleireiro',
+      preco: 150,
+      avaliacao: 4.7,
+      totalAvaliacoes: 95,
+      nomeColaborador: 'João Cabeleireiro',
+      fotoColaborador: 'https://randomuser.me/api/portraits/men/40.jpg',
       tags: ['Cabelo', 'Corte', 'Beleza'],
-      deliveryTime: 1,
-      description: 'Serviço de corte de cabelo profissional.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Serviço de corte de cabelo profissional.',
+      nivel: 'Expert'
     },
     {
       id: 17,
-      title: 'Serviço de Motorista',
-      category: 'Motorista',
-      price: 100,
-      rating: 4.6,
-      totalReviews: 85,
-      freelancerName: 'Pedro Motorista',
-      profileImage: 'https://randomuser.me/api/portraits/men/50.jpg',
+      titulo: 'Serviço de Motorista',
+      categoria: 'Motorista',
+      preco: 100,
+      avaliacao: 4.6,
+      totalAvaliacoes: 85,
+      nomeColaborador: 'Pedro Motorista',
+      fotoColaborador: 'https://randomuser.me/api/portraits/men/50.jpg',
       tags: ['Motorista', 'Transporte', 'Viagem'],
-      deliveryTime: 1,
-      description: 'Serviço de motorista particular para viagens e transporte.',
-      level: 'Intermediário'
+      tempoEntrega: 1,
+      descricao: 'Serviço de motorista particular para viagens e transporte.',
+      nivel: 'Intermediário'
     },
     {
       id: 18,
-      title: 'Aulas de Libras',
-      category: 'Libras',
-      price: 200,
-      rating: 4.8,
-      totalReviews: 100,
-      freelancerName: 'Lucas Professor',
-      profileImage: 'https://randomuser.me/api/portraits/men/60.jpg',
+      titulo: 'Aulas de Libras',
+      categoria: 'Libras',
+      preco: 200,
+      avaliacao: 4.8,
+      totalAvaliacoes: 100,
+      nomeColaborador: 'Lucas Professor',
+      fotoColaborador: 'https://randomuser.me/api/portraits/men/60.jpg',
       tags: ['Libras', 'Aulas', 'Educação'],
-      deliveryTime: 1,
-      description: 'Aulas de Libras para iniciantes e avançados.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Aulas de Libras para iniciantes e avançados.',
+      nivel: 'Expert'
     },
     {
       id: 19,
-      title: 'Consultoria Contábil',
-      category: 'Contador',
-      price: 400,
-      rating: 4.9,
-      totalReviews: 130,
-      freelancerName: 'Fernanda Contadora',
-      profileImage: 'https://randomuser.me/api/portraits/women/70.jpg',
+      titulo: 'Consultoria Contábil',
+      categoria: 'Contador',
+      preco: 400,
+      avaliacao: 4.9,
+      totalAvaliacoes: 130,
+      nomeColaborador: 'Fernanda Contadora',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/70.jpg',
       tags: ['Contabilidade', 'Consultoria', 'Financeiro'],
-      deliveryTime: 2,
-      description: 'Serviço de consultoria contábil para empresas e indivíduos.',
-      level: 'Expert'
+      tempoEntrega: 2,
+      descricao: 'Serviço de consultoria contábil para empresas e indivíduos.',
+      nivel: 'Expert'
     },
     {
       id: 20,
-      title: 'Confecção de Roupas Sob Medida',
-      category: 'Alfaiate',
-      price: 500,
-      rating: 4.8,
-      totalReviews: 115,
-      freelancerName: 'Ricardo Alfaiate',
-      profileImage: 'https://randomuser.me/api/portraits/men/80.jpg',
+      titulo: 'Confecção de Roupas Sob Medida',
+      categoria: 'Alfaiate',
+      preco: 500,
+      avaliacao: 4.8,
+      totalAvaliacoes: 115,
+      nomeColaborador: 'Ricardo Alfaiate',
+      fotoColaborador: 'https://randomuser.me/api/portraits/men/80.jpg',
       tags: ['Roupas', 'Sob Medida', 'Alfaiate'],
-      deliveryTime: 5,
-      description: 'Serviço de confecção de roupas sob medida.',
-      level: 'Expert'
+      tempoEntrega: 5,
+      descricao: 'Serviço de confecção de roupas sob medida.',
+      nivel: 'Expert'
     },
     {
       id: 21,
-      title: 'Tradução de Documentos',
-      category: 'Tradutor',
-      price: 300,
-      rating: 4.7,
-      totalReviews: 105,
-      freelancerName: 'Sofia Tradutora',
-      profileImage: 'https://randomuser.me/api/portraits/women/90.jpg',
+      titulo: 'Tradução de Documentos',
+      categoria: 'Tradutor',
+      preco: 300,
+      avaliacao: 4.7,
+      totalAvaliacoes: 105,
+      nomeColaborador: 'Sofia Tradutora',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/90.jpg',
       tags: ['Tradução', 'Documentos', 'Idiomas'],
-      deliveryTime: 3,
-      description: 'Serviço de tradução de documentos em diversos idiomas.',
-      level: 'Expert'
+      tempoEntrega: 3,
+      descricao: 'Serviço de tradução de documentos em diversos idiomas.',
+      nivel: 'Expert'
     },
     {
       id: 22,
-      title: 'Decoração de Interiores',
-      category: 'Decorador',
-      price: 700,
-      rating: 4.9,
-      totalReviews: 140,
-      freelancerName: 'Mariana Decoradora',
-      profileImage: 'https://randomuser.me/api/portraits/women/76.jpg',
+      titulo: 'Decoração de Interiores',
+      categoria: 'Decorador',
+      preco: 700,
+      avaliacao: 4.9,
+      totalAvaliacoes: 140,
+      nomeColaborador: 'Mariana Decoradora',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/76.jpg',
       tags: ['Decoração', 'Interiores', 'Design'],
-      deliveryTime: 7,
-      description: 'Serviço de decoração de interiores para residências e escritórios.',
-      level: 'Expert'
+      tempoEntrega: 7,
+      descricao: 'Serviço de decoração de interiores para residências e escritórios.',
+      nivel: 'Expert'
     },
     {
       id: 23,
-      title: 'Aulas Particulares',
-      category: 'Professor',
-      price: 250,
-      rating: 4.8,
-      totalReviews: 120,
-      freelancerName: 'Carlos Professor',
-      profileImage: 'https://randomuser.me/api/portraits/men/10.jpg',
+      titulo: 'Aulas Particulares',
+      categoria: 'Professor',
+      preco: 250,
+      avaliacao: 4.8,
+      totalAvaliacoes: 120,
+      nomeColaborador: 'Carlos Professor',
+      fotoColaborador: 'https://randomuser.me/api/portraits/men/10.jpg',
       tags: ['Aulas', 'Educação', 'Particulares'],
-      deliveryTime: 1,
-      description: 'Aulas particulares para diversas disciplinas.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Aulas particulares para diversas disciplinas.',
+      nivel: 'Expert'
     },
     {
       id: 24,
-      title: 'Consulta Veterinária',
-      category: 'Veterinario',
-      price: 300,
-      rating: 4.9,
-      totalReviews: 130,
-      freelancerName: 'Ana Veterinária',
-      profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
+      titulo: 'Consulta Veterinária',
+      categoria: 'Veterinario',
+      preco: 300,
+      avaliacao: 4.9,
+      totalAvaliacoes: 130,
+      nomeColaborador: 'Ana Veterinária',
+      fotoColaborador: 'https://randomuser.me/api/portraits/women/20.jpg',
       tags: ['Veterinária', 'Animais', 'Consulta'],
-      deliveryTime: 1,
-      description: 'Consulta veterinária para animais de estimação.',
-      level: 'Expert'
+      tempoEntrega: 1,
+      descricao: 'Consulta veterinária para animais de estimação.',
+      nivel: 'Expert'
     }
   ];
 
-  filteredServices: Service[] = [];
+  filteredServices: Servico[] = [];
 
   constructor(private route: ActivatedRoute, private dialog: MatDialog) { }
 
@@ -583,7 +565,7 @@ export class ServicesComponent implements OnInit {
       if (category) {
         this.selectedCategory = this.formatCategoryName(category);
         this.filteredServices = this.services.filter(
-          service => service.category === this.selectedCategory
+          service => service.categoria === this.selectedCategory
         );
       }
     });
@@ -599,7 +581,7 @@ export class ServicesComponent implements OnInit {
   applyFilters(): void {
     this.filteredServices = this.services.filter(service => {
       // Filtro por categoria
-      if (service.category !== this.selectedCategory) {
+      if (service.categoria !== this.selectedCategory) {
         return false;
       }
 
@@ -607,16 +589,16 @@ export class ServicesComponent implements OnInit {
       if (this.searchQuery) {
         const searchLower = this.searchQuery.toLowerCase();
         const matchesSearch =
-          service.title.toLowerCase().includes(searchLower) ||
-          service.description.toLowerCase().includes(searchLower) ||
+          service.titulo.toLowerCase().includes(searchLower) ||
+          service.descricao.toLowerCase().includes(searchLower) ||
           service.tags.some(tag => tag.toLowerCase().includes(searchLower));
 
         if (!matchesSearch) return false;
       }
 
       // Filtro por preço
-      if (this.minPrice && service.price < this.minPrice) return false;
-      if (this.maxPrice && service.price > this.maxPrice) return false;
+      if (this.minPrice && service.preco < this.minPrice) return false;
+      if (this.maxPrice && service.preco > this.maxPrice) return false;
 
       // Filtros selecionados
       for (const [filterName, selectedOptions] of Object.entries(this.selectedFilters)) {
@@ -624,14 +606,14 @@ export class ServicesComponent implements OnInit {
 
         switch (filterName) {
           case 'Nível':
-            if (!selectedOptions.includes(service.level)) return false;
+            if (!selectedOptions.includes(service.nivel)) return false;
             break;
           case 'Tempo de Entrega': {
             const deliveryMatch = selectedOptions.some(option => {
-              if (option === 'Até 24h') return service.deliveryTime <= 1;
-              if (option === '1-3 dias') return service.deliveryTime > 1 && service.deliveryTime <= 3;
-              if (option === '3-7 dias') return service.deliveryTime > 3 && service.deliveryTime <= 7;
-              return service.deliveryTime > 7;
+              if (option === 'Até 24h') return service.tempoEntrega <= 1;
+              if (option === '1-3 dias') return service.tempoEntrega > 1 && service.tempoEntrega <= 3;
+              if (option === '3-7 dias') return service.tempoEntrega > 3 && service.tempoEntrega <= 7;
+              return service.tempoEntrega > 7;
             });
             if (!deliveryMatch) return false;
             break;
@@ -639,7 +621,7 @@ export class ServicesComponent implements OnInit {
           case 'Avaliação': {
             const ratingMatch = selectedOptions.some(option => {
               const minRating = parseFloat(option.replace('+', ''));
-              return service.rating >= minRating;
+              return service.avaliacao >= minRating;
             });
             if (!ratingMatch) return false;
             break;
@@ -666,25 +648,31 @@ export class ServicesComponent implements OnInit {
     this.applyFilters();
   }
 
-  openServiceDetails(service: Service): void {
+  openServiceDetails(service: Servico): void {
     this.dialog.open(ServiceDetailsComponent, {
       data: service
     });
   }
 
+  // Método para verificar se um filtro está selecionado
+  isFilterSelected(filterName: string, option: string): boolean {
+    if (!this.selectedFilters[filterName]) return false;
+    return this.selectedFilters[filterName].includes(option);
+  }
+
   // Getters para evitar funções inline no template
   get nivelOptions(): string[] {
-    const filter = this.filters.find(f => f.name === 'Nível');
-    return filter ? filter.options : [];
+    const filter = this.filters.find(f => f.nome === 'Nível');
+    return filter ? filter.opcoes : [];
   }
 
   get tempoEntregaOptions(): string[] {
-    const filter = this.filters.find(f => f.name === 'Tempo de Entrega');
-    return filter ? filter.options : [];
+    const filter = this.filters.find(f => f.nome === 'Tempo de Entrega');
+    return filter ? filter.opcoes : [];
   }
 
   get avaliacaoOptions(): string[] {
-    const filter = this.filters.find(f => f.name === 'Avaliação');
-    return filter ? filter.options : [];
+    const filter = this.filters.find(f => f.nome === 'Avaliação');
+    return filter ? filter.opcoes : [];
   }
 }

@@ -184,16 +184,16 @@ export class MapaComponent implements OnInit {
   private abrirModal(profissional: ProfissionalProximo): void {
     const serviceData = {
       id: '1',
-      title: 'Serviço de ' + profissional.profissao,
-      profileImage: profissional.fotoPerfil || 'https://randomuser.me/api/portraits/men/1.jpg',
-      freelancerName: profissional.nome,
-      category: profissional.profissao,
-      price: profissional.valorHora || Math.floor(Math.random() * 500) + 100,
-      rating: profissional.avaliacao || (Math.random() * 2 + 3).toFixed(1),
-      totalReviews: profissional.projetosCompletos || Math.floor(Math.random() * 100) + 1,
-      description: 'Descrição do serviço de ' + profissional.profissao,
-      deliveryTime: Math.floor(Math.random() * 10) + 1,
-      level: profissional.nivel || 'Intermediário',
+      titulo: 'Serviço de ' + profissional.profissao,
+      fotoColaborador: profissional.fotoPerfil || 'https://randomuser.me/api/portraits/men/1.jpg',
+      nomeColaborador: profissional.nome,
+      categoria: profissional.profissao,
+      preco: profissional.valorHora || Math.floor(Math.random() * 500) + 100,
+      avaliacao: profissional.avaliacao || +(Math.random() * 2 + 3).toFixed(1),
+      totalAvaliacoes: profissional.projetosCompletos || Math.floor(Math.random() * 100) + 1,
+      descricao: 'Descrição do serviço de ' + profissional.profissao,
+      tempoEntrega: Math.floor(Math.random() * 10) + 1,
+      nivel: profissional.nivel as 'Iniciante' | 'Intermediário' | 'Expert' || 'Intermediário',
       tags: ['Tag1', 'Tag2', 'Tag3']
     };
 

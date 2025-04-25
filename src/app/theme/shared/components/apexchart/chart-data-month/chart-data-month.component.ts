@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 // project import
-import { WalletService, Transaction } from 'src/app/core/services/wallet.service';
+import { WalletService } from 'src/app/core/services/wallet.service';
+import { Transacao } from 'src/app/core/interfaces/usuario';
 
 // third party
 import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
@@ -21,7 +22,7 @@ export class ChartDataMonthComponent implements OnInit {
   chartOptions: Partial<ApexOptions> = {};
   amount = 0;
   btnActive!: string;
-  transactions: Transaction[] = [];
+  transactions: Transacao[] = [];
   fontSizeClass = '';
 
   constructor(private walletService: WalletService) {}
@@ -31,8 +32,12 @@ export class ChartDataMonthComponent implements OnInit {
     
     this.setupChartOptions();
     
+    // Obter transações iniciais
     this.transactions = this.walletService.getTransactions();
+    const dailyData = this.processTransactionsForChart(this.transactions);
+    this.updateChart(dailyData);
     
+    // Inscrever para atualizações futuras
     this.walletService.transactions.subscribe(newTransactions => {
       this.transactions = newTransactions;
       this.updateChartData();
@@ -126,13 +131,13 @@ export class ChartDataMonthComponent implements OnInit {
     
     // Filtrar transações do mês atual - melhorar a filtragem para garantir datas corretas
     const monthlyTransactions = this.transactions.filter(transaction => {
-      if (!transaction.date) return false;
+      if (!transaction.data) return false;
       
-      const transactionDate = new Date(transaction.date);
+      const transactionDate = new Date(transaction.data);
       return transactionDate instanceof Date && !isNaN(transactionDate.getTime()) && // Verificar se a data é válida
              transactionDate.getMonth() === currentMonth && 
              transactionDate.getFullYear() === currentYear &&
-             (transaction.type === 'withdrawal' || transaction.type === 'payment');
+             (transaction.tipo === 'saque' || transaction.tipo === 'pagamento' );
     });
     
     // Organizar dados por dia do mês
@@ -140,10 +145,10 @@ export class ChartDataMonthComponent implements OnInit {
     const dailyExpenses = Array(daysInMonth).fill(0);
     
     monthlyTransactions.forEach(transaction => {
-      const transactionDate = new Date(transaction.date);
+      const transactionDate = new Date(transaction.data);
       const day = transactionDate.getDate();
       if (day >= 1 && day <= daysInMonth) {
-        dailyExpenses[day - 1] += Math.abs(transaction.amount);
+        dailyExpenses[day - 1] += Math.abs(transaction.valor);
       }
     });
     
@@ -216,17 +221,17 @@ export class ChartDataMonthComponent implements OnInit {
     
     // Filtrar transações do ano atual
     const yearlyTransactions = this.transactions.filter(transaction => {
-      const transactionDate = new Date(transaction.date);
+      const transactionDate = new Date(transaction.data);
       return transactionDate.getFullYear() === currentYear &&
-             (transaction.type === 'withdrawal' || transaction.type === 'payment');
+      (transaction.tipo === 'saque' || transaction.tipo === 'pagamento' );
     });
     
     // Organizar dados por mês
     const monthlyExpenses = Array(12).fill(0);
     
     yearlyTransactions.forEach(transaction => {
-      const month = new Date(transaction.date).getMonth();
-      monthlyExpenses[month] += Math.abs(transaction.amount);
+      const month = new Date(transaction.data).getMonth();
+      monthlyExpenses[month] += Math.abs(transaction.valor);
     });
     
     // Calcular total anual
@@ -271,5 +276,83 @@ export class ChartDataMonthComponent implements OnInit {
     } else {
       this.fontSizeClass = 'font-md';
     }
+  }
+
+  private processTransactionsForChart(transactions: Transacao[]) {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    
+    // Arrays para armazenar dados de receitas e despesas por dia
+    const incomeByDay = Array(daysInMonth).fill(0);
+    const expensesByDay = Array(daysInMonth).fill(0);
+    
+    transactions.forEach(transaction => {
+      const date = new Date(transaction.data);
+      
+      if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+        const dayOfMonth = date.getDate();
+        
+        if (transaction.tipo === 'deposito' || transaction.tipo === 'receita' || transaction.tipo === 'reembolso') {
+          incomeByDay[dayOfMonth - 1] += transaction.valor;
+        } else if (transaction.tipo === 'saque' || transaction.tipo === 'pagamento') {
+          expensesByDay[dayOfMonth - 1] += Math.abs(transaction.valor);
+        }
+      }
+    });
+    
+    return { incomeByDay, expensesByDay, daysInMonth };
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private updateChart(chartData: any) {
+    // Implementação para atualizar as opções do gráfico com os dados processados
+    const { incomeByDay, expensesByDay, daysInMonth } = chartData;
+    
+    // Preparar categorias do eixo X (dias do mês)
+    const categories = Array.from({ length: daysInMonth }, (_, i) => (i + 1).toString());
+    
+    // Atualizar as séries de dados do gráfico
+    this.chartOptions.series = [
+      {
+        name: 'Receitas',
+        data: incomeByDay
+      },
+      {
+        name: 'Despesas',
+        data: expensesByDay
+      }
+    ];
+    
+    // Atualizar as categorias do eixo X
+    if (this.chartOptions.xaxis) {
+      this.chartOptions.xaxis.categories = categories;
+    }
+    
+    // Se necessário, atualizar outras opções do gráfico...
+  }
+
+  private processWeeklyTransactions(transactions: Transacao[]) {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const incomeByWeek = Array(4).fill(0);
+    const expensesByWeek = Array(4).fill(0);
+
+    transactions.forEach(transaction => {
+      const date = new Date(transaction.data);
+      if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+        const weekIndex = Math.floor(date.getDate() / 7);
+        const safeWeekIndex = Math.min(weekIndex, 3);
+        if (transaction.tipo === 'deposito' || transaction.tipo === 'receita' || transaction.tipo === 'reembolso') {
+          incomeByWeek[safeWeekIndex] += transaction.valor;
+        } else if (transaction.tipo === 'saque' || transaction.tipo === 'pagamento') {
+          expensesByWeek[safeWeekIndex] += Math.abs(transaction.valor);
+        }
+      }
+    });
+
+    return { incomeByWeek, expensesByWeek };
   }
 }

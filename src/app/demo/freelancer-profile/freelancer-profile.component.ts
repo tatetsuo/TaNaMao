@@ -24,23 +24,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { AuthService, User } from 'src/app/core/services/auth.service';
 import { Notyf } from 'notyf';
+import { HistoricoTrabalho, Habilidade } from 'src/app/core/interfaces/colaborador';
 
 // Interface para os dados da tabela de histórico de trabalhos
-interface WorkHistory {
-  id: string;
-  clientName: string;
-  date: Date;
-  service: string;
-  rating: number;
-  amount: number;
-  status: 'completed' | 'in-progress' | 'canceled';
-}
 
-// Interface para habilidades com níveis de proficiência
-interface Skill {
-  name: string;
-  level: number; // 1-5
-}
 
 @Component({
   selector: 'app-freelancer-profile',
@@ -82,11 +69,11 @@ export class FreelancerProfileComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   
   // Skills com níveis de proficiência
-  skills: Skill[] = [];
+  skills: Habilidade[] = [];
   
   // Dados para a tabela de histórico de trabalhos
   workHistoryColumns: string[] = ['clientName', 'date', 'service', 'rating', 'amount', 'status', 'actions'];
-  workHistoryData: WorkHistory[] = [];
+  workHistoryData: HistoricoTrabalho[] = [];
   
   // Estatísticas do freelancer
   stats = {
@@ -196,12 +183,12 @@ export class FreelancerProfileComponent implements OnInit {
 
     // Simular dados de habilidades para este prestador
     this.skills = [
-      { name: 'Atendimento ao cliente', level: 5 },
-      { name: 'Qualidade de serviço', level: 4 }, 
-      { name: 'Pontualidade', level: 5 },
-      { name: 'Paisagismo', level: 4 },
-      { name: 'Poda', level: 5 },
-      { name: 'Manutenção', level: 3 }
+      { nome: 'Atendimento ao cliente', nivel: 5 },
+      { nome: 'Qualidade de serviço', nivel: 4 }, 
+      { nome: 'Pontualidade', nivel: 5 },
+      { nome: 'Paisagismo', nivel: 4 },
+      { nome: 'Poda', nivel: 5 },
+      { nome: 'Manutenção', nivel: 3 }
     ];
   }
   
@@ -210,57 +197,57 @@ export class FreelancerProfileComponent implements OnInit {
     this.workHistoryData = [
       { 
         id: '1', 
-        clientName: 'Carlos Mendes', 
-        date: new Date('2023-06-10'), 
-        service: 'Jardinagem Completa', 
-        rating: 5, 
-        amount: 120, 
-        status: 'completed' 
+        nomeCliente: 'Carlos Mendes', 
+        data: new Date('2023-06-10'), 
+        servico: 'Jardinagem Completa', 
+        avaliacao: 5, 
+        valor: 120, 
+        status: 'concluido' 
       },
       { 
         id: '2', 
-        clientName: 'Ana Paula Silva', 
-        date: new Date('2023-06-05'), 
-        service: 'Poda de Árvores', 
-        rating: 4, 
-        amount: 80, 
-        status: 'completed' 
+        nomeCliente: 'Ana Paula Silva', 
+        data: new Date('2023-06-05'), 
+        servico: 'Poda de Árvores', 
+        avaliacao: 4, 
+        valor: 80, 
+        status: 'concluido' 
       },
       { 
         id: '3', 
-        clientName: 'Roberto Gomes', 
-        date: new Date('2023-05-28'), 
-        service: 'Plantio de Gramado', 
-        rating: 5, 
-        amount: 200, 
-        status: 'completed' 
+        nomeCliente: 'Roberto Gomes', 
+        data: new Date('2023-05-28'), 
+        servico: 'Plantio de Gramado', 
+        avaliacao: 5, 
+        valor: 200, 
+        status: 'concluido' 
       },
       { 
         id: '4', 
-        clientName: 'Fernanda Costa', 
-        date: new Date('2023-05-15'), 
-        service: 'Manutenção Geral', 
-        rating: 5, 
-        amount: 150, 
-        status: 'completed' 
+        nomeCliente: 'Fernanda Costa', 
+        data: new Date('2023-05-15'), 
+        servico: 'Manutenção Geral', 
+        avaliacao: 5, 
+        valor: 150, 
+        status: 'concluido' 
       },
       { 
         id: '5', 
-        clientName: 'Paulo Henrique', 
-        date: new Date('2023-06-15'), 
-        service: 'Projeto Paisagístico', 
-        rating: 0, 
-        amount: 300, 
-        status: 'in-progress' 
+        nomeCliente: 'Paulo Henrique', 
+        data: new Date('2023-06-15'), 
+        servico: 'Projeto Paisagístico', 
+        avaliacao: 0, 
+        valor: 300, 
+        status: 'em-andamento' 
       }
     ];
     
     // Calcular estatísticas
-    const completedJobs = this.workHistoryData.filter(job => job.status === 'completed');
+    const completedJobs = this.workHistoryData.filter(job => job.status === 'concluido');
     this.stats.totalJobs = this.workHistoryData.length;
     this.stats.completionRate = completedJobs.length / this.stats.totalJobs * 100;
-    this.stats.averageRating = completedJobs.reduce((sum, job) => sum + job.rating, 0) / completedJobs.length;
-    this.stats.totalEarnings = this.workHistoryData.reduce((sum, job) => sum + job.amount, 0);
+    this.stats.averageRating = completedJobs.reduce((sum, job) => sum + job.avaliacao, 0) / completedJobs.length;
+    this.stats.totalEarnings = this.workHistoryData.reduce((sum, job) => sum + job.valor, 0);
     this.stats.responseRate = 95; // valor fixo para exemplo
   }
 
@@ -297,15 +284,15 @@ export class FreelancerProfileComponent implements OnInit {
     const skillName = this.skillsForm.get('skill')?.value?.trim();
     const skillLevel = this.skillsForm.get('level')?.value || 3;
     
-    if (skillName && !this.skills.some(s => s.name === skillName)) {
-      this.skills.push({ name: skillName, level: skillLevel });
+    if (skillName && !this.skills.some(s => s.nome === skillName)) {
+      this.skills.push({ nome: skillName, nivel: skillLevel });
       this.skillsForm.get('skill')?.reset();
       this.skillsForm.get('level')?.setValue(3);
     }
   }
 
-  removeSkill(skillName: string): void {
-    const index = this.skills.findIndex(s => s.name === skillName);
+  removeSkill(skillNome: string): void {
+    const index = this.skills.findIndex(s => s.nome === skillNome);
     if (index >= 0) {
       this.skills.splice(index, 1);
     }
@@ -350,9 +337,9 @@ export class FreelancerProfileComponent implements OnInit {
   
   getStatusClass(status: string): string {
     switch (status) {
-      case 'completed': return 'status-completed';
-      case 'in-progress': return 'status-progress';
-      case 'canceled': return 'status-canceled';
+      case 'concluido': return 'status-completed';
+      case 'em-progresso': return 'status-progress';
+      case 'cancelado': return 'status-canceled';
       default: return '';
     }
   }

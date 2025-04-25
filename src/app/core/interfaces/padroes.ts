@@ -1,3 +1,5 @@
+import { PortifolioItem } from "./servico";
+
 export interface PerfilBase {
     id: string;
     nome: string;
@@ -44,6 +46,8 @@ export interface Servico {
   tempoEntrega: number;
   descricao: string;
   nivel: 'Iniciante' | 'Intermediário' | 'Expert';
+  certificacoes?: string[];
+  portfolioItems?: PortifolioItem[];
 }
 
 // Interface para filtros de busca

@@ -291,24 +291,24 @@
                   <mat-expansion-panel *ngFor="let skill of skills" class="mb-2">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
-                        {{ skill.name }}
+                        {{ skill.nome }}
                       </mat-panel-title>
                       <mat-panel-description class="skill-level">
                         <div class="skill-stars">
-                          <mat-icon *ngFor="let star of getStarArray(skill.level)">star</mat-icon>
-                          <mat-icon *ngFor="let star of getStarArray(5 - skill.level)">star_outline</mat-icon>
+                          <mat-icon *ngFor="let star of getStarArray(skill.nivel)">star</mat-icon>
+                          <mat-icon *ngFor="let star of getStarArray(5 - skill.nivel)">star_outline</mat-icon>
                         </div>
                       </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <p class="mb-2">Nível: {{ skill.level }} - 
-                      <span *ngIf="skill.level === 1">Iniciante</span>
-                      <span *ngIf="skill.level === 2">Básico</span>
-                      <span *ngIf="skill.level === 3">Intermediário</span>
-                      <span *ngIf="skill.level === 4">Avançado</span>
-                      <span *ngIf="skill.level === 5">Especialista</span>
+                    <p class="mb-2">Nível: {{ skill.nivel }} - 
+                      <span *ngIf="skill.nivel === 1">Iniciante</span>
+                      <span *ngIf="skill.nivel === 2">Básico</span>
+                      <span *ngIf="skill.nivel === 3">Intermediário</span>
+                      <span *ngIf="skill.nivel === 4">Avançado</span>
+                      <span *ngIf="skill.nivel === 5">Especialista</span>
                     </p>
                     <div class="skill-actions">
-                      <button mat-mini-fab color="warn" aria-label="Remover" (click)="removeSkill(skill.name)">
+                      <button mat-mini-fab color="warn" aria-label="Remover" (click)="removeSkill(skill.nome)">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>

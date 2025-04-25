@@ -28,7 +28,7 @@ export interface Cartao {
   numero: string;
   titular: string;
   dataValidade: string;
-  cvv: string;
+  cvv?: string;
   tipo: 'credito' | 'debito' | 'ambos';
   bandeira: string;
   padrao: boolean;
@@ -39,7 +39,7 @@ export interface Cartao {
 // Interface para transações financeiras
 export interface Transacao {
   id: string;
-  data: Date;
+  data: string | Date;
   valor: number;
   descricao: string;
   tipo: 'deposito' | 'saque' | 'pagamento' | 'reembolso' | 'receita';

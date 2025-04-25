@@ -1,52 +1,34 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface ServiceContract {
-  id: string;
-  serviceId: string;
-  title: string;
-  freelancerId: string;
-  freelancerName: string;
-  freelancerImage: string;
-  price: number;
-  scheduledDate: Date;
-  scheduledTime: string;
-  location: string;
-  status: 'agendado' | 'confirmado' | 'em-andamento' | 'concluido' | 'cancelado';
-  additionalRequirements?: string;
-  paymentMethod: string;
-  totalPaid: number;
-  createdAt: Date;
-  updatedAt?: Date;
-}
+import { ContratoServico } from '../interfaces/padroes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceStatusService {
-  private contractsSubject: BehaviorSubject<ServiceContract[]>;
-  public contracts: Observable<ServiceContract[]>;
+  private contractsSubject: BehaviorSubject<ContratoServico[]>;
+  public contracts: Observable<ContratoServico[]>;
 
   constructor() {
     // Inicializa os contratos do armazenamento local ou usa valores padrão
     const savedContracts = localStorage.getItem('serviceContracts');
-    this.contractsSubject = new BehaviorSubject<ServiceContract[]>(savedContracts ? JSON.parse(savedContracts) : []);
+    this.contractsSubject = new BehaviorSubject<ContratoServico[]>(savedContracts ? JSON.parse(savedContracts) : []);
     this.contracts = this.contractsSubject.asObservable();
   }
 
-  public getContracts(): ServiceContract[] {
+  public getContracts(): ContratoServico[] {
     return this.contractsSubject.value;
   }
 
-  public getContractById(id: string): ServiceContract | undefined {
+  public getContractById(id: string): ContratoServico | undefined {
     return this.contractsSubject.value.find(contract => contract.id === id);
   }
 
-  public addContract(contract: Omit<ServiceContract, 'id' | 'createdAt'>): ServiceContract {
-    const newContract: ServiceContract = {
+  public addContract(contract: Omit<ContratoServico, 'id' | 'dataCriacao'>): ContratoServico {
+    const newContract: ContratoServico = {
       ...contract,
       id: this.generateId(),
-      createdAt: new Date(),
+      dataCriacao: new Date(),
       status: 'agendado'
     };
     
@@ -60,7 +42,7 @@ export class ServiceStatusService {
     return newContract;
   }
 
-  public updateContractStatus(contractId: string, newStatus: ServiceContract['status']): boolean {
+  public updateContractStatus(contractId: string, newStatus: ContratoServico['status']): boolean {
     const currentContracts = this.contractsSubject.value;
     const contractIndex = currentContracts.findIndex(c => c.id === contractId);
     
@@ -69,7 +51,7 @@ export class ServiceStatusService {
     const updatedContract = {
       ...currentContracts[contractIndex],
       status: newStatus,
-      updatedAt: new Date()
+      dataAtualizacao: new Date()
     };
     
     const updatedContracts = [...currentContracts];

@@ -21,38 +21,48 @@
             </mat-form-field>
           </div>
 
-          <mat-accordion>
-            <mat-expansion-panel>
+          <div class="filters">
+            <mat-expansion-panel class="filter-panel">
               <mat-expansion-panel-header>
-                <mat-panel-title>Preço</mat-panel-title>
+                <mat-panel-title>
+                  <mat-icon>filter_list</mat-icon>
+                  Filtros
+                </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="price-range">
-                <mat-form-field appearance="outline">
-                  <mat-label>Min</mat-label>
-                  <input matInput type="number" [(ngModel)]="minPrice">
-                </mat-form-field>
-                <span>-</span>
-                <mat-form-field appearance="outline">
-                  <mat-label>Max</mat-label>
-                  <input matInput type="number" [(ngModel)]="maxPrice">
-                </mat-form-field>
-                <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar</button>
+
+              <div class="filter-container">
+                <div class="filter-group price-filter">
+                  <h4>Preço</h4>
+                  <div class="price-inputs">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Mínimo</mat-label>
+                      <input matInput type="number" [(ngModel)]="minPrice">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Máximo</mat-label>
+                      <input matInput type="number" [(ngModel)]="maxPrice">
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div *ngFor="let filter of filters" class="filter-group">
+                  <h4>{{ filter.nome }}</h4>
+                  <div class="filter-options">
+                    <div class="filter-option" *ngFor="let option of filter.opcoes">
+                      <mat-checkbox [checked]="isFilterSelected(filter.nome, option)" (change)="toggleFilter(filter.nome, option)">
+                        {{ option }}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="filter-actions">
+                  <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar Filtros</button>
+                </div>
               </div>
             </mat-expansion-panel>
-
-            <mat-expansion-panel *ngFor="let filter of filters">
-              <mat-expansion-panel-header>
-                <mat-panel-title>{{filter.name}}</mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-chip-listbox multiple (change)="applyFilters()">
-                <mat-chip-option *ngFor="let option of filter.options"
-                  [selected]="selectedFilters[filter.name]?.includes(option)"
-                  (selectionChange)="toggleFilter(filter.name, option)">
-                  {{option}}
-                </mat-chip-option>
-              </mat-chip-listbox>
-            </mat-expansion-panel>
-          </mat-accordion>
+          </div>
         </div>
       </aside>
 
@@ -63,20 +73,20 @@
             <mat-card *ngFor="let service of filteredServices" class="service-card">
               <div class="card-content-wrapper">
                 <div class="img-container">
-                  <img [src]="service.profileImage" [alt]="service.title" class="service-image">
+                  <img [src]="service.fotoColaborador" [alt]="service.titulo" class="service-image">
                 </div>
                 <mat-card-content>
                   <div class="freelancer-info">
-                    <span class="freelancer-name">{{service.freelancerName}}</span>
+                    <span class="freelancer-name">{{service.nomeColaborador}}</span>
                     <div class="rating">
                       <mat-icon class="star-icon">star</mat-icon>
-                      <span>{{service.rating}} ({{service.totalReviews}})</span>
+                      <span>{{service.avaliacao}} ({{service.totalAvaliacoes}})</span>
                     </div>
                   </div>
 
                   <div class="content-main">
-                    <h2 class="service-title">{{service.title}}</h2>
-                    <p class="service-description">{{service.description | slice:0:200}}{{service.description.length > 200 ? '...' : ''}}</p>
+                    <h2 class="service-title">{{service.titulo}}</h2>
+                    <p class="service-description">{{service.descricao | slice:0:200}}{{service.descricao.length > 200 ? '...' : ''}}</p>
                   </div>
 
                   <div class="content-details">
@@ -91,17 +101,17 @@
                     <div class="service-details">
                       <div class="detail">
                         <mat-icon class="detail-icon">schedule</mat-icon>
-                        <span>{{service.deliveryTime}} dias</span>
+                        <span>{{service.tempoEntrega}} dias</span>
                       </div>
                       <div class="detail">
                         <mat-icon class="detail-icon">workspace_premium</mat-icon>
-                        <span>{{service.level}}</span>
+                        <span>{{service.nivel}}</span>
                       </div>
                     </div>
                   </div>
 
                   <div class="service-footer">
-                    <span class="price">R$ {{service.price}}</span>
+                    <span class="price">R$ {{service.preco}}</span>
                     <button mat-raised-button color="primary" (click)="openServiceDetails(service)">
                       Ver Detalhes
                     </button>

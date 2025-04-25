@@ -21,6 +21,7 @@ export interface Colaborador {
   experiencia?: string;
   certificacoes?: string[];
   idiomas?: string[];
+  destaque?: boolean;
 }
 
 // Interface para habilidades com níveis de proficiência

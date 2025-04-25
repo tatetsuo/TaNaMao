@@ -19,19 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthService, User } from 'src/app/core/services/auth.service';
 import { WalletService } from 'src/app/core/services/wallet.service';
 import { Notyf } from 'notyf';
-
-interface JobSchedule {
-  id: number;
-  clientName: string;
-  address: string;
-  date: string;
-  time: string;
-  service: string;
-  price: number;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-  distance?: string;
-  clientPhoto?: string;
-}
+import { AgendamentoServico } from 'src/app/core/interfaces/colaborador';
 
 @Component({
   selector: 'app-prestador-dashboard',
@@ -72,8 +60,8 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   };
   
   // Fonte de dados para tabelas Material
-  upcomingJobsDataSource!: MatTableDataSource<JobSchedule>;
-  completedJobsDataSource!: MatTableDataSource<JobSchedule>;
+  upcomingJobsDataSource!: MatTableDataSource<AgendamentoServico>;
+  completedJobsDataSource!: MatTableDataSource<AgendamentoServico>;
   
   // Colunas para tabelas
   upcomingColumns: string[] = ['client', 'details', 'date', 'price', 'status', 'actions'];
@@ -85,79 +73,79 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   reviewScore = 4.7;
   
   // Trabalhos agendados mais próximos
-  upcomingJobs: JobSchedule[] = [
+  upcomingJobs: AgendamentoServico[] = [
     {
       id: 1,
-      clientName: 'Carlos Mendes',
-      address: 'Rua das Flores, 123 - Jardim Botânico',
-      date: '2023-06-15',
-      time: '14:00',
-      service: 'Jardinagem',
-      price: 120,
-      status: 'confirmed',
-      distance: '2.5 km',
-      clientPhoto: 'assets/images/user/avatar-1.jpg'
+      nomeCliente: 'Carlos Mendes',
+      endereco: 'Rua das Flores, 123 - Jardim Botânico',
+      data: '2023-06-15',
+      hora: '14:00',
+      servico: 'Jardinagem',
+      preco: 120,
+      status: 'confirmado',
+      distancia: '2.5 km',
+      fotoCliente: 'assets/images/user/avatar-1.jpg'
     },
     {
       id: 2,
-      clientName: 'Ana Paula Silva',
-      address: 'Av. Central, 456 - Asa Sul',
-      date: '2023-06-16',
-      time: '10:00',
-      service: 'Jardinagem',
-      price: 150,
-      status: 'pending',
-      distance: '4.8 km',
-      clientPhoto: 'assets/images/user/avatar-3.jpg'
+      nomeCliente: 'Ana Paula Silva',
+      endereco: 'Av. Central, 456 - Asa Sul',
+      data: '2023-06-16',
+      hora: '10:00',
+      servico: 'Jardinagem',
+      preco: 150,
+      status: 'pendente',
+      distancia: '4.8 km',
+      fotoCliente: 'assets/images/user/avatar-3.jpg'
     },
     {
       id: 3,
-      clientName: 'Roberto Gomes',
-      address: 'Quadra 5, Conjunto B - Lago Norte',
-      date: '2023-06-17',
-      time: '16:30',
-      service: 'Jardinagem',
-      price: 180,
-      status: 'confirmed',
-      distance: '7.2 km',
-      clientPhoto: 'assets/images/user/avatar-2.jpg'
+      nomeCliente: 'Roberto Gomes',
+      endereco: 'Quadra 5, Conjunto B - Lago Norte',
+      data: '2023-06-17',
+      hora: '16:30',
+      servico: 'Jardinagem',
+      preco: 180,
+      status: 'confirmado',
+      distancia: '7.2 km',
+      fotoCliente: 'assets/images/user/avatar-2.jpg'
     }
   ];
   
   // Histórico de trabalhos concluídos
-  completedJobs: JobSchedule[] = [
+  completedJobs: AgendamentoServico[] = [
     {
       id: 101,
-      clientName: 'Márcia Oliveira',
-      address: 'Rua 10, Casa 8 - Lago Sul',
-      date: '2023-06-10',
-      time: '09:00',
-      service: 'Jardinagem',
-      price: 200,
-      status: 'completed',
-      clientPhoto: 'assets/images/user/avatar-2.jpg'
+      nomeCliente: 'Márcia Oliveira',
+      endereco: 'Rua 10, Casa 8 - Lago Sul',
+      data: '2023-06-10',
+      hora: '09:00',
+      servico: 'Jardinagem',
+      preco: 200,
+      status: 'concluido',
+      fotoCliente: 'assets/images/user/avatar-2.jpg'
     },
     {
       id: 102,
-      clientName: 'Paulo Henrique',
-      address: 'SQN 214, Bloco C - Asa Norte',
-      date: '2023-06-08',
-      time: '14:30',
-      service: 'Jardinagem',
-      price: 130,
-      status: 'completed',
-      clientPhoto: 'assets/images/user/avatar-1.jpg'
+      nomeCliente: 'Paulo Henrique',
+      endereco: 'SQN 214, Bloco C - Asa Norte',
+      data: '2023-06-08',
+      hora: '14:30',
+      servico: 'Jardinagem',
+      preco: 130,
+      status: 'concluido',
+      fotoCliente: 'assets/images/user/avatar-1.jpg'
     },
     {
       id: 103,
-      clientName: 'Fernanda Costa',
-      address: 'SHIS QI 15, Conjunto 8 - Lago Sul',
-      date: '2023-06-05',
-      time: '11:00',
-      service: 'Jardinagem',
-      price: 250,
-      status: 'completed',
-      clientPhoto: 'assets/images/user/avatar-3.jpg'
+      nomeCliente: 'Fernanda Costa',
+      endereco: 'SHIS QI 15, Conjunto 8 - Lago Sul',
+      data: '2023-06-05',
+      hora: '11:00',
+      servico: 'Jardinagem',
+      preco: 250,
+      status: 'concluido',
+      fotoCliente: 'assets/images/user/avatar-3.jpg'
     }
   ];
   
@@ -191,12 +179,12 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
     this.upcomingJobsDataSource.sort = this.sort;
     
     // Configuração aprimorada do filtro para pesquisa
-    this.upcomingJobsDataSource.filterPredicate = (data: JobSchedule, filter: string) => {
+    this.upcomingJobsDataSource.filterPredicate = (data: AgendamentoServico, filter: string) => {
       const filterValue = filter.toLowerCase().trim();
-      return data.clientName.toLowerCase().includes(filterValue) || 
-             data.service.toLowerCase().includes(filterValue) || 
-             data.address.toLowerCase().includes(filterValue) ||
-             this.formatDate(data.date).includes(filterValue) ||
+      return data.nomeCliente.toLowerCase().includes(filterValue) || 
+             data.servico.toLowerCase().includes(filterValue) || 
+             data.endereco.toLowerCase().includes(filterValue) ||
+             this.formatDate(data.data).includes(filterValue) ||
              data.status.toLowerCase().includes(filterValue);
     };
   }
@@ -214,14 +202,14 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   confirmJob(jobId: number): void {
     const job = this.upcomingJobs.find(j => j.id === jobId);
     if (job) {
-      job.status = 'confirmed';
+      job.status = 'confirmado';
       
       // Atualiza o datasource
       this.upcomingJobsDataSource.data = [...this.upcomingJobs];
       
       const notyf = new Notyf();
       notyf.success({
-        message: `Trabalho para ${job.clientName} confirmado com sucesso!`,
+        message: `Trabalho para ${job.nomeCliente} confirmado com sucesso!`,
         position: { x: 'right', y: 'top' },
         duration: 3000
       });
@@ -233,7 +221,7 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
     const jobIndex = this.upcomingJobs.findIndex(j => j.id === jobId);
     if (jobIndex !== -1) {
       const job = this.upcomingJobs[jobIndex];
-      job.status = 'completed';
+      job.status = 'concluido';
       
       // Adiciona ao histórico de trabalhos concluídos
       this.completedJobs.unshift({...job});
@@ -246,16 +234,16 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
       // Atualiza o saldo (simulação)
       this.walletService.addTransaction({
         id: Date.now().toString(),
-        amount: job.price,
+        amount: job.preco,
         date: new Date(),
-        description: `Pagamento por ${job.service} para ${job.clientName}`,
-        type: 'deposit',
-        status: 'completed'
+        description: `Pagamento por ${job.servico} para ${job.nomeCliente}`,
+        type: 'income',
+        status: 'completed' // Isso será convertido para 'concluido' no service
       });
       
       const notyf = new Notyf();
       notyf.success({
-        message: `Trabalho concluído! Recebido R$ ${job.price.toFixed(2)}`,
+        message: `Trabalho concluído! Recebido R$ ${job.preco.toFixed(2)}`,
         position: { x: 'right', y: 'top' },
         duration: 3000
       });
@@ -267,7 +255,7 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
     const jobIndex = this.upcomingJobs.findIndex(j => j.id === jobId);
     if (jobIndex !== -1) {
       const job = this.upcomingJobs[jobIndex];
-      job.status = 'cancelled';
+      job.status = 'cancelado';
       
       // Atualiza o datasource
       this.upcomingJobsDataSource.data = [...this.upcomingJobs];
@@ -290,10 +278,10 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   // Método para obter a classe CSS com base no status
   getStatusClass(status: string): string {
     switch (status) {
-      case 'pending': return 'status-pending';
-      case 'confirmed': return 'status-confirmed';
-      case 'completed': return 'status-completed';
-      case 'cancelled': return 'status-cancelled';
+      case 'pendente': return 'status-pending';
+      case 'confirmado': return 'status-confirmed';
+      case 'concluido': return 'status-completed';
+      case 'cancelado': return 'status-cancelled';
       default: return '';
     }
   }
@@ -301,10 +289,10 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   // Método para obter a tradução do status
   getStatusText(status: string): string {
     switch (status) {
-      case 'pending': return 'Aguardando';
-      case 'confirmed': return 'Confirmado';
-      case 'completed': return 'Concluído';
-      case 'cancelled': return 'Cancelado';
+      case 'pendente': return 'Aguardando';
+      case 'confirmado': return 'Confirmado';
+      case 'concluido': return 'Concluído';
+      case 'cancelado': return 'Cancelado';
       default: return status;
     }
   }

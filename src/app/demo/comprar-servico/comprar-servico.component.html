@@ -3,48 +3,43 @@
       <!-- Informações do Prestador -->
       <section class="provider-section">
         <div class="provider-header">
-          <img [src]="serviceData.profileImage" [alt]="serviceData.freelancerName" class="provider-image">
+          <img [src]="serviceData.fotoColaborador" [alt]="serviceData.nomeColaborador" class="provider-image">
           <div class="provider-info">
-            <h2>{{serviceData.freelancerName}}</h2>
+            <h2>{{serviceData.nomeColaborador}}</h2>
             <div class="rating">
               <mat-icon>star</mat-icon>
-              <span>{{serviceData.rating}} ({{serviceData.totalReviews}} avaliações)</span>
+              <span>{{serviceData.avaliacao}} ({{serviceData.totalAvaliacoes}} avaliações)</span>
             </div>
-            <span class="level">{{serviceData.level}}</span>
+            <span class="level">{{serviceData.nivel}}</span>
           </div>
         </div>
 
         <div class="service-details">
-          <h3>{{serviceData.title}}</h3>
-          <p class="description">{{serviceData.description}}</p>
+          <h3>{{serviceData.titulo}}</h3>
+          <p class="description">{{serviceData.descricao}}</p>
 
           <div class="details-grid">
             <div class="detail-item">
               <mat-icon>schedule</mat-icon>
-              <span>Tempo de Entrega: {{serviceData.deliveryTime}} dias</span>
+              <span>Tempo de Entrega: {{serviceData.tempoEntrega}} dias</span>
             </div>
-            <div class="detail-item">
-              <mat-icon>work</mat-icon>
-              <span>Experiência: {{serviceData.experience || 'Não informado'}}</span>
-            </div>
-            <div class="detail-item">
-              <mat-icon>language</mat-icon>
-              <span>Idiomas: {{serviceData.languages?.join(', ') || 'Não informado'}}</span>
-            </div>
+            
+            <!-- Removido referências a propriedades que não existem na interface Servico -->
+            
           </div>
 
-          <div class="certifications" *ngIf="serviceData.certifications?.length">
+          <div class="certifications" *ngIf="serviceData.certificacoes?.length">
             <h4>Certificações</h4>
             <ul>
-              <li *ngFor="let cert of serviceData.certifications">{{cert}}</li>
+              <li *ngFor="let cert of serviceData.certificacoes">{{cert}}</li>
             </ul>
           </div>
 
           <div class="portfolio" *ngIf="serviceData.portfolioItems?.length">
             <h4>Portfólio</h4>
-            <div class="portfolio-grid">
+            <div class="row">
               <div class="portfolio-item" *ngFor="let item of serviceData.portfolioItems">
-                <img [src]="item" alt="Portfolio item">
+                <!-- conteúdo do item de portfólio -->
               </div>
             </div>
           </div>
@@ -102,11 +97,11 @@
             <div class="price-details">
               <div class="price-row">
                 <span>Valor do serviço</span>
-                <span>R$ {{serviceData.price.toFixed(2)}}</span>
+                <span>R$ {{serviceData.preco.toFixed(2)}}</span>
               </div>
               <div class="price-row">
                 <span>Taxa de serviço</span>
-                <span>R$ {{(serviceData.price * 0.1).toFixed(2)}}</span>
+                <span>R$ {{(serviceData.preco * 0.1).toFixed(2)}}</span>
               </div>
               <div class="price-row total">
                 <span>Total</span>
@@ -128,4 +123,4 @@
         </form>
       </section>
     </div>
-  </app-card>
+</app-card>

@@ -7,21 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Router } from '@angular/router';
-
-interface ServiceData {
-  id: string
-  title: string;
-  profileImage: string;
-  freelancerName: string;
-  category: string;
-  price: number;
-  rating: number;
-  totalReviews: number;
-  description: string;
-  deliveryTime: number;
-  level: string;
-  tags: string[];
-}
+import { Servico } from 'src/app/core/interfaces/padroes';
 
 @Component({
   selector: 'app-service-details',
@@ -35,7 +21,7 @@ export class ServiceDetailsComponent {
   @HostBinding('class.sidebar-closed') sidebarClosed = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ServiceData,
+    @Inject(MAT_DIALOG_DATA) public data: Servico,
     private router: Router,
     private dialogRef: MatDialogRef<ServiceDetailsComponent>
   ) {
