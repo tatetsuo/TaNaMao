@@ -1,17 +1,17 @@
-// Angular import
-import { Component, OnInit, output, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, output, inject, signal, computed } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-//theme version
+// theme version
 import { environment } from 'src/environments/environment';
 
 // project import
-import { NavigationItems } from '../navigation';
 import { NavigationItem } from '../navigation-interface';
 import { NavCollapseComponent } from './nav-collapse/nav-collapse.component';
 import { NavGroupComponent } from './nav-group/nav-group.component';
 import { NavItemComponent } from './nav-item/nav-item.component';
+import { NavigationService } from '../navigation';
 
 // NgScrollbarModule
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -23,8 +23,9 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
   templateUrl: './nav-content.component.html',
   styleUrl: './nav-content.component.scss'
 })
-export class NavContentComponent implements OnInit {
+export class NavContentComponent implements OnInit, OnDestroy {
   private location = inject(Location);
+  private navigationService = inject(NavigationService);
 
   // public props
   NavCollapsedMob = output();
@@ -34,22 +35,43 @@ export class NavContentComponent implements OnInit {
   title = 'Demo application for version numbering';
   currentApplicationVersion = environment.appVersion;
 
-  navigations!: NavigationItem[];
+  // Sinal para os itens de navegação
+  private navigationSignal = signal<NavigationItem[]>([]);
+  navigations = computed(() => this.navigationSignal());
+  
   windowWidth: number;
+  
+  private subscriptions = new Subscription();
 
   // Constructor
   constructor() {
-    this.navigations = NavigationItems;
     this.windowWidth = window.innerWidth;
+    this.updateNavigationItems();
+  }
+  
+  // Atualizar itens de navegação
+  private updateNavigationItems(): void {
+    const navItems = this.navigationService.get();
+    this.navigationSignal.set(navItems);
   }
 
   // Life cycle events
   ngOnInit() {
     if (this.windowWidth < 1025) {
       setTimeout(() => {
-        (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
+        (document.querySelector('.coded-navbar') as HTMLDivElement)?.classList.add('menupos-static');
       }, 500);
     }
+    
+    // Observar mudanças no tipo de usuário
+    const subscription = this.navigationService.userType$.subscribe(() => {
+      this.updateNavigationItems();
+    });
+    this.subscriptions.add(subscription);
+  }
+  
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   fireOutClick() {

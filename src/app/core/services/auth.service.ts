@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { delay, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/theme/layout/admin/navigation/navigation';
 
 export interface User {
   id: string;
@@ -16,7 +19,10 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private navigationService: NavigationService
+  ) {
     // Inicializa com um usuário mock para demonstração
     const savedUser = localStorage.getItem('currentUser');
     const initialUser = savedUser ? JSON.parse(savedUser) : {
@@ -44,31 +50,38 @@ export class AuthService {
     return this.$isLogged;
   }
 
-  login(email: string, isFreelancer = false): Observable<User> {
-    // Simulação de login - em produção, isso seria uma chamada para o backend
-    const mockUser = isFreelancer ? {
-      id: '2',
-      name: 'Maria Souza',
-      email: email,
-      profileImage: 'https://randomuser.me/api/portraits/women/2.jpg',
-      isFreelancer: true
-    } : {
-      id: '1',
-      name: 'João Silva',
-      email: email,
-      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
-      isFreelancer: false
-    };
-    
-    localStorage.setItem('currentUser', JSON.stringify(mockUser));
-    this.currentUserSubject.next(mockUser);
-    this.$isLogged.next(true);
-    return this.currentUser as Observable<User>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  login(email: string, password: string): Observable<any> {
+    // Simulação de login para desenvolvimento
+    return of({ 
+      id: '1', 
+      email, 
+      name: 'Usuário Demo',
+      isFreelancer: Boolean(password.includes('freelancer')) // Conversão explícita para boolean
+    }).pipe(
+      delay(800),
+      tap(user => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        
+        // Definir o tipo de usuário na navegação
+        if (user.isFreelancer) {
+          this.navigationService.setUserType('freelancer');
+          this.$isLogged.next(true);
+        } else {
+          this.navigationService.setUserType('client');
+          this.$isLogged.next(true);
+        }
+      })
+    );
   }
 
   logout(): void {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    // Redefinir o tipo de usuário para guest
+    this.navigationService.setUserType('guest');
+    this.router.navigate(['/guest/login']);
   }
 
   isLoggedIn(): boolean {
