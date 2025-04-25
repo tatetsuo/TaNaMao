@@ -1,19 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
-interface ProfissionalProximo {
-  lat: number;
-  lng: number;
-  profissao: string;
-  nome: string;
-  distancia: number; // em km
-  profileImage: string;
-  rating: number;
-  completedProjects: number;
-  hourlyRate: number;
-  level: string;
-}
+import { ProfissionalProximo } from 'src/app/core/interfaces/padroes';
 
 @Component({
   selector: 'app-profissional-modal',

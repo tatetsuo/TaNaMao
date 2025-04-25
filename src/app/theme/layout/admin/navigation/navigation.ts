@@ -67,6 +67,14 @@ export class NavigationService {
             url: '/default',
             icon: 'ti ti-home',
             breadcrumbs: false
+          },
+          {
+            id: 'map',
+            title: 'Mapa',
+            type: 'item',
+            url: '/mapa',
+            icon: 'ti ti-map',
+            breadcrumbs: true
           }
         ]
       },

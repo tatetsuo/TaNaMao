@@ -51,8 +51,7 @@ export class CardComponent implements OnInit {
     this.footerClass = '';
   }
 
-  // Implementando o método ngOnInit corretamente ou removendo-o
-  // Opção 1: Implementar com lógica de inicialização se necessário
+  // Implementando o método ngOnInit
   ngOnInit(): void {
     // Inicializar componente - verificar se há configurações adicionais necessárias
     this.loadCardOptions();

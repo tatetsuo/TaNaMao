@@ -44,11 +44,7 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  private readonly $isLogged = new BehaviorSubject<boolean>(false);
-
-  isLogged() {
-    return this.$isLogged;
-  }
+  
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   login(email: string, password: string): Observable<any> {
@@ -67,10 +63,8 @@ export class AuthService {
         // Definir o tipo de usuário na navegação
         if (user.isFreelancer) {
           this.navigationService.setUserType('freelancer');
-          this.$isLogged.next(true);
         } else {
           this.navigationService.setUserType('client');
-          this.$isLogged.next(true);
         }
       })
     );

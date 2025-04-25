@@ -4,14 +4,7 @@ import * as L from 'leaflet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Notyf } from 'notyf';
 import { ServiceDetailsComponent } from '../catalogo-servicos/service-details/service-details.component';
-
-export interface ProfissionalProximo {
-  lat: number;
-  lng: number;
-  profissao: string;
-  nome: string;
-  distancia: number; // em km
-}
+import { ProfissionalProximo } from 'src/app/core/interfaces/padroes';
 
 @Component({
   selector: 'app-mapa',
@@ -141,7 +134,12 @@ export class MapaComponent implements OnInit {
         lng: novaLng,
         profissao: this.profissoes[Math.floor(Math.random() * this.profissoes.length)],
         nome: this.nomes[Math.floor(Math.random() * this.nomes.length)],
-        distancia: distancia
+        distancia: distancia,
+        fotoPerfil: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`,
+        avaliacao: +(Math.random() * 2 + 3).toFixed(1),
+        projetosCompletos: Math.floor(Math.random() * 100) + 1,
+        valorHora: Math.floor(Math.random() * 150) + 50,
+        nivel: ['Iniciante', 'Intermediário', 'Expert'][Math.floor(Math.random() * 3)]
       });
     }
 
@@ -187,16 +185,16 @@ export class MapaComponent implements OnInit {
     const serviceData = {
       id: '1',
       title: 'Serviço de ' + profissional.profissao,
-      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg', // Exemplo de imagem
+      profileImage: profissional.fotoPerfil || 'https://randomuser.me/api/portraits/men/1.jpg',
       freelancerName: profissional.nome,
       category: profissional.profissao,
-      price: Math.floor(Math.random() * 500) + 100, // Preço aleatório
-      rating: (Math.random() * 2 + 3).toFixed(1), // Avaliação aleatória entre 3.0 e 5.0
-      totalReviews: Math.floor(Math.random() * 100) + 1, // Número aleatório de avaliações
+      price: profissional.valorHora || Math.floor(Math.random() * 500) + 100,
+      rating: profissional.avaliacao || (Math.random() * 2 + 3).toFixed(1),
+      totalReviews: profissional.projetosCompletos || Math.floor(Math.random() * 100) + 1,
       description: 'Descrição do serviço de ' + profissional.profissao,
-      deliveryTime: Math.floor(Math.random() * 10) + 1, // Tempo de entrega aleatório
-      level: 'Intermediário', // Nível fixo para exemplo
-      tags: ['Tag1', 'Tag2', 'Tag3'] // Tags fixas para exemplo
+      deliveryTime: Math.floor(Math.random() * 10) + 1,
+      level: profissional.nivel || 'Intermediário',
+      tags: ['Tag1', 'Tag2', 'Tag3']
     };
 
     this.dialog.open(ServiceDetailsComponent, {
