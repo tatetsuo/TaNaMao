@@ -38,6 +38,12 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  private readonly $isLogged = new BehaviorSubject<boolean>(false);
+
+  isLogged() {
+    return this.$isLogged;
+  }
+
   login(email: string, isFreelancer = false): Observable<User> {
     // Simulação de login - em produção, isso seria uma chamada para o backend
     const mockUser = isFreelancer ? {
@@ -56,6 +62,7 @@ export class AuthService {
     
     localStorage.setItem('currentUser', JSON.stringify(mockUser));
     this.currentUserSubject.next(mockUser);
+    this.$isLogged.next(true);
     return this.currentUser as Observable<User>;
   }
 
@@ -75,5 +82,9 @@ export class AuthService {
   updateUserProfile(user: User): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
+  }
+
+  clearUserData() {
+    localStorage.removeItem("currentUser");
   }
 }
