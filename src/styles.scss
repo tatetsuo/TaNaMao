@@ -109,3 +109,66 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+/* Ensure header stays above modals */
+.coded-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100 !important; /* Higher than Material's overlay (1000) */
+}
+
+/* Ensure modals don't hide behind header */
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 9999 !important;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cdk-global-overlay-wrapper, 
+.cdk-overlay-pane {
+  z-index: 9999 !important;
+  display: flex;
+  position: absolute;
+  pointer-events: auto;
+}
+
+/* Fix for modal backdrop */
+.cdk-overlay-backdrop {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998 !important;
+}
+
+/* Estilos adicionais para garantir que os modais apareçam corretamente */
+.mat-dialog-container, 
+.mat-mdc-dialog-container,
+.mdc-dialog__container,
+.mdc-dialog__surface {
+  position: relative !important;
+  z-index: 10000 !important;
+}
+
+/* Correção para elementos de dropdown e popups */
+.mat-mdc-menu-panel, 
+.mat-menu-panel,
+.mat-datepicker-content,
+.mat-select-panel {
+  z-index: 10001 !important;
+}
+
+/* Fix para elementos do Material que podem ficar sob o backdrop */
+.mat-mdc-option, 
+.mat-option, 
+.mat-calendar {
+  z-index: 10001 !important;
+  position: relative;
+}

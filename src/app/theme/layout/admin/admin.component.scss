@@ -1,0 +1,32 @@
+::ng-deep {
+  // Ajustes para garantir que modais fiquem visíveis
+  .cdk-overlay-container {
+    position: fixed;
+    z-index: 9999 !important;
+  }
+
+  .cdk-global-overlay-wrapper {
+    z-index: 9999 !important;
+    position: fixed !important;
+  }
+
+  .cdk-overlay-backdrop {
+    z-index: 9998 !important;
+    position: fixed !important;
+  }
+
+  // Garante que os modais apareçam na frente do backdrop
+  .mat-dialog-container, 
+  .mat-mdc-dialog-container {
+    position: relative !important;
+    z-index: 10000 !important;
+  }
+
+  // Ajustes para outros componentes de overlay
+  .mat-mdc-menu-panel, 
+  .mat-menu-panel,
+  .mat-datepicker-content,
+  .mat-select-panel {
+    z-index: 10001 !important;
+  }
+}

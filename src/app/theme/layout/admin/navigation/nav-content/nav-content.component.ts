@@ -82,4 +82,11 @@ export class NavContentComponent implements OnInit {
       }
     }
   }
+
+  // Adicione esta função ao componente
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  trackByUniqueId(index: number, item: any): string {
+    // Use uma combinação do índice com o ID ou uma propriedade única do item
+    return index + '-' + (item.id || item.url || item.title || index);
+  }
 }
