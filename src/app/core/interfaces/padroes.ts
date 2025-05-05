@@ -64,10 +64,15 @@ export interface ProfissionalProximo {
   nome: string;
   distancia: number; // em km
   fotoPerfil?: string;
+  profileImage?: string; // Alias para fotoPerfil
   avaliacao?: number;
+  rating?: number; // Alias para avaliacao
   projetosCompletos?: number;
+  completedProjects?: number; // Alias para projetosCompletos
   valorHora?: number;
+  hourlyRate?: number; // Alias para valorHora
   nivel?: string;
+  level?: string; // Alias para nivel
 }
 
 // Configuração para componente Card

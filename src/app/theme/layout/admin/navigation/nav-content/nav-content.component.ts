@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, output, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, output, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 // theme version
 import { environment } from 'src/environments/environment';
@@ -23,7 +22,7 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
   templateUrl: './nav-content.component.html',
   styleUrl: './nav-content.component.scss'
 })
-export class NavContentComponent implements OnInit, OnDestroy {
+export class NavContentComponent implements OnInit {
   private location = inject(Location);
   private navigationService = inject(NavigationService);
 
@@ -34,25 +33,17 @@ export class NavContentComponent implements OnInit, OnDestroy {
   // version
   title = 'Demo application for version numbering';
   currentApplicationVersion = environment.appVersion;
-
-  // Sinal para os itens de navegação
-  private navigationSignal = signal<NavigationItem[]>([]);
-  navigations = computed(() => this.navigationSignal());
   
   windowWidth: number;
   
-  private subscriptions = new Subscription();
-
   // Constructor
   constructor() {
     this.windowWidth = window.innerWidth;
-    this.updateNavigationItems();
   }
-  
-  // Atualizar itens de navegação
-  private updateNavigationItems(): void {
-    const navItems = this.navigationService.get();
-    this.navigationSignal.set(navItems);
+
+  // Acessar items diretamente do serviço
+  get navigations(): NavigationItem[] {
+    return this.navigationService.navigationItems();
   }
 
   // Life cycle events
@@ -62,16 +53,6 @@ export class NavContentComponent implements OnInit, OnDestroy {
         (document.querySelector('.coded-navbar') as HTMLDivElement)?.classList.add('menupos-static');
       }, 500);
     }
-    
-    // Observar mudanças no tipo de usuário
-    const subscription = this.navigationService.userType$.subscribe(() => {
-      this.updateNavigationItems();
-    });
-    this.subscriptions.add(subscription);
-  }
-  
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 
   fireOutClick() {

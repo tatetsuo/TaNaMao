@@ -1,0 +1,99 @@
+<div class="job-details-modal">
+  <h2 mat-dialog-title>Detalhes do Trabalho</h2>
+  
+  <mat-dialog-content>
+    <div class="job-header">
+      <div class="client-info">
+        <div class="client-avatar">
+          <img [src]="data.clientPhoto || 'assets/images/user/avatar-2.jpg'" 
+               alt="Foto do cliente" 
+               (error)="handleImageError($event)">
+        </div>
+        <div class="client-details">
+          <h3 class="client-name">{{data.clientName || data.nomeCliente}}</h3>
+          <p class="client-distance" *ngIf="data.distance || data.distancia">
+            <mat-icon>place</mat-icon>
+            <span>{{data.distance || data.distancia}}</span>
+          </p>
+        </div>
+      </div>
+      
+      <div class="job-status">
+        <span class="status-chip" [ngClass]="getStatusClass(data.status)">
+          {{getStatusText(data.status)}}
+        </span>
+      </div>
+    </div>
+    
+    <mat-divider class="my-3"></mat-divider>
+    
+    <div class="job-details-grid">
+      <div class="detail-item">
+        <mat-icon>work</mat-icon>
+        <div class="detail-content">
+          <h4>Serviço</h4>
+          <p>{{data.service || data.servico}}</p>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <mat-icon>schedule</mat-icon>
+        <div class="detail-content">
+          <h4>Data e Hora</h4>
+          <p>{{formatDate(data.date || data.data)}} às {{data.time || data.hora}}</p>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <mat-icon>location_on</mat-icon>
+        <div class="detail-content">
+          <h4>Endereço</h4>
+          <p>{{data.address || data.endereco}}</p>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <mat-icon>attach_money</mat-icon>
+        <div class="detail-content">
+          <h4>Valor</h4>
+          <p class="price">R$ {{data.price || data.preco}}</p>
+        </div>
+      </div>
+    </div>
+    
+    <mat-divider class="my-3"></mat-divider>
+    
+    <div class="notes-section" *ngIf="data.notes || data.observacoes">
+      <h4>Observações</h4>
+      <p>{{data.notes || data.observacoes}}</p>
+    </div>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeModal()">Fechar</button>
+    
+    <button *ngIf="data.status === 'pendente'" 
+            mat-raised-button 
+            color="primary" 
+            (click)="confirmJob()">
+      <mat-icon>check_circle</mat-icon>
+      Confirmar Trabalho
+    </button>
+    
+    <button *ngIf="data.status === 'confirmado'" 
+            mat-raised-button 
+            color="accent" 
+            (click)="completeJob()">
+      <mat-icon>done_all</mat-icon>
+      Marcar como Concluído
+    </button>
+    
+    <button *ngIf="data.status !== 'cancelado' && data.status !== 'concluido'" 
+            mat-raised-button 
+            color="warn" 
+            (click)="cancelJob()">
+      <mat-icon>cancel</mat-icon>
+      Cancelar Trabalho
+    </button>
+  </mat-dialog-actions>
+</div>

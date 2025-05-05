@@ -174,11 +174,13 @@
                 <td mat-cell *matCellDef="let job" data-label="Cliente">
                   <div class="d-flex align-items-center">
                     <div class="client-avatar">
-                      <img [src]="job.clientPhoto || 'assets/images/user/avatar-default.jpg'" alt="Cliente">
+                      <img [src]="job.clientPhoto || 'assets/images/user/avatar-2.jpg'" 
+                           alt="Cliente"
+                           (error)="handleImageError($event)">
                     </div>
                     <div class="ms-2">
-                      <h6 class="mb-0" style="font-size: 14px; font-weight: 500;">{{job.clientName}}</h6>
-                      <small class="text-muted">{{job.distance}}</small>
+                      <h6 class="mb-0" style="font-size: 14px; font-weight: 500;">{{job.clientName || 'Cliente'}}</h6>
+                      <small class="text-muted">{{job.distance || 'N/A'}}</small>
                     </div>
                   </div>
                 </td>
@@ -189,8 +191,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Detalhes </th>
                 <td mat-cell *matCellDef="let job" data-label="Detalhes">
                   <div>
-                    <p class="mb-0"><strong>{{job.service}}</strong></p>
-                    <p class="text-muted mb-0 small">{{job.address}}</p>
+                    <p class="mb-0"><strong>{{job.service || 'Serviço não especificado'}}</strong></p>
+                    <p class="text-muted mb-0 small">{{job.address || 'Endereço não disponível'}}</p>
                   </div>
                 </td>
               </ng-container>
@@ -201,10 +203,9 @@
                 <td mat-cell *matCellDef="let job" data-label="Data/Hora">
                   <div class="text-center" style="display: flex; gap: 8px; align-items: center;">
                     <mat-icon class="text-muted">event</mat-icon>
-                    <p class="mb-0">{{formatDate(job.date)}}</p>
-                    <p class="mb-0"><small>{{job.time}}</small></p>
+                    <p class="mb-0">{{job.date ? formatDate(job.date) : 'Data não definida'}}</p>
+                    <p class="mb-0"><small>{{job.time || 'Horário não definido'}}</small></p>
                   </div>
-                  
                 </td>
               </ng-container>
               
@@ -212,8 +213,8 @@
               <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
                 <td mat-cell *matCellDef="let job" data-label="Valor" style="font-size: 16px;">
-                  <div >
-                    <span>R$ {{job.price}}</span>
+                  <div>
+                    <span>R$ {{job.price || '0,00'}}</span>
                   </div>
                 </td>
               </ng-container>
@@ -247,7 +248,7 @@
                             (click)="cancelJob(job.id)" matTooltip="Cancelar trabalho">
                       <mat-icon>cancel</mat-icon>
                     </button>
-                    <button mat-icon-button color="primary" matTooltip="Ver detalhes">
+                    <button mat-icon-button color="primary" (click)="viewJobDetails(job.id)" matTooltip="Ver detalhes">
                       <mat-icon>visibility</mat-icon>
                     </button>
                   </div>
@@ -293,7 +294,7 @@
                 <td mat-cell *matCellDef="let job" data-label="Cliente">
                   <div class="d-flex align-items-center">
                     <div class="client-avatar">
-                      <img [src]="job.clientPhoto || 'assets/images/user/avatar-default.jpg'" alt="Cliente">
+                      <img [src]="job.clientPhoto || 'https://randomuser.me/api/portraits/men/1.jpg'" alt="Cliente">
                     </div>
                     <div class="ms-2">
                       <h6 class="mb-0" style="font-size: 14px; font-weight: 500;">{{job.clientName}}</h6>

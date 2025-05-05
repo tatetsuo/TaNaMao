@@ -20,6 +20,7 @@ import { AuthService, User } from 'src/app/core/services/auth.service';
 import { WalletService } from 'src/app/core/services/wallet.service';
 import { Notyf } from 'notyf';
 import { AgendamentoServico } from 'src/app/core/interfaces/colaborador';
+import { JobDetailsModalComponent } from './job-details-modal/job-details-modal.component';
 
 @Component({
   selector: 'app-prestador-dashboard',
@@ -76,39 +77,98 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   upcomingJobs: AgendamentoServico[] = [
     {
       id: 1,
+      clientName: 'Carlos Mendes',
+      clientPhoto: 'https://randomuser.me/api/portraits/men/78.jpg',
+      address: 'Rua das Flores, 123 - Jardim Botânico',
+      date: '2023-06-15',
+      time: '14:00',
+      service: 'Jardinagem',
+      price: 120,
+      status: 'confirmado',
+      distance: '2.5 km',
       nomeCliente: 'Carlos Mendes',
       endereco: 'Rua das Flores, 123 - Jardim Botânico',
       data: '2023-06-15',
       hora: '14:00',
       servico: 'Jardinagem',
       preco: 120,
-      status: 'confirmado',
-      distancia: '2.5 km',
-      fotoCliente: 'assets/images/user/avatar-1.jpg'
+      fotoCliente: 'https://randomuser.me/api/portraits/men/78.jpg'
     },
     {
       id: 2,
+      clientName: 'Ana Paula Silva',
+      clientPhoto: 'https://randomuser.me/api/portraits/women/66.jpg',
+      address: 'Av. Central, 456 - Asa Sul',
+      date: '2023-06-16',
+      time: '10:00',
+      service: 'Poda de Árvores',
+      price: 150,
+      status: 'pendente',
+      distance: '4.8 km',
       nomeCliente: 'Ana Paula Silva',
       endereco: 'Av. Central, 456 - Asa Sul',
       data: '2023-06-16',
       hora: '10:00',
-      servico: 'Jardinagem',
+      servico: 'Poda de Árvores',
       preco: 150,
-      status: 'pendente',
-      distancia: '4.8 km',
-      fotoCliente: 'assets/images/user/avatar-3.jpg'
+      fotoCliente: 'https://randomuser.me/api/portraits/women/66.jpg'
     },
     {
       id: 3,
+      clientName: 'Roberto Gomes',
+      clientPhoto: 'https://randomuser.me/api/portraits/men/45.jpg',
+      address: 'Quadra 5, Conjunto B - Lago Norte',
+      date: '2023-06-17',
+      time: '16:30',
+      service: 'Plantio de Mudas',
+      price: 180,
+      status: 'confirmado',
+      distance: '7.2 km',
       nomeCliente: 'Roberto Gomes',
       endereco: 'Quadra 5, Conjunto B - Lago Norte',
       data: '2023-06-17',
       hora: '16:30',
-      servico: 'Jardinagem',
+      servico: 'Plantio de Mudas',
       preco: 180,
+      fotoCliente: 'https://randomuser.me/api/portraits/men/45.jpg'
+    },
+    {
+      id: 4,
+      clientName: 'Juliana Martins',
+      clientPhoto: 'https://randomuser.me/api/portraits/women/33.jpg',
+      address: 'SQS 308, Bloco D - Asa Sul',
+      date: '2023-06-18',
+      time: '09:00',
+      service: 'Manutenção de Gramado',
+      price: 200,
+      status: 'pendente',
+      distance: '3.1 km',
+      nomeCliente: 'Juliana Martins',
+      endereco: 'SQS 308, Bloco D - Asa Sul',
+      data: '2023-06-18',
+      hora: '09:00',
+      servico: 'Manutenção de Gramado',
+      preco: 200,
+      fotoCliente: 'https://randomuser.me/api/portraits/women/33.jpg'
+    },
+    {
+      id: 5,
+      clientName: 'Fábio Almeida',
+      clientPhoto: 'https://randomuser.me/api/portraits/men/22.jpg',
+      address: 'SMPW Q26, Cj 3 - Park Way',
+      date: '2023-06-19',
+      time: '15:00',
+      service: 'Paisagismo',
+      price: 350,
       status: 'confirmado',
-      distancia: '7.2 km',
-      fotoCliente: 'assets/images/user/avatar-2.jpg'
+      distance: '10.5 km',
+      nomeCliente: 'Fábio Almeida',
+      endereco: 'SMPW Q26, Cj 3 - Park Way',
+      data: '2023-06-19',
+      hora: '15:00',
+      servico: 'Paisagismo',
+      preco: 350,
+      fotoCliente: 'https://randomuser.me/api/portraits/men/22.jpg'
     }
   ];
   
@@ -116,39 +176,96 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   completedJobs: AgendamentoServico[] = [
     {
       id: 101,
+      clientName: 'Márcia Oliveira',
+      clientPhoto: 'https://randomuser.me/api/portraits/women/12.jpg',
+      address: 'Rua 10, Casa 8 - Lago Sul',
+      date: '2023-06-10',
+      time: '09:00',
+      service: 'Jardinagem Completa',
+      price: 200,
+      status: 'concluido',
       nomeCliente: 'Márcia Oliveira',
       endereco: 'Rua 10, Casa 8 - Lago Sul',
       data: '2023-06-10',
       hora: '09:00',
-      servico: 'Jardinagem',
+      servico: 'Jardinagem Completa',
       preco: 200,
-      status: 'concluido',
-      fotoCliente: 'assets/images/user/avatar-2.jpg'
+      fotoCliente: 'https://randomuser.me/api/portraits/women/12.jpg'
     },
     {
       id: 102,
+      clientName: 'Paulo Henrique',
+      clientPhoto: 'https://randomuser.me/api/portraits/men/32.jpg',
+      address: 'SQN 214, Bloco C - Asa Norte',
+      date: '2023-06-08',
+      time: '14:30',
+      service: 'Plantio de Árvores',
+      price: 130,
+      status: 'concluido',
       nomeCliente: 'Paulo Henrique',
       endereco: 'SQN 214, Bloco C - Asa Norte',
       data: '2023-06-08',
       hora: '14:30',
-      servico: 'Jardinagem',
+      servico: 'Plantio de Árvores',
       preco: 130,
-      status: 'concluido',
-      fotoCliente: 'assets/images/user/avatar-1.jpg'
+      fotoCliente: 'https://randomuser.me/api/portraits/men/32.jpg'
     },
     {
       id: 103,
+      clientName: 'Fernanda Costa',
+      clientPhoto: 'https://randomuser.me/api/portraits/women/11.jpg',
+      address: 'SHIS QI 15, Conjunto 8 - Lago Sul',
+      date: '2023-06-05',
+      time: '11:00',
+      service: 'Poda de Árvores',
+      price: 250,
+      status: 'concluido',
       nomeCliente: 'Fernanda Costa',
       endereco: 'SHIS QI 15, Conjunto 8 - Lago Sul',
       data: '2023-06-05',
       hora: '11:00',
-      servico: 'Jardinagem',
+      servico: 'Poda de Árvores',
       preco: 250,
+      fotoCliente: 'https://randomuser.me/api/portraits/women/11.jpg'
+    },
+    {
+      id: 104,
+      clientName: 'Ricardo Monteiro',
+      clientPhoto: 'https://randomuser.me/api/portraits/men/56.jpg',
+      address: 'SHIN QL 10, Conjunto 2 - Lago Norte',
+      date: '2023-06-03',
+      time: '10:30',
+      service: 'Manutenção de Jardim',
+      price: 180,
       status: 'concluido',
-      fotoCliente: 'assets/images/user/avatar-3.jpg'
+      nomeCliente: 'Ricardo Monteiro',
+      endereco: 'SHIN QL 10, Conjunto 2 - Lago Norte',
+      data: '2023-06-03',
+      hora: '10:30',
+      servico: 'Manutenção de Jardim',
+      preco: 180,
+      fotoCliente: 'https://randomuser.me/api/portraits/men/56.jpg'
+    },
+    {
+      id: 105,
+      clientName: 'Carla Pereira',
+      clientPhoto: 'https://randomuser.me/api/portraits/women/42.jpg',
+      address: 'SQS 108, Bloco F - Asa Sul',
+      date: '2023-06-01',
+      time: '13:00',
+      service: 'Instalação de Irrigação',
+      price: 300,
+      status: 'concluido',
+      nomeCliente: 'Carla Pereira',
+      endereco: 'SQS 108, Bloco F - Asa Sul',
+      data: '2023-06-01',
+      hora: '13:00',
+      servico: 'Instalação de Irrigação',
+      preco: 300,
+      fotoCliente: 'https://randomuser.me/api/portraits/women/42.jpg'
     }
   ];
-  
+
   // Estatísticas mensais
   monthlyStats = {
     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
@@ -171,6 +288,18 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
     // Inicializa os datasources para as tabelas Material
     this.upcomingJobsDataSource = new MatTableDataSource(this.upcomingJobs);
     this.completedJobsDataSource = new MatTableDataSource(this.completedJobs);
+    
+    // Define filterPredicate para melhorar a busca nas tabelas
+    this.upcomingJobsDataSource.filterPredicate = (data: AgendamentoServico, filter: string) => {
+      const filterValue = filter.toLowerCase().trim();
+      return (
+        (data.clientName?.toLowerCase().includes(filterValue) || false) || 
+        (data.service?.toLowerCase().includes(filterValue) || false) || 
+        (data.address?.toLowerCase().includes(filterValue) || false) ||
+        (data.date ? this.formatDate(data.date).includes(filterValue) : false) ||
+        (data.status?.toLowerCase().includes(filterValue) || false)
+      );
+    };
   }
   
   ngAfterViewInit(): void {
@@ -275,6 +404,34 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
     }
   }
   
+  // Método para visualizar detalhes de um trabalho
+  viewJobDetails(jobId: number): void {
+    const job = this.upcomingJobs.find(j => j.id === jobId);
+    
+    if (job) {
+      const dialogRef = this.dialog.open(JobDetailsModalComponent, {
+        width: '600px',
+        data: job
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          switch (result.action) {
+            case 'confirm':
+              this.confirmJob(result.jobId);
+              break;
+            case 'complete':
+              this.completeJob(result.jobId);
+              break;
+            case 'cancel':
+              this.cancelJob(result.jobId);
+              break;
+          }
+        }
+      });
+    }
+  }
+
   // Método para obter a classe CSS com base no status
   getStatusClass(status: string): string {
     switch (status) {
@@ -306,6 +463,15 @@ export class PrestadorDashboardComponent implements OnInit, AfterViewInit {
   // Método para gerar array para as estrelas de avaliação
   getStarArray(count: number): number[] {
     return Array(count).fill(0);
+  }
+
+  /**
+   * Trata erros de carregamento de imagens substituindo por uma imagem padrão
+   */
+  handleImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/user/avatar-2.jpg'; // Imagem de fallback
+    imgElement.onerror = null; // Previne loop infinito
   }
 }
 

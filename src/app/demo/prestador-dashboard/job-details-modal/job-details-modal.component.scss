@@ -1,0 +1,142 @@
+.job-details-modal {
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+    .client-info {
+      display: flex;
+      align-items: center;
+      
+      .client-avatar {
+        margin-right: 1rem;
+        
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      
+      .client-details {
+        .client-name {
+          margin: 0 0 0.25rem 0;
+          font-weight: 500;
+        }
+        
+        .client-distance {
+          display: flex;
+          align-items: center;
+          color: #666;
+          margin: 0;
+          
+          mat-icon {
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+    
+    .job-status {
+      .status-chip {
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      
+      .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+      
+      .status-confirmed {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      
+      .status-completed {
+        background-color: #cce5ff;
+        color: #004085;
+      }
+      
+      .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    }
+  }
+  
+  .job-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    
+    .detail-item {
+      display: flex;
+      
+      mat-icon {
+        margin-right: 0.75rem;
+        color: #666;
+      }
+      
+      .detail-content {
+        h4 {
+          margin: 0 0 0.25rem 0;
+          color: #555;
+          font-size: 0.9rem;
+        }
+        
+        p {
+          margin: 0;
+          font-weight: 500;
+        }
+        
+        .price {
+          color: #28a745;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  
+  .notes-section {
+    h4 {
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      border-left: 3px solid #007bff;
+    }
+  }
+  
+  .my-3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .job-details-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .job-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    
+    .job-status {
+      margin-top: 0.75rem;
+    }
+  }
+}

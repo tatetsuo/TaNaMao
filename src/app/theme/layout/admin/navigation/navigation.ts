@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { NavigationItem, createCollapseCategory } from './navigation-interface';
 import { 
   CasaConstrucaoItems, 
@@ -10,29 +10,18 @@ import {
   EducacaoItems,
   OutrosServicosItems 
 } from './navigation-categories';
-import { BehaviorSubject } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
-  // Definimos um BehaviorSubject para controlar o tipo de usuário
-  private userTypeSubject = new BehaviorSubject<'client' | 'freelancer' | 'guest'>('guest');
-  public userType$ = this.userTypeSubject.asObservable();
-  
-  // Sinal para o tipo de usuário
+  // Usando somente signal para o tipo de usuário
   private userTypeSignal = signal<'client' | 'freelancer' | 'guest'>('guest');
   
-  constructor() {
-    // Inicializar tipo de usuário do localStorage se existir
-    const storedType = localStorage.getItem('userType') as 'client' | 'freelancer' | 'guest' || 'guest';
-    this.userTypeSubject.next(storedType);
-    this.userTypeSignal.set(storedType);
-  }
-  
-  // Método para obter os itens de navegação com base no tipo de usuário atual
-  get(): NavigationItem[] {
-    const userType = this.userTypeSubject.getValue();
+  // Computed signal para os itens de navegação
+  public navigationItems = computed(() => {
+    const userType = this.userTypeSignal();
     
     switch (userType) {
       case 'client':
@@ -42,13 +31,31 @@ export class NavigationService {
       default:
         return []; // Menu vazio para usuários não autenticados
     }
+  });
+  
+  // Criando observable a partir do signal para compatibilidade
+  public userType$ = toObservable(this.userTypeSignal);
+  
+  constructor() {
+    // Inicializar tipo de usuário do localStorage se existir
+    const storedType = localStorage.getItem('userType') as 'client' | 'freelancer' | 'guest' || 'guest';
+    this.userTypeSignal.set(storedType);
+  }
+  
+  // Método para obter os itens de navegação atuais
+  get(): NavigationItem[] {
+    return this.navigationItems();
   }
   
   // Método para definir o tipo de usuário
   setUserType(type: 'client' | 'freelancer' | 'guest'): void {
     localStorage.setItem('userType', type);
-    this.userTypeSubject.next(type);
     this.userTypeSignal.set(type);
+  }
+  
+  // Getter para o userType atual
+  getUserType(): 'client' | 'freelancer' | 'guest' {
+    return this.userTypeSignal();
   }
   
   // Menu para clientes (usuários normais)

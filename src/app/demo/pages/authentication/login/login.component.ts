@@ -126,7 +126,7 @@ export default class LoginComponent {
         });
       } else {
         notyf.error({
-          message: 'Senha ou email errados',
+          message: 'Senha ou email incorretos',
           position: { x: 'right', y: 'top' }
         });
       }

@@ -33,15 +33,28 @@ export interface Habilidade {
 // Interface para agendamentos de trabalhos
 export interface AgendamentoServico {
   id: number;
+  // Campos em português (originais)
   nomeCliente: string;
+  fotoCliente: string;
   endereco: string;
   data: string;
   hora: string;
   servico: string;
   preco: number;
-  status: 'pendente' | 'confirmado' | 'concluido' | 'cancelado';
+  status: string;
   distancia?: string;
-  fotoCliente?: string;
+  observacoes?: string;
+
+  // Campos em inglês (para suporte à tabela)
+  clientName?: string;
+  clientPhoto?: string;
+  address?: string;
+  date?: string;
+  time?: string;
+  service?: string;
+  price?: number;
+  distance?: string;
+  notes?: string;
 }
 
 // Interface para histórico de trabalhos
