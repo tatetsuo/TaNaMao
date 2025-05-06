@@ -1,0 +1,15 @@
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "buildCommand": "yarn build",
+  "build": {
+    "env": {
+      "YARN": "true",
+      "NPM": "true"
+    }
+  }
+}
