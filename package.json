@@ -14,9 +14,10 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "prettier": "prettier --write ./src",
-    "predeploy": "npm run build",
+    "predeploy": "npm run clean && npm run build",
     "deploy": "gh-pages -d dist",
-    "clean": "rm -f package-lock.json"
+    "clean": "rm -f package-lock.json",
+    "preinstall": "rm -f package-lock.json"
   },
   
   "homepage": "https://skaduhs5232.github.io/TopaTudo",
