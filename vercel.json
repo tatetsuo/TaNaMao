@@ -5,11 +5,5 @@
       "use": "@vercel/node"
     }
   ],
-  "buildCommand": "yarn build",
-  "build": {
-    "env": {
-      "YARN": "true",
-      "NPM": "true"
-    }
-  }
+  "buildCommand": "yarn build"
 }
