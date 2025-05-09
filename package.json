@@ -1,13 +1,13 @@
 {
-  "name": "ta-na-mao",
-  "version": "5.0.0",
+  "name": "topa-tudo",
+  "version": "0.0.0",
   "author": "CodedThemes",
   "license": "MIT",
-  "private": false,
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build ",
+    "build": "ng build",
     "build-prod": "ng build --configuration production --base-href /angular/free/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
