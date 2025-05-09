@@ -17,7 +17,8 @@
     "predeploy": "npm run clean && npm run build",
     "deploy": "gh-pages -d dist",
     "clean": "rm -f package-lock.json",
-    "preinstall": "rm -f package-lock.json"
+    "preinstall": "rm -f package-lock.json",
+    "vercel-build": "ng build --configuration production"
   },
   
   "homepage": "https://skaduhs5232.github.io/TopaTudo",
