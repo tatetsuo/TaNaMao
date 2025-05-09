@@ -100,13 +100,12 @@
       .details-grid {
         display: grid;
         grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
 
         @media (min-width: 576px) {
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
-
-        gap: 16px;
-        margin-bottom: 24px;
 
         .detail-item {
           display: flex;
@@ -146,12 +145,12 @@
         .portfolio-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 16px;
+          margin-bottom: 24px;
 
           @media (min-width: 768px) {
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
           }
-
-          gap: 16px;
 
           .portfolio-item {
             aspect-ratio: 1;
@@ -178,12 +177,11 @@
       .form-row {
         display: grid;
         grid-template-columns: 1fr;
+        gap: 16px;
 
         @media (min-width: 576px) {
           grid-template-columns: 1fr 1fr;
         }
-
-        gap: 16px;
       }
 
       .full-width {
