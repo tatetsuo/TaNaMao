@@ -1,7 +1,8 @@
 .contract-container {
   padding: 20px;
-  position: relative; // Adicionado position relative
+  position: relative;
 
+  /* Círculos decorativos – agora atrás do conteúdo */
   &::before {
     border: 3px solid;
     top: 145px;
@@ -23,24 +24,18 @@
     width: 200px;
     height: 200px;
     pointer-events: none;
+    z-index: 0;     /* 👈 agora ficam no fundo */
   }
 
-  .content-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 10px;
-
-    @media (min-width: 992px) {
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      padding: 20px;
-    }
-
-    @media (max-width: 1024px) {
-      grid-template-columns: 1fr;
-    }
+  /* Conteúdo principal acima dos círculos */
+  .content-grid,
+  .contract-section,
+  form {
+    position: relative;
+    z-index: 1;     /* 👈 garante que nada bloqueia clique */
   }
+
+
 
   .provider-section {
     .provider-header {
