@@ -1,5 +1,5 @@
 {
-  "name": "topa-tudo",
+  "name": "ta-na-mao",
   "version": "0.0.0",
   "author": "CodedThemes",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "vercel-build": "ng build --configuration production"
   },
   
-  "homepage": "https://skaduhs5232.github.io/TopaTudo",
+  "homepage": "https://github.com/tatetsuo/TaNaMao",
   "dependencies": {
     "@angular/animations": "19.1.5",
     "@angular/cdk": "19.1.3",
