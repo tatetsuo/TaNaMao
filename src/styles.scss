@@ -132,20 +132,20 @@ body {
 
 .cdk-global-overlay-wrapper, 
 .cdk-overlay-pane {
-  z-index: 9999 !important;
+  z-index: 10000 !important;
   display: flex;
-  position: absolute;
+  position: relative !important;
   pointer-events: auto;
 }
 
 /* Fix for modal backdrop */
 .cdk-overlay-backdrop {
-  position: fixed !important;
+  position: absolute !important;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9998 !important;
+  z-index: 1 !important;
 }
 
 /* Estilos adicionais para garantir que os modais apareçam corretamente */
@@ -162,6 +162,7 @@ body {
 .mat-menu-panel,
 .mat-datepicker-content,
 .mat-select-panel {
+  position: relative !important;
   z-index: 10001 !important;
 }
 
