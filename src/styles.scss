@@ -172,3 +172,11 @@ body {
   z-index: 10001 !important;
   position: relative;
 }
+.cdk-overlay-backdrop {
+  position: static !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.cdk-overlay-pane {
+  z-index: 999999 !important;
+}
